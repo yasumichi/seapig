@@ -25,11 +25,6 @@ function createWindow() {
 	})
 }
 
-// Render HTML from markdown
-function renderHTML(filename) {
-	output.innerHTML = marked('# Test');
-}
-
 // Show window when app is ready.
 app.on('ready', function() {
 	createWindow();
