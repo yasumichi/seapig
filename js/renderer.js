@@ -1,6 +1,7 @@
 const ipc = require('electron').ipcRenderer;
 const webview = document.getElementById('previewer');
 const fs = require('fs');
+const path = require('path');
 var currentFile = "";
 
 // change keybindings
@@ -20,14 +21,14 @@ openBtn.addEventListener("click", function(event) {
   ipc.send('open-file-dialog', currentFile);
 });
 
-ipc.on('selected-file', function (event, path) {
-  fs.readFile(path[0], function(error, text) {
+ipc.on('selected-file', function (event, fullpath) {
+  currentFile = fullpath[0];
+  fs.readFile(fullpath[0], function(error, text) {
     if (error != null) {
       alert ('error: ' + error);
       return;
     }
     editor.setValue(text.toString(), -1);
-    currentFile = path[0];
   });
 });
 
@@ -84,7 +85,12 @@ ipc.on('selected-pdf-file', function (event, filename) {
 // Emitted whenever the document is changed
 editor.on("change", function (e) {
   if (e.lines.length > 1) {
-    webview.send('preview', editor.getValue());
+    let baseURI = "";
+    if (currentFile != "") {
+      baseURI = 'file://' + path.dirname(currentFile) + '/';
+    }
+    console.log(baseURI);
+    webview.send('preview', editor.getValue(), baseURI);
   }
 });
 

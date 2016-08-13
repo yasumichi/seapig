@@ -10,13 +10,20 @@ renderer.code = function (code, language) {
 }
 
 // request preview
-ipcRenderer.on('preview', function(event, data) {
+ipcRenderer.on('preview', function(event, data, baseURI) {
+  if (baseURI != "") {
+    let base = document.getElementsByTagName("base")[0];
+    base.setAttribute("href", baseURI);
+  }
   document.getElementById('body').innerHTML = marked(data, { renderer: renderer });
   document.title = document.getElementByTagName("h1")[0].innerHTML;
 });
 
 // request export HTML
 ipcRenderer.on('export-HTML', function(event, filename) {
+  let base = document.getElementsByTagName("base")[0];
+  base.removeAttribute("href");
+
   // http://blog.mudatobunka.org/entry/2015/12/23/211425#postscript
   fs.writeFile (filename, new XMLSerializer().serializeToString(document), function (error) {
     if (error != null) {
