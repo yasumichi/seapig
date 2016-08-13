@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+    <link rel="stylesheet" href="photon/css/photon.min.css">
+		<title>SeaPig</title>
+	</head>
+	<body>
+    <div class="window">
+      <header class="toolbar header-toolbar">
+        <div class="toolbar-actions">
+          <span class="icon icon-keyboard"></span>
+          <select class="btn btn-default btn-dropdown" id="keybindings">
+            <option value="default">default</option>
+            <option value="ace/keyboard/emacs">emacs</option>
+            <option value="ace/keyboard/vim">vim</option>
+          </select>
+          <div class="btn-group">
+            <div class="btn btn-default" id="openBtn">
+              <span class="icon icon-folder"></span>
+            </div>
+            <div class="btn btn-default" id="saveBtn">
+              <span class="icon icon-floppy"></span>
+            </div>
+            <div class="btn btn-default" id="exportHTMLBtn">
+              <span class="icon icon-export"></span>
+            </div>
+            <div class="btn btn-default" id="exportPdfBtn">
+              <span class="icon icon-print"></span>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="window-content">
+        <div class="pane-group">
+          <div id="ace-editor" class="pane"></div>
+          <webview id="previewer" class="pane" src="templates/template.html" preload="js/preview.js"></webview>
+        </div>
+      </div>
+    </div>
+    <script src="ace/ace.js"></script>
+    <script src="ace/mode-markdown.js"></script>
+    <script src="ace/keybinding-emacs.js"></script>
+    <script src="ace/keybinding-vim.js"></script>
+    <script>
+      var editor = ace.edit("ace-editor");
+      editor.setTheme("ace/theme/monokai");
+      editor.getSession().setMode("ace/mode/markdown");
+      editor.getSession().setUseWrapMode(true);
+      editor.focus();
+    </script>
+    <script>
+      document.ondragover = document.ondrop = function(e) {
+        e.preventDefault();
+        return false;
+      };
+    </script>
+    <script src="js/renderer.js"></script>
+
+	</body>
+</html>
+

@@ -1,0 +1,36 @@
+const {ipcRenderer} = require('electron');
+const marked = require('marked');
+const renderer = new marked.Renderer();
+const hljs = require('highlight.js');
+const mermaidAPI = require('mermaid').mermaidAPI;
+const fs = require('fs');
+const path = require('path');
+
+mermaidAPI.initialize({
+  startOnLoad:false
+});
+
+renderer.code = function (code, language) {
+  return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
+}
+
+// request preview
+ipcRenderer.on('preview', function(event, data) {
+  document.getElementById('body').innerHTML = marked(data, { renderer: renderer });
+  document.title = document.getElementByTagName("h1")[0].innerHTML;
+});
+
+// request export HTML
+ipcRenderer.on('export-HTML', function(event, filename) {
+  // http://blog.mudatobunka.org/entry/2015/12/23/211425#postscript
+  fs.writeFile (filename, new XMLSerializer().serializeToString(document), function (error) {
+    if (error != null) {
+      alert ('error: ' + error + '\n' + filename);
+      return;
+    }
+    let src_css = path.join(__dirname, '../templates/github.css');
+    let dest_css = path.join(path.dirname(filename), "github.css");
+    fs.createReadStream(src_css).pipe(fs.createWriteStream(dest_css));
+  });
+});
+
