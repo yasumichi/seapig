@@ -39,4 +39,5 @@ jspm_packages
 
 # Project only
 releases
+.eslintrc.js
 
