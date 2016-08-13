@@ -2,13 +2,8 @@ const {ipcRenderer} = require('electron');
 const marked = require('marked');
 const renderer = new marked.Renderer();
 const hljs = require('highlight.js');
-const mermaidAPI = require('mermaid').mermaidAPI;
 const fs = require('fs');
 const path = require('path');
-
-mermaidAPI.initialize({
-  startOnLoad:false
-});
 
 renderer.code = function (code, language) {
   return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
