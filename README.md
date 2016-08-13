@@ -20,3 +20,12 @@ $ npm start
 
 - [ ] save your favorite keybindings (default/emacs/vim)
 
+## Special Thanks
+
+- [Ace - The High Performance Code Editor for the Web](https://ace.c9.io/)
+- [Electron - Build cross platform desktop apps with JavaScript, HTML, and CSS.](http://electron.atom.io/)
+- [highlight.js](https://highlightjs.org/)
+- [marked](https://github.com/chjj/marked)
+- [Node.js](https://nodejs.org/en/)
+- [Photon](http://photonkit.com/)
+
