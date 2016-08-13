@@ -24,6 +24,7 @@ $ npm start
 
 - [Ace - The High Performance Code Editor for the Web](https://ace.c9.io/)
 - [Electron - Build cross platform desktop apps with JavaScript, HTML, and CSS.](http://electron.atom.io/)
+- [Github Markdown CSS - for Markdown Editor Preview](https://gist.github.com/andyferra/2554919)
 - [highlight.js](https://highlightjs.org/)
 - [marked](https://github.com/chjj/marked)
 - [Node.js](https://nodejs.org/en/)
