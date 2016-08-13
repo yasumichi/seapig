@@ -17,5 +17,16 @@
     "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.2.7",
     "electron-rebuild": "^1.1.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yasumichi/seapig.git"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "bugs": {
+    "url": "https://github.com/yasumichi/seapig/issues"
+  },
+  "homepage": "https://github.com/yasumichi/seapig#readme"
 }
