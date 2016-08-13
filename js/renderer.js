@@ -1,7 +1,7 @@
 const ipc = require('electron').ipcRenderer;
 const webview = document.getElementById('previewer');
 const fs = require('fs');
-var current_file = "";
+var currentFile = "";
 
 // change keybindings
 const keybindings = document.getElementById("keybindings");
@@ -17,7 +17,7 @@ keybindings.addEventListener("change", function() {
 // open file
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", function(event) {
-  ipc.send('open-file-dialog');
+  ipc.send('open-file-dialog', currentFile);
 });
 
 ipc.on('selected-file', function (event, path) {
@@ -27,17 +27,17 @@ ipc.on('selected-file', function (event, path) {
       return;
     }
     editor.setValue(text.toString(), -1);
-    current_file = path[0];
+    currentFile = path[0];
   });
 });
 
 // save file
 const saveBtn = document.getElementById("saveBtn");
 saveBtn.addEventListener("click", function(event) {
-  if (current_file == "") {
+  if (currentFile == "") {
     ipc.send('save-new-file');
   } else {
-    saveFile(current_file);
+    saveFile(currentFile);
   }
 });
 
@@ -51,14 +51,14 @@ function saveFile(filename) {
         alert ('error: ' + error + '\n' + filename);
         return;
       }
-      current_file = filename;
+      currentFile = filename;
     });
 }
 
 // export html
 const exportHTMLBtn = document.getElementById("exportHTMLBtn");
 exportHTMLBtn.addEventListener("click", function (event) {
-  ipc.send('export-HTML');
+  ipc.send('export-HTML', currentFile);
 });
 
 ipc.on('selected-HTML-file', function (event, filename) {
@@ -68,7 +68,7 @@ ipc.on('selected-HTML-file', function (event, filename) {
 // export pdf
 const exportPdfBtn = document.getElementById("exportPdfBtn");
 exportPdfBtn.addEventListener("click", function (event) {
-  ipc.send('export-pdf-file');
+  ipc.send('export-pdf-file', currentFile);
 });
 
 ipc.on('selected-pdf-file', function (event, filename) {

@@ -42,17 +42,34 @@ app.on('window-all-closed', function() {
 	}
 })
 
+// getDefaultPath
+function getDefaultPath(currentFile) {
+  let defaultPath = "";
+
+  if (currentFile == "") {
+    defaultPath = app.getPath('documents');
+  } else {
+    defaultPath = path.dirname(currentFile);
+  }
+
+  return  defaultPath;
+}
+
 // request open file dialog
-ipc.on('open-file-dialog', function (event) {
-  dialog.showOpenDialog({
-        properties: ['openFile'],
-        fileters: [
-        {
-          name: 'Markdown',
-          extentions: [ 'md', 'mdwn', 'mkd', 'mkdn', 'mark*' ]
-        }
-        ]
-      },
+ipc.on('open-file-dialog', function (event, currentFile) {
+  let options = {
+    title: 'Open Markdown File',
+    properties: ['openFile'],
+    defaultPath: getDefaultPath(currentFile),
+    filters: [
+      {
+        name: 'Markdown',
+        extensions: [ 'md', 'mdwn', 'mkd', 'mkdn', 'mark*' ]
+      }
+    ]
+  };
+  dialog.showOpenDialog(
+      options,
       function (filenames) {
         if (filenames) event.sender.send ('selected-file', filenames);
       }
@@ -61,15 +78,19 @@ ipc.on('open-file-dialog', function (event) {
 
 // request save new file
 ipc.on('save-new-file', function (event) {
-  dialog.showSaveDialog({
-        properties: ['openFile'],
-        fileters: [
-        {
-          name: 'Markdown',
-          extentions: [ 'md', 'mdwn', 'mkd', 'mkdn', 'mark*' ]
-        }
-        ]
-      },
+  let options = {
+    title: 'Save Markdown File',
+    properties: ['openFile'],
+    defaultPath: app.getPath('documents'),
+    filters: [
+      {
+        name: 'Markdown',
+        extensions: [ 'md' ]
+      }
+    ]
+  };
+  dialog.showSaveDialog(
+      options,
       function (filenames) {
         if (filenames) event.sender.send ('selected-save-file', filenames);
       }
@@ -77,16 +98,17 @@ ipc.on('save-new-file', function (event) {
 });
 
 // request export HTML
-ipc.on('export-HTML', function (event) {
-  dialog.showSaveDialog({
-        properties: ['openFile'],
-        fileters: [
-        {
-          name: 'HTML',
-          extentions: [ 'html' ]
-        }
-        ]
-      },
+ipc.on('export-HTML', function (event, currentFile) {
+  let options = {
+    title: 'Export HTML file',
+    properties: ['openFile'],
+    defaultPath: getDefaultPath(currentFile),
+    filters: [
+      { name: 'HTML', extensions: [ 'html' ] }
+    ]
+  };
+  dialog.showSaveDialog(
+      options,
       function (filename) {
         if (filename) event.sender.send ('selected-HTML-file', filename);
       }
@@ -94,16 +116,17 @@ ipc.on('export-HTML', function (event) {
 });
 
 // request export pfd
-ipc.on('export-pdf-file', function (event) {
-  dialog.showSaveDialog({
-        properties: ['openFile'],
-        fileters: [
-        {
-          name: 'PDF',
-          extentions: [ 'pdf' ]
-        }
-        ]
-      },
+ipc.on('export-pdf-file', function (event, currentFile) {
+  let options = {
+    title: 'Export PDF file',
+    properties: ['openFile'],
+    defaultPath: getDefaultPath(currentFile),
+    filters: [
+      { name: 'PDF', extensions: [ 'pdf' ] }
+    ]
+  };
+  dialog.showSaveDialog(
+      options,
       function (filenames) {
         if (filenames) event.sender.send ('selected-pdf-file', filenames);
       }
