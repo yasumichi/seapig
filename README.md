@@ -1,7 +1,7 @@
 SeaPig
 =====
 
-SeaPig is converter from markdown to html with marked.js and mermaid.js.
+SeaPig is converter from markdown to html with marked.js and highlight.js.
 
 ## How to build
 
