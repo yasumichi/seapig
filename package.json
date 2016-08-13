@@ -5,7 +5,9 @@
   "main": "seapig.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package-win32": "electron-packager --platform=win32 --arch=ia32 --prune --asar=true --out=releases .",
+    "package-linux": "electron-packager --platform=linux --arch=x64 --prune --asar=true --out=releases ."
   },
   "author": "Yasumichi Akahoshi <yasumichi@vinelinux.org>",
   "license": "MIT",
