@@ -16,7 +16,7 @@ ipcRenderer.on('preview', function(event, data, baseURI) {
     base.setAttribute("href", baseURI);
   }
   document.getElementById('body').innerHTML = marked(data, { renderer: renderer });
-  document.title = document.getElementByTagName("h1")[0].innerHTML;
+  document.title = document.getElementsByTagName("h1")[0].innerHTML;
 });
 
 // request export HTML
