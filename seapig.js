@@ -7,7 +7,6 @@ const dialog = require('electron').dialog;
 
 // Load node native module
 const path = require('path');
-var fs = require('fs');
 
 // Create window
 var mainWindow = null;
