@@ -3,7 +3,7 @@ SeaPig
 
 SeaPig is converter from markdown to html with marked.js and highlight.js.
 
-![](https://qiita-image-store.s3.amazonaws.com/0/36738/626bd3fd-3c7e-bdaf-924a-db440462684f.png)
+![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/seapig.png)
 
 ## Usage
 
