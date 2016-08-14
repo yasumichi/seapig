@@ -5,6 +5,13 @@ const hljs = require('highlight.js');
 const fs = require('fs');
 const path = require('path');
 
+marked.setOptions({
+  renderer: renderer,
+  gfm: true,
+  breaks: true
+});
+
+// redering code
 renderer.code = function (code, language) {
   return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
 }
