@@ -38,7 +38,7 @@ $ npm start
 ## ToDo
 
 - [x] save your favorite keybindings (default/emacs/vim)
-- [ ] convert checkbox type in disc type
+- [x] support task list item.
 - [ ] add viz.js support
 
 ## Special Thanks

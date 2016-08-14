@@ -16,6 +16,17 @@ renderer.code = function (code, language) {
   return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
 }
 
+// rendering list
+renderer.listitem = function (text) {
+  if (text.startsWith("[x]")) {
+    return '<li class="task-list-item"><input type="checkbox" checked="true" disabled="true">' + text.slice(3) + '</li>';
+  } else if (text.startsWith("[ ]")) {
+    return '<li class="task-list-item"><input type="checkbox" disabled="true">' + text.slice(3) + '</li>';
+  } else {
+    return '<li>' + text + '</li>';
+  }
+}
+
 // request preview
 ipcRenderer.on('preview', function(event, data, baseURI) {
   if (baseURI != "") {

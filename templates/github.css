@@ -382,3 +382,11 @@ github.com style (c) Vasily Polovnyov <vast@whiteants.net>
 .hljs-strong {
   font-weight: bold;
 }
+
+/*
+ * For task-list-item
+ */
+
+.task-list-item {
+  list-style-type: none;
+}
