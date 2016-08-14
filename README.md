@@ -26,6 +26,12 @@ Four buttons has feature below.
 
 When You start code block by ` ```graphviz` and write dot language (ex: ` digraph g { a -> b; } `), rendering graph image at svg as below.
 
+<pre>
+```graphviz
+digraph g { a -> b; }
+```
+</pre>
+
 ![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/digraph.png)
 
 ## How to build
