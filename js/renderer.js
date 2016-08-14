@@ -11,6 +11,12 @@ editor.getSession().setMode("ace/mode/markdown");
 editor.getSession().setUseWrapMode(true);
 editor.focus();
 
+// disable drag and drop to document
+document.ondragover = document.ondrop = function(event) {
+  event.preventDefault();
+  return false;
+};
+
 // change keybindings
 const keybindings = document.getElementById("keybindings");
 keybindings.addEventListener("change", function() {
