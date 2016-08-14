@@ -43,13 +43,6 @@
     <script src="ace/keybinding-emacs.js"></script>
     <script src="ace/keybinding-vim.js"></script>
     <script>
-      var editor = ace.edit("ace-editor");
-      editor.setTheme("ace/theme/monokai");
-      editor.getSession().setMode("ace/mode/markdown");
-      editor.getSession().setUseWrapMode(true);
-      editor.focus();
-    </script>
-    <script>
       document.ondragover = document.ondrop = function(e) {
         e.preventDefault();
         return false;

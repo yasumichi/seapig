@@ -4,6 +4,13 @@ const fs = require('fs');
 const path = require('path');
 var currentFile = "";
 
+// Initialize ace editor
+var editor = ace.edit("ace-editor");
+editor.setTheme("ace/theme/monokai");
+editor.getSession().setMode("ace/mode/markdown");
+editor.getSession().setUseWrapMode(true);
+editor.focus();
+
 // change keybindings
 const keybindings = document.getElementById("keybindings");
 keybindings.addEventListener("change", function() {
