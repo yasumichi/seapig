@@ -22,6 +22,12 @@ Four buttons has feature below.
 - Export HTML file from previewer.(At the same time css stylesheet is copied to same folder.)
 - Export PDF file
 
+### viz.js support
+
+When You start code block by ` ```graphviz` and write dot language (ex: ` digraph g { a -> b; } `), rendering graph image at svg as below.
+
+![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/digraph.png)
+
 ## How to build
 
 ```
@@ -39,7 +45,7 @@ $ npm start
 
 - [x] save your favorite keybindings (default/emacs/vim)
 - [x] support task list item.
-- [ ] add viz.js support
+- [x] add viz.js support
 
 ## Special Thanks
 
@@ -51,6 +57,7 @@ $ npm start
 - [marked](https://github.com/chjj/marked)
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
+- [viz.js](https://github.com/mdaines/viz.js)
 
 # License
 

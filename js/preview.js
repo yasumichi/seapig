@@ -4,6 +4,7 @@ const renderer = new marked.Renderer();
 const hljs = require('highlight.js');
 const fs = require('fs');
 const path = require('path');
+const Viz = require("viz.js");
 
 marked.setOptions({
   renderer: renderer,
@@ -13,7 +14,19 @@ marked.setOptions({
 
 // redering code
 renderer.code = function (code, language) {
-  return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
+  const CONV_ERR_HEAD = "\n*************** Graphviz Convert Error ***************\n";
+  const CONV_ERR_TAIL = "******************************************************\n";
+  if (language == "graphviz") {
+    let result;
+    try {
+      result = Viz(code);
+      return result;
+    } catch (error) {
+      return '<pre><code>' + hljs.highlightAuto(code).value + CONV_ERR_HEAD + error + CONV_ERR_TAIL +'</code></pre>';
+    }
+  } else {
+    return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
+  }
 }
 
 // rendering list

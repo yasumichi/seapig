@@ -1,6 +1,6 @@
 {
   "name": "seapig",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "SeaPig is converter from markdown to html.",
   "main": "seapig.js",
   "scripts": {
@@ -14,7 +14,8 @@
   "dependencies": {
     "electron-json-storage": "^2.0.0",
     "highlight.js": "^9.6.0",
-    "marked": "^0.3.5"
+    "marked": "^0.3.5",
+    "viz.js": "^1.3.0"
   },
   "devDependencies": {
     "electron-packager": "^7.3.0",
