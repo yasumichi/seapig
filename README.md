@@ -13,7 +13,7 @@ When you input new line, SeaPig refresh HTML preview.
 
 SeaPig has tool bar contains one drop down list and four buttons.
 
-You can select key bindings from drop down list.
+You can select key bindings from drop down list. (default/emacs/vim)
 
 Four buttons has feature below.
 
