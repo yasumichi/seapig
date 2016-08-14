@@ -9,7 +9,7 @@ const Viz = require("viz.js");
 marked.setOptions({
   renderer: renderer,
   gfm: true,
-  breaks: true
+  breaks: false
 });
 
 // redering code
