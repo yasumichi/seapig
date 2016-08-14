@@ -24,13 +24,15 @@ Four buttons has feature below.
 
 ### viz.js support
 
-When You start code block by ` ```graphviz` and write dot language (ex: ` digraph g { a -> b; } `), rendering graph image at svg as below.
+When You write code block as `graphviz` language and write dot language, rendering graph image at svg as below.
 
 <pre>
 ```graphviz
 digraph g { a -> b; }
 ```
 </pre>
+
+to
 
 ![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/digraph.png)
 
