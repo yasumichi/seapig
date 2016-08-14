@@ -52,3 +52,6 @@ $ npm start
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
 
+# License
+
+MIT
