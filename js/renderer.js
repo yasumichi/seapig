@@ -2,6 +2,8 @@ const ipc = require('electron').ipcRenderer;
 const webview = document.getElementById('previewer');
 const fs = require('fs');
 const path = require('path');
+const storage = require('electron-json-storage');
+const FIRST_ITEM = 0;
 var currentFile = "";
 
 // Initialize ace editor
@@ -19,15 +21,36 @@ document.ondragover = document.ondrop = function(event) {
 
 // change keybindings
 const keybindings = document.getElementById("keybindings");
-keybindings.addEventListener("change", function() {
+
+function changeKeyBindings() {
   if (keybindings.value == "default") {
     editor.setKeyboardHandler(null);
   } else {
     editor.setKeyboardHandler(keybindings.value);
   }
+  let json = {
+    key_bindings: keybindings.selectedIndex
+  };
+  storage.set('key_bindings', json, function (error) {
+    if (error) throw error;
+  });
   editor.focus();
-});
+}
 
+keybindings.addEventListener("change", changeKeyBindings);
+
+// load keybindings
+storage.get('key_bindings', function (error, data) {
+  if (error) throw error;
+
+  if (Object.keys(data).length === 0) {
+    keybindings.selectedIndex = FIRST_ITEM;
+  } else {
+    keybindings.selectedIndex = data.key_bindings;
+  }
+  changeKeyBindings();
+});
+                    
 // open file
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", function(event) {
