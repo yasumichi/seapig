@@ -5,6 +5,23 @@ SeaPig is converter from markdown to html with marked.js and highlight.js.
 
 ![](https://qiita-image-store.s3.amazonaws.com/0/36738/626bd3fd-3c7e-bdaf-924a-db440462684f.png)
 
+## Usage
+
+SeaPig has two panes. Left pane is editor. Right pane is HTML previewer.
+
+When you input new line, SeaPig refresh HTML preview.
+
+SeaPig has tool bar contains one drop down list and four buttons.
+
+You can select key bindings from drop down list.
+
+Four buttons has feature below.
+
+- Open markdown file to editor.
+- Save markdown file from editor.
+- Export HTML file from previewer.(At the same time css stylesheet is copied to same folder.)
+- Export PDF file
+
 ## How to build
 
 ```
