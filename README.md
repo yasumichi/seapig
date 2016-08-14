@@ -21,6 +21,8 @@ $ npm start
 ## ToDo
 
 - [ ] save your favorite keybindings (default/emacs/vim)
+- [ ] convert checkbox type in disc type
+- [ ] add viz.js support
 
 ## Special Thanks
 
