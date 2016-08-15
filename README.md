@@ -75,8 +75,8 @@ $ npm start
 
 MIT (excludes ace, node_modules and icons)
 
-Copyright (c) 2016 Yasumichi Akahoshi
+Copyright &copy; 2016 Yasumichi Akahoshi
 
 # Icons copyright
 
-Copyright © いらすとや. All Rights Reserved. 
+Copyright &copy; いらすとや. All Rights Reserved. 
