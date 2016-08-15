@@ -66,6 +66,7 @@ ipc.on('selected-file', function (event, fullpath) {
     }
     editor.setValue(text.toString(), -1);
   });
+  editor.focus();
 });
 
 // save file
@@ -81,6 +82,7 @@ saveBtn.addEventListener("click", function(event) {
 
 ipc.on('selected-save-file', function (event, filename) {
   saveFile(filename);
+  editor.focus();
 });
 
 function saveFile(filename) {
@@ -102,6 +104,7 @@ exportHTMLBtn.addEventListener("click", function (event) {
 
 ipc.on('selected-HTML-file', function (event, filename) {
   webview.send('export-HTML', filename);
+  editor.focus();
 });
 
 // export pdf
@@ -118,13 +121,15 @@ ipc.on('selected-pdf-file', function (event, filename) {
         if (error) throw error
           console.log('Write PDF successfully.')
       })
-  })
+  });
+  editor.focus();
 });
 
 // Refresh preview
 const refreshBtn = document.getElementById("refreshBtn");
 refreshBtn.addEventListener("click", function (event) {
   refreshPreview();
+  editor.focus();
 });
 
 function refreshPreview () {
