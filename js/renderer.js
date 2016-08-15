@@ -71,6 +71,7 @@ ipc.on('selected-file', function (event, fullpath) {
 // save file
 const saveBtn = document.getElementById("saveBtn");
 saveBtn.addEventListener("click", function(event) {
+  refreshPreview();
   if (currentFile == "") {
     ipc.send('save-new-file');
   } else {
@@ -95,6 +96,7 @@ function saveFile(filename) {
 // export html
 const exportHTMLBtn = document.getElementById("exportHTMLBtn");
 exportHTMLBtn.addEventListener("click", function (event) {
+  refreshPreview();
   ipc.send('export-HTML', currentFile);
 });
 
@@ -105,6 +107,7 @@ ipc.on('selected-HTML-file', function (event, filename) {
 // export pdf
 const exportPdfBtn = document.getElementById("exportPdfBtn");
 exportPdfBtn.addEventListener("click", function (event) {
+  refreshPreview();
   ipc.send('export-pdf-file', currentFile);
 });
 
@@ -118,14 +121,19 @@ ipc.on('selected-pdf-file', function (event, filename) {
   })
 });
 
+// Refresh preview
+function refreshPreview () {
+  let baseURI = "";
+  if (currentFile != "") {
+    baseURI = 'file://' + path.dirname(currentFile) + '/';
+  }
+  webview.send('preview', editor.getValue(), baseURI);
+}
+
 // Emitted whenever the document is changed
 editor.on("change", function (e) {
   if (e.lines.length > 1) {
-    let baseURI = "";
-    if (currentFile != "") {
-      baseURI = 'file://' + path.dirname(currentFile) + '/';
-    }
-    webview.send('preview', editor.getValue(), baseURI);
+    refreshPreview();
   }
 });
 
