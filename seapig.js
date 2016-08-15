@@ -13,7 +13,11 @@ var mainWindow = null;
 
 function createWindow() {
 	// Create a instance of BrowserWindow
-	mainWindow = new BrowserWindow({width: 800, height: 600});
+	mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    icon: path.join(__dirname, 'seapig.png')
+  });
 
 	// Load mainwindow.html
 	mainWindow.loadURL(path.join('file://', __dirname ,'/mainwindow.html'));
