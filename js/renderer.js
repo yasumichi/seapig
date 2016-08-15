@@ -122,6 +122,11 @@ ipc.on('selected-pdf-file', function (event, filename) {
 });
 
 // Refresh preview
+const refreshBtn = document.getElementById("refreshBtn");
+refreshBtn.addEventListener("click", function (event) {
+  refreshPreview();
+});
+
 function refreshPreview () {
   let baseURI = "";
   if (currentFile != "") {
