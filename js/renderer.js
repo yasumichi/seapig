@@ -125,7 +125,6 @@ editor.on("change", function (e) {
     if (currentFile != "") {
       baseURI = 'file://' + path.dirname(currentFile) + '/';
     }
-    console.log(baseURI);
     webview.send('preview', editor.getValue(), baseURI);
   }
 });
