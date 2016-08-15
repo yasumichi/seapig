@@ -66,8 +66,14 @@ $ npm start
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
 - [viz.js](https://github.com/mdaines/viz.js)
-- [Irasutoya](http://www.irasutoya.com/)(application icon)
+- [いらすとや](http://www.irasutoya.com/)(application icon)
 
 # License
 
-MIT
+MIT (excludes ace, node_modules and icons)
+
+Copyright (c) 2016 Yasumichi Akahoshi
+
+# Icons copyright
+
+Copyright © いらすとや. All Rights Reserved. 
