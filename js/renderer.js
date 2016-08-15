@@ -1,4 +1,5 @@
 const ipc = require('electron').ipcRenderer;
+const shell = require('electron').shell;
 const webview = document.getElementById('previewer');
 const fs = require('fs');
 const path = require('path');
@@ -18,6 +19,12 @@ document.ondragover = document.ondrop = function(event) {
   event.preventDefault();
   return false;
 };
+
+// webview event hook
+webview.addEventListener('new-window', function(event) {
+  webview.stop();
+  shell.openExternal(event.url);
+});
 
 // change keybindings
 const keybindings = document.getElementById("keybindings");
