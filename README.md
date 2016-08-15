@@ -1,7 +1,7 @@
 SeaPig
 =====
 
-SeaPig is converter from markdown to html with marked.js and highlight.js.
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/seapig.png)SeaPig is converter from markdown to html with marked.js and highlight.js.
 
 ![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/seapig.png)
 
@@ -66,6 +66,7 @@ $ npm start
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
 - [viz.js](https://github.com/mdaines/viz.js)
+- [Irasutoya](http://www.irasutoya.com/)(application icon)
 
 # License
 
