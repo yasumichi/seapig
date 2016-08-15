@@ -84,13 +84,13 @@ ipc.on('selected-save-file', function (event, filename) {
 });
 
 function saveFile(filename) {
-    fs.writeFile (filename, editor.getValue(), function (error) {
-      if (error != null) {
-        alert ('error: ' + error + '\n' + filename);
-        return;
-      }
-      currentFile = filename;
-    });
+  fs.writeFile (filename, editor.getValue(), function (error) {
+    if (error != null) {
+      alert ('error: ' + error + '\n' + filename);
+      return;
+    }
+    currentFile = filename;
+  });
 }
 
 // export html
