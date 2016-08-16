@@ -5,6 +5,7 @@ const hljs = require('highlight.js');
 const fs = require('fs');
 const path = require('path');
 const Viz = require("viz.js");
+const uiflow = require("uiflow");
 
 marked.setOptions({
   renderer: renderer,
@@ -12,10 +13,34 @@ marked.setOptions({
   breaks: false
 });
 
+// escape HTML special characters
+// from: http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3#comment-3e30a57522c7d6833a7f
+var escapeHtml = (function (String) {
+  var escapeMap = {
+    '&': '&amp;',
+    '\x27': '&#39;',
+    '"': '&quot;',
+    '<': '&lt;',
+    '>': '&gt;'
+  };
+
+  function callbackfn (char) {
+    if (!escapeMap.hasOwnProperty(char)) {
+      throw new Error;
+    }
+
+    return escapeMap[char];
+  }
+
+  return function escapeHtml (string) {
+    return String(string).replace(/[&"'<>]/g, callbackfn);
+  };
+}(String));
+
 // redering code
 renderer.code = function (code, language) {
-  const CONV_ERR_HEAD = "\n*************** Graphviz Convert Error ***************\n";
-  const CONV_ERR_TAIL = "******************************************************\n";
+  const CONV_ERR_HEAD = "\n******************* Convert Error *******************\n";
+  const CONV_ERR_TAIL = "*****************************************************\n";
   if (language == "graphviz") {
     let result;
     try {
@@ -23,6 +48,14 @@ renderer.code = function (code, language) {
       return result;
     } catch (error) {
       return '<pre><code>' + hljs.highlightAuto(code).value + CONV_ERR_HEAD + error + CONV_ERR_TAIL +'</code></pre>';
+    }
+  } else if(language == "uiflow") {
+    try {
+      let dot = uiflow.compile(code);
+      return Viz(dot);
+    } catch (error) {
+      console.log(error);
+      return '<pre><code>' + escapeHtml(code) + CONV_ERR_HEAD + error + '\n' + CONV_ERR_TAIL +'</code></pre>';
     }
   } else {
     return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
@@ -43,9 +76,9 @@ renderer.listitem = function (text) {
 // rendering html (sanitize script)
 renderer.html = function (html) {
   if (html.match(/<[^>]*script[^>]*>/g) !== null) {
-    return '<pre><code>' + html.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").trim() + '</code></pre>';
+    return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
   } else if (html.match(/<[^>]* on[^=>]*=/) !== null) {
-    return '<pre><code>' + html.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").trim() + '</code></pre>';
+    return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
   } else {
     return html;
   }

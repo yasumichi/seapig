@@ -16,6 +16,7 @@
     "electron-json-storage": "^2.0.0",
     "highlight.js": "^9.6.0",
     "marked": "^0.3.5",
+    "uiflow": "git+https://github.com/tkrkt/uiflow.git#fix-argument-in-compile",
     "viz.js": "^1.3.0"
   },
   "devDependencies": {
