@@ -82,6 +82,9 @@ $ npm start
 - [x] add viz.js support
 - [x] add [uiflow](https://github.com/hirokidaichi/uiflow) support.
 - [ ] add simultaneous scroll
+- [ ] add original menu
+- [ ] add new document
+- [ ] add alternative stylesheet
 
 ## Special Thanks
 
