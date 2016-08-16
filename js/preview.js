@@ -28,8 +28,8 @@ function escapeHtml(content) {
 
 // redering code
 renderer.code = function (code, language) {
-  const CONV_ERR_HEAD = "\n*************** Graphviz Convert Error ***************\n";
-  const CONV_ERR_TAIL = "******************************************************\n";
+  const CONV_ERR_HEAD = "\n******************* Convert Error *******************\n";
+  const CONV_ERR_TAIL = "*****************************************************\n";
   if (language == "graphviz") {
     let result;
     try {
