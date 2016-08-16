@@ -79,4 +79,8 @@ Copyright &copy; 2016 Yasumichi Akahoshi
 
 # Icons copyright
 
+- seapig.icns
+- seapig.ico
+- seapig.png
+
 Copyright &copy; いらすとや. All Rights Reserved. 
