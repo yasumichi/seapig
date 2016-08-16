@@ -14,18 +14,28 @@ marked.setOptions({
 });
 
 // escape HTML special characters
-// from: http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3
-function escapeHtml(content) {
-  var TABLE_FOR_ESCAPE_HTML = {
-    "&": "&amp;",
-    "\"": "&quot;",
-    "<": "&lt;",
-    ">": "&gt;"
+// from: http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3#comment-3e30a57522c7d6833a7f
+var escapeHtml = (function (String) {
+  var escapeMap = {
+    '&': '&amp;',
+    '\x27': '&#39;',
+    '"': '&quot;',
+    '<': '&lt;',
+    '>': '&gt;'
   };
-  return content.replace(/[&"<>]/g, function(match) {
-    return TABLE_FOR_ESCAPE_HTML[match];
-  });
-}
+
+  function callbackfn (char) {
+    if (!escapeMap.hasOwnProperty(char)) {
+      throw new Error;
+    }
+
+    return escapeMap[char];
+  }
+
+  return function escapeHtml (string) {
+    return String(string).replace(/[&"'<>]/g, callbackfn);
+  };
+}(String));
 
 // redering code
 renderer.code = function (code, language) {
