@@ -12,6 +12,20 @@ marked.setOptions({
   breaks: false
 });
 
+// escape HTML special characters
+// from: http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3
+function escapeHtml(content) {
+  var TABLE_FOR_ESCAPE_HTML = {
+    "&": "&amp;",
+    "\"": "&quot;",
+    "<": "&lt;",
+    ">": "&gt;"
+  };
+  return content.replace(/[&"<>]/g, function(match) {
+    return TABLE_FOR_ESCAPE_HTML[match];
+  });
+}
+
 // redering code
 renderer.code = function (code, language) {
   const CONV_ERR_HEAD = "\n*************** Graphviz Convert Error ***************\n";
