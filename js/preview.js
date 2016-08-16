@@ -66,9 +66,9 @@ renderer.listitem = function (text) {
 // rendering html (sanitize script)
 renderer.html = function (html) {
   if (html.match(/<[^>]*script[^>]*>/g) !== null) {
-    return '<pre><code>' + html.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").trim() + '</code></pre>';
+    return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
   } else if (html.match(/<[^>]* on[^=>]*=/) !== null) {
-    return '<pre><code>' + html.replace(/\</g, "&lt;").replace(/\>/g, "&gt;").trim() + '</code></pre>';
+    return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
   } else {
     return html;
   }
