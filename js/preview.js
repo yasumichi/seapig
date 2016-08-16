@@ -5,6 +5,7 @@ const hljs = require('highlight.js');
 const fs = require('fs');
 const path = require('path');
 const Viz = require("viz.js");
+const uiflow = require("uiflow");
 
 marked.setOptions({
   renderer: renderer,
@@ -37,6 +38,14 @@ renderer.code = function (code, language) {
       return result;
     } catch (error) {
       return '<pre><code>' + hljs.highlightAuto(code).value + CONV_ERR_HEAD + error + CONV_ERR_TAIL +'</code></pre>';
+    }
+  } else if(language == "uiflow") {
+    try {
+      let dot = uiflow.compile(code);
+      return Viz(dot);
+    } catch (error) {
+      console.log(error);
+      return '<pre><code>' + escapeHtml(code) + CONV_ERR_HEAD + error + '\n' + CONV_ERR_TAIL +'</code></pre>';
     }
   } else {
     return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
