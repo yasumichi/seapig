@@ -39,6 +39,29 @@ to
 
 ![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/digraph.png)
 
+### uiflow support
+
+When You write code block as `uiflow` language and write uiflow language, rendering graph image at svg as below.
+
+<pre>
+```uiflow
+[top page]
+user name
+password
+--
+login
+==>mypage
+
+[mypage]
+favorite list
+```
+</pre>
+
+to
+
+![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/uiflow.png)
+
+
 ## How to build
 
 ```
@@ -57,7 +80,8 @@ $ npm start
 - [x] save your favorite keybindings (default/emacs/vim)
 - [x] support task list item.
 - [x] add viz.js support
-- [ ] add [uiflow](https://github.com/hirokidaichi/uiflow) support.
+- [x] add [uiflow](https://github.com/hirokidaichi/uiflow) support.
+- [ ] add simultaneous scroll
 
 ## Special Thanks
 
@@ -70,6 +94,7 @@ $ npm start
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
 - [viz.js](https://github.com/mdaines/viz.js)
+- [uiflow](https://github.com/hirokidaichi/uiflow)(use [forked version](https://github.com/tkrkt/uiflow#fix-argument-in-compile))
 - [いらすとや](http://www.irasutoya.com/)(application icon)
 
 # License
