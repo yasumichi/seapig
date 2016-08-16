@@ -57,7 +57,6 @@ $ npm start
 - [x] save your favorite keybindings (default/emacs/vim)
 - [x] support task list item.
 - [x] add viz.js support
-- [ ] add [uiflow](https://github.com/hirokidaichi/uiflow) support.
 
 ## Special Thanks
 
