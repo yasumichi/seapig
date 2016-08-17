@@ -8,7 +8,7 @@ const FIRST_ITEM = 0;
 var currentFile = "";
 
 // Initialize ace editor
-var editor = ace.edit("ace-editor");
+var editor = ace.edit("aceEditor");
 editor.setTheme("ace/theme/monokai");
 editor.getSession().setMode("ace/mode/markdown");
 editor.getSession().setUseWrapMode(true);
@@ -130,6 +130,44 @@ ipc.on('selected-pdf-file', function (event, filename) {
       })
   });
   editor.focus();
+});
+
+/*
+ * controle display panes
+ */
+const aceEditor = document.getElementById("aceEditor");
+const previewer = document.getElementById("previewer");
+
+// hide editor
+const hideEditorBtn = document.getElementById("hideEditorBtn");;
+hideEditorBtn.addEventListener("click", function (event) {
+  if (aceEditor.hasAttribute("style") == false &&
+      previewer.hasAttribute("style") == false) {
+    aceEditor.setAttribute("style", "display:none");
+    refreshPreview ();
+  } else if (
+      aceEditor.hasAttribute("style") == false &&
+      previewer.hasAttribute("style") == true) {
+    previewer.removeAttribute("style");
+    editor.resize(true);
+    refreshPreview ();
+  }
+});
+
+// hide preview
+const HidePreviewBtn = document.getElementById("HidePreviewBtn");;
+HidePreviewBtn.addEventListener("click", function (event) {
+  if (aceEditor.hasAttribute("style") == true &&
+      previewer.hasAttribute("style") == false) {
+    aceEditor.removeAttribute("style");
+    editor.resize (true);
+    refreshPreview ();
+  } else if (
+      aceEditor.hasAttribute("style") == false &&
+      previewer.hasAttribute("style") == false) {
+    previewer.setAttribute("style", "display:none");
+    editor.resize(true);
+  }
 });
 
 // Refresh preview

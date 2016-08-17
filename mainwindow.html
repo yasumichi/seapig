@@ -29,6 +29,14 @@
               <span class="icon icon-print"></span>
             </div>
           </div>
+          <div class="btn-group">
+            <div class="btn btn-default" id="hideEditorBtn">
+              <span class="icon icon-left-open"></span>
+            </div>
+            <div class="btn btn-default" id="HidePreviewBtn">
+              <span class="icon icon-right-open"></span>
+            </div>
+          </div>
           <div class="btn btn-default" id="refreshBtn">
             <span class="icon icon-arrows-ccw"></span>
           </div>
@@ -36,7 +44,7 @@
       </header>
       <div class="window-content">
         <div class="pane-group">
-          <div id="ace-editor" class="pane"></div>
+          <div id="aceEditor" class="pane"></div>
           <webview id="previewer" class="pane" src="templates/template.html" preload="js/preview.js"></webview>
         </div>
       </div>
