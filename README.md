@@ -85,7 +85,7 @@ $ npm start
 - [ ] add original menu
 - [ ] add new document
 - [ ] add alternative stylesheet
-- [ ] control display editor and previewer
+- [x] control display editor and previewer
 
 ## Special Thanks
 
