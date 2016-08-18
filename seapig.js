@@ -26,6 +26,9 @@ function createWindow() {
 	mainWindow.on('closed', function() {
 		mainWindow = null;
 	})
+  if (process.env.DEBUG) {
+    mainWindow.toggleDevTools();
+  }
 }
 
 // Show window when app is ready.
