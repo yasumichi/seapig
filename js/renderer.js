@@ -8,11 +8,25 @@ const FIRST_ITEM = 0;
 var currentFile = "";
 
 // Initialize ace editor
-var editor = ace.edit("aceEditor");
-editor.setTheme("ace/theme/monokai");
-editor.getSession().setMode("ace/mode/markdown");
-editor.getSession().setUseWrapMode(true);
-editor.focus();
+require('ace-min-noconflict');
+require('ace-min-noconflict/theme-monokai');
+require('ace-min-noconflict/mode-markdown');
+require('ace-min-noconflict/keybinding-emacs');
+require('ace-min-noconflict/keybinding-vim');
+var editor = null;
+window.addEventListener('DOMContentLoaded',function() {
+  editor = ace.edit("aceEditor");
+  editor.setTheme("ace/theme/monokai");
+  editor.getSession().setMode("ace/mode/markdown");
+  editor.getSession().setUseWrapMode(true);
+  editor.focus();
+  // Emitted whenever the document is changed
+  editor.on("change", function (e) {
+    if (e.data.range.start.row != e.data.range.end.row) {
+      refreshPreview();
+    }
+  });
+});
 
 // disable drag and drop to document
 document.ondragover = document.ondrop = function(event) {
@@ -184,11 +198,4 @@ function refreshPreview () {
   }
   webview.send('preview', editor.getValue(), baseURI);
 }
-
-// Emitted whenever the document is changed
-editor.on("change", function (e) {
-  if (e.lines.length > 1) {
-    refreshPreview();
-  }
-});
 
