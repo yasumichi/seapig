@@ -45,9 +45,12 @@ function getDefaultPath(currentFile) {
   let defaultPath = "";
 
   if (currentFile == "") {
-    defaultPath = app.getPath('documents');
+    defaultPath = path.join(app.getPath('documents'), 'new_file');
   } else {
-    defaultPath = path.dirname(currentFile);
+    defaultPath = path.join(
+      path.dirname(currentFile),
+      path.basename(currentFile, path.extname(currentFile))
+    );
   }
 
   return  defaultPath;
@@ -79,7 +82,7 @@ ipc.on('save-new-file', function (event) {
   let options = {
     title: 'Save Markdown File',
     properties: ['openFile'],
-    defaultPath: app.getPath('documents'),
+    defaultPath: getDefaultPath('') + '.md',
     filters: [
       {
         name: 'Markdown',
@@ -100,7 +103,7 @@ ipc.on('export-HTML', function (event, currentFile) {
   let options = {
     title: 'Export HTML file',
     properties: ['openFile'],
-    defaultPath: getDefaultPath(currentFile),
+    defaultPath: getDefaultPath(currentFile) + '.html',
     filters: [
       { name: 'HTML', extensions: [ 'html' ] }
     ]
@@ -118,7 +121,7 @@ ipc.on('export-pdf-file', function (event, currentFile) {
   let options = {
     title: 'Export PDF file',
     properties: ['openFile'],
-    defaultPath: getDefaultPath(currentFile),
+    defaultPath: getDefaultPath(currentFile) + '.pdf',
     filters: [
       { name: 'PDF', extensions: [ 'pdf' ] }
     ]
