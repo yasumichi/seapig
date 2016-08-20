@@ -113,6 +113,11 @@ function getDefaultPath(currentFile) {
   return  defaultPath;
 }
 
+// request new file
+ipc.on('new-file', (event) => {
+  createWindow();
+});
+
 // request open file dialog
 ipc.on('open-file-dialog', function (event, currentFile, isNewWindow) {
   let options = {

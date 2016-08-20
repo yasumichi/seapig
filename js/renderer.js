@@ -72,6 +72,12 @@ storage.get('key_bindings', function (error, data) {
   }
   changeKeyBindings();
 });
+
+// new file
+const newBtn = document.getElementById("newBtn");
+newBtn.addEventListener("click", (event) => {
+  ipc.send('new-file');
+});
                     
 // open file
 const openBtn = document.getElementById("openBtn");
