@@ -68,7 +68,7 @@ ipc.on('open-file-dialog', function (event, currentFile) {
     filters: [
       {
         name: 'Markdown',
-        extensions: [ 'md', 'mdwn', 'mkd', 'mkdn', 'mark*' ]
+        extensions: [ 'md', 'mdwn', 'mkd', 'mkdn', 'mark*', 'txt' ]
       }
     ]
   };
