@@ -114,7 +114,7 @@ function getDefaultPath(currentFile) {
 }
 
 // request open file dialog
-ipc.on('open-file-dialog', function (event, currentFile) {
+ipc.on('open-file-dialog', function (event, currentFile, isNewWindow) {
   let options = {
     title: 'Open Markdown File',
     properties: ['openFile'],
@@ -129,7 +129,16 @@ ipc.on('open-file-dialog', function (event, currentFile) {
   dialog.showOpenDialog(
       options,
       function (filenames) {
-        if (filenames) event.sender.send ('selected-file', filenames);
+        if (filenames) {
+          if (isNewWindow === true) {
+            let newWindow = createWindow();
+            newWindow.webContents.on('dom-ready', () => {
+              newWindow.webContents.send('open-file', filenames[0]);
+            });
+          } else {
+            event.sender.send ('selected-file', filenames);
+          }
+        }
       }
       );
 });

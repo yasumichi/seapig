@@ -5,7 +5,10 @@ const fs = require('fs');
 const path = require('path');
 const storage = require('electron-json-storage');
 const FIRST_ITEM = 0;
+
+// Status of document
 var currentFile = "";
+var modified = false;
 
 // Initialize ace editor
 require('ace-min-noconflict');
@@ -20,6 +23,7 @@ editor.getSession().setUseWrapMode(true);
 editor.focus();
 // Emitted whenever the document is changed
 editor.on("change", function (e) {
+  modified = true;
   if (e.data.range.start.row != e.data.range.end.row) {
     refreshPreview();
   }
@@ -72,7 +76,15 @@ storage.get('key_bindings', function (error, data) {
 // open file
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", function(event) {
-  ipc.send('open-file-dialog', currentFile);
+  let isNewWindow = false;
+  if (currentFile !== "") {
+    isNewWindow = true;
+  } else {
+    if (modified === true || editor.getValue().length > 0) {
+      isNewWindow = true;
+    }
+  }
+  ipc.send('open-file-dialog', currentFile, isNewWindow);
 });
 
 ipc.on('selected-file', function (event, fullpath) {
@@ -94,6 +106,7 @@ function openFile(fullpath) {
       return;
     }
     editor.setValue(text.toString(), -1);
+    modified = false;
     refreshPreview();
   });
   editor.focus();
