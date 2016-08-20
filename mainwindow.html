@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
     <link rel="stylesheet" href="photon/css/photon.min.css">
+    <link rel="stylesheet" href="css/tooltip.css">
 		<title>SeaPig</title>
 	</head>
 	<body>
@@ -16,32 +17,40 @@
             <option value="ace/keyboard/vim">vim</option>
           </select>
           <div class="btn-group">
-            <div class="btn btn-default" id="newBtn">
+            <div class="btn btn-default tooltip" id="newBtn">
               <span class="icon icon-doc"></span>
+              <span class="tooltiptext">New File</span>
             </div>
-            <div class="btn btn-default" id="openBtn">
+            <div class="btn btn-default tooltip" id="openBtn">
               <span class="icon icon-folder"></span>
+              <span class="tooltiptext">Open File...</span>
             </div>
-            <div class="btn btn-default" id="saveBtn">
+            <div class="btn btn-default tooltip" id="saveBtn">
               <span class="icon icon-floppy"></span>
+              <span class="tooltiptext">Save File...</span>
             </div>
-            <div class="btn btn-default" id="exportHTMLBtn">
+            <div class="btn btn-default tooltip" id="exportHTMLBtn">
               <span class="icon icon-export"></span>
+              <span class="tooltiptext">Export as HTML...</span>
             </div>
-            <div class="btn btn-default" id="exportPdfBtn">
+            <div class="btn btn-default tooltip" id="exportPdfBtn">
               <span class="icon icon-print"></span>
+              <span class="tooltiptext">Export as PDF...</span>
             </div>
           </div>
           <div class="btn-group">
-            <div class="btn btn-default" id="hideEditorBtn">
+            <div class="btn btn-default tooltip" id="hideEditorBtn">
               <span class="icon icon-left-open"></span>
+              <span class="tooltiptext">Hide editor</span>
             </div>
-            <div class="btn btn-default" id="HidePreviewBtn">
+            <div class="btn btn-default tooltip" id="HidePreviewBtn">
               <span class="icon icon-right-open"></span>
+              <span class="tooltiptext">Hide preview</span>
             </div>
           </div>
-          <div class="btn btn-default" id="refreshBtn">
+          <div class="btn btn-default tooltip" id="refreshBtn">
             <span class="icon icon-arrows-ccw"></span>
+            <span class="tooltiptext">Refresh preview</span>
           </div>
         </div>
       </header>

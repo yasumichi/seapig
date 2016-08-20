@@ -1,0 +1,7 @@
+/**
+ * base idea
+ * from http://www.kollermedia.at/archive/2008/03/24/easy-css-tooltip/
+ */
+.tooltip { position: relative; display: inline-block; }
+.tooltip .tooltiptext { visibility: hidden; padding:2px 3px; margin-left:8px; width:120px; left: 55%; top: 95%; position:absolute; background: Cornsilk; border:1px solid #cccccc; color: black; z-index:1 }
+.tooltip:hover .tooltiptext { visibility: visible; }
