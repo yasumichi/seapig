@@ -1,7 +1,7 @@
 SeaPig
 =====
 
-![](https://raw.githubusercontent.com/yasumichi/seapig/master/seapig.png)SeaPig is converter from markdown to html with marked.js and highlight.js.
+![](seapig.png)SeaPig is converter from markdown to html with marked.js and highlight.js.
 
 ![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/seapig.png)
 
