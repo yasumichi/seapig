@@ -90,6 +90,7 @@ $ npm start
 ## Special Thanks
 
 - [Ace - The High Performance Code Editor for the Web](https://ace.c9.io/)(ace-min-noconflict)
+- [Commander.js](https://github.com/tj/commander.js/)
 - [Electron - Build cross platform desktop apps with JavaScript, HTML, and CSS.](http://electron.atom.io/)
 - [electron-json-storage](https://github.com/jviotti/electron-json-storage)
 - [Github Markdown CSS - for Markdown Editor Preview](https://gist.github.com/andyferra/2554919)
