@@ -86,6 +86,7 @@ $ npm start
 - [x] add new document
 - [ ] add alternative stylesheet
 - [x] control display editor and previewer
+- [ ] add batch mode
 
 ## Special Thanks
 
