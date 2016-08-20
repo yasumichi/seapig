@@ -45,6 +45,7 @@ function createWindow() {
 app.on('ready', function() {
   let winList = [];
   let ignoreList = [];
+  let isFile = false;
 
   if (program.args.length > 0) {
     program.args.forEach((element) => {
@@ -54,7 +55,12 @@ app.on('ready', function() {
       } else {
         fullpath = path.resolve(__dirname, element);
       }
-      if (fs.statSync(fullpath).isFile() == true) {
+      try {
+        isFile = fs.statSync(fullpath).isFile();
+      } catch (error) {
+        isFile = false;
+      }
+      if (isFile == true) {
         if (/\.(md|mdwn|mkdn|mark.*|txt)$/.test(fullpath) == true) {
           let winIndex = winList.push(createWindow()) - 1;
           winList[winIndex].webContents.on('dom-ready', () => {
