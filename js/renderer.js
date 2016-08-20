@@ -94,6 +94,7 @@ function openFile(fullpath) {
       return;
     }
     editor.setValue(text.toString(), -1);
+    refreshPreview();
   });
   editor.focus();
 }

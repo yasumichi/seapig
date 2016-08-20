@@ -114,4 +114,4 @@ Copyright &copy; 2016 Yasumichi Akahoshi
 - seapig.ico
 - seapig.png
 
-Copyright &copy; いらすとや. All Rights Reserved. 
+Copyright &copy; いらすとや. All Rights Reserved.
