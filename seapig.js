@@ -6,12 +6,20 @@ const ipc = require('electron').ipcMain;
 const dialog = require('electron').dialog;
 
 // Load node native module
+const fs = require('fs');
 const path = require('path');
 
-// Create window
-var mainWindow = null;
+// Parse command line arguments
+const program = require('commander');
+program
+  .usage('[options] <file ...>')
+  .version(app.getVersion())
+  .parse(process.argv);
 
+// Create window
 function createWindow() {
+  let mainWindow = null;
+
 	// Create a instance of BrowserWindow
 	mainWindow = new BrowserWindow({
     width: 800,
@@ -29,11 +37,51 @@ function createWindow() {
   if (process.env.DEBUG) {
     mainWindow.toggleDevTools();
   }
+
+  return mainWindow;
 }
 
 // Show window when app is ready.
 app.on('ready', function() {
-	createWindow();
+  let winList = [];
+  let ignoreList = [];
+
+  if (program.args.length > 0) {
+    program.args.forEach((element) => {
+      let fullpath;
+      if (path.isAbsolute(element)) {
+        fullpath = element;
+      } else {
+        fullpath = path.resolve(__dirname, element);
+      }
+      if (fs.statSync(fullpath).isFile() == true) {
+        if (/\.(md|mdwn|mkdn|mark.*|txt)$/.test(fullpath) == true) {
+          let winIndex = winList.push(createWindow()) - 1;
+          winList[winIndex].webContents.on('dom-ready', () => {
+            winList[winIndex].webContents.send('open-file', fullpath);
+          });
+        } else {
+          ignoreList.push(`${fullpath} isn't markdown.`);
+        }
+      } else {
+        ignoreList.push(`${fullpath} isn't  file.`);
+      }
+    });
+  }
+  if (winList.length === 0) {
+    createWindow();
+  }
+  if (ignoreList.length > 0) {
+    dialog.showMessageBox({
+      title: "Warning",
+      type: "warning",
+      message: 'Ignore bellow arguments.',
+      detail: ignoreList.join('\n'),
+      buttons: ['OK']
+    }, () => {
+    }
+    );
+  }
 })
 
 // Exit application when all window is closed.

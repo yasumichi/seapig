@@ -76,8 +76,19 @@ openBtn.addEventListener("click", function(event) {
 });
 
 ipc.on('selected-file', function (event, fullpath) {
-  currentFile = fullpath[0];
-  fs.readFile(fullpath[0], function(error, text) {
+  openFile(fullpath[0]);
+});
+
+ipc.on('open-file', (event, fullpath) => {
+  openFile(fullpath);
+  webview.addEventListener('dom-ready', () => {
+    refreshPreview();
+  });
+});
+
+function openFile(fullpath) {
+  currentFile = fullpath;
+  fs.readFile(fullpath, function(error, text) {
     if (error != null) {
       alert ('error: ' + error);
       return;
@@ -85,7 +96,7 @@ ipc.on('selected-file', function (event, fullpath) {
     editor.setValue(text.toString(), -1);
   });
   editor.focus();
-});
+}
 
 // save file
 const saveBtn = document.getElementById("saveBtn");
