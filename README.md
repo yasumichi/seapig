@@ -3,7 +3,7 @@ SeaPig
 
 ![](seapig.png)SeaPig is converter from markdown to html with marked.js and highlight.js.
 
-![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/seapig.png)
+![](images/seapig.png)
 
 ## Usage
 
@@ -13,7 +13,7 @@ When you input new line, SeaPig refresh HTML preview.
 
 SeaPig has tool bar contains one drop down list and five buttons.
 
-![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/seapig-toolbar.png)
+![](images/seapig-toolbar.png)
 
 You can select key bindings from drop down list. (default/emacs/vim)
 
@@ -37,7 +37,7 @@ digraph g { a -> b; }
 
 to
 
-![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/digraph.png)
+![](images/digraph.png)
 
 ### uiflow support
 
@@ -59,7 +59,7 @@ favorite list
 
 to
 
-![](https://raw.githubusercontent.com/yasumichi/screenshots/master/seapig/uiflow.png)
+![](images/uiflow.png)
 
 
 ## How to build
