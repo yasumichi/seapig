@@ -75,6 +75,12 @@ $ npm install --global-style
 $ npm start
 ```
 
+## How to package (on Linux)
+
+```
+$ ./build.sh
+```
+
 ## ToDo
 
 - [x] save your favorite keybindings (default/emacs/vim)
