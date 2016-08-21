@@ -10,11 +10,28 @@ const fs = require('fs');
 const path = require('path');
 
 // Parse command line arguments
-const program = require('commander');
-program
-  .usage('[options] <file ...>')
-  .version(app.getVersion())
-  .parse(process.argv);
+var program = getArguments();
+
+function getArguments() {
+  let argv = [];
+  let tmp_args = [];
+  let tmp_opts = [];
+
+  if (/^electron/.test(path.basename(process.argv[0]))) {
+    argv =  process.argv.slice(2);
+  } else {
+    argv =  process.argv.slice(1);
+  }
+  argv.forEach( (element) => {
+    if (/^-/.test(element) === true) {
+      tmp_opts.push(element);
+    } else {
+      tmp_args.push(element);
+    }
+  });
+
+  return  { opts: tmp_opts, args: tmp_args };
+}
 
 // Create window
 function createWindow() {
