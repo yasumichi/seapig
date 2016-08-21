@@ -1,7 +1,7 @@
 #!/bin/sh
 
 VERSION=`grep version package.json | sed -e 's/.*"version": "//' -e 's/",//'`
-LOGFILE=`pwd`/`basename $0 .sh`.log
+LOGFILE=${HOME}/seapig_build.log
 
 # clean directory releases
 echo -e "\e[32m[clean]\e[m old releases"
