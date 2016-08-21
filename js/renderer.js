@@ -106,6 +106,7 @@ ipc.on('open-file', (event, fullpath) => {
 
 function openFile(fullpath) {
   currentFile = fullpath;
+  document.title = `SeaPig - [${fullpath}]`;
   fs.readFile(fullpath, function(error, text) {
     if (error != null) {
       alert ('error: ' + error);
@@ -141,6 +142,7 @@ function saveFile(filename) {
       return;
     }
     currentFile = filename;
+    document.title = `SeaPig - [${filename}]`;
   });
 }
 
