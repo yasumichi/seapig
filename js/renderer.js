@@ -1,3 +1,4 @@
+const {dialog} = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
 const webview = document.getElementById('previewer');
@@ -26,6 +27,27 @@ editor.on("change", function (e) {
   modified = true;
   if (e.data.range.start.row != e.data.range.end.row) {
     refreshPreview();
+  }
+});
+
+// before unload
+window.addEventListener("beforeunload", (event) => {
+  if (modified === true) {
+    let win = require('electron').remote.getCurrentWindow();
+    let message = `The document has not yet been saved.
+      Are you sure you want to quit?`;
+    let result = dialog.showMessageBox(
+        win,
+        {
+          type: "info",
+          title: "SeaPig",
+          message: message,
+          buttons: ["OK", "Cancel"]
+        }
+    );
+    if (result === 1) {
+      event.returnValue = false;
+    }
   }
 });
 
