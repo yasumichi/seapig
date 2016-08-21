@@ -11,18 +11,21 @@ SeaPig has two panes. Left pane is editor. Right pane is HTML previewer.
 
 When you input new line, SeaPig refresh HTML preview.
 
-SeaPig has tool bar contains one drop down list and five buttons.
+SeaPig has tool bar contains one drop down list and eight buttons.
 
 ![](images/seapig-toolbar.png)
 
 You can select key bindings from drop down list. (default/emacs/vim)
 
-Five buttons has feature below.
+Eight buttons has feature below.
 
+- New markdown file (Open new window)
 - Open markdown file to editor.
 - Save markdown file from editor.
 - Export HTML file from previewer.(At the same time css stylesheet is copied to same folder.)
 - Export PDF file
+- Hide editor
+- Hide previewer
 - Refresh HTML preview
 
 ### viz.js support
