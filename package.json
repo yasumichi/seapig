@@ -1,6 +1,6 @@
 {
   "name": "seapig",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "SeaPig is converter from markdown to html.",
   "main": "seapig.js",
   "scripts": {
