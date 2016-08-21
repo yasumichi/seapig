@@ -142,6 +142,7 @@ function saveFile(filename) {
       return;
     }
     currentFile = filename;
+    modified = false;
     document.title = `SeaPig - [${filename}]`;
   });
 }
