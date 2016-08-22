@@ -58,6 +58,12 @@ document.ondragover = document.ondrop = function(event) {
 };
 
 // webview event hook
+webview.addEventListener('dom-ready', () => {
+  if (process.env.GUEST_DEBUG) {
+    webview.openDevTools();
+  }
+});
+
 webview.addEventListener('new-window', function(event) {
   webview.stop();
   shell.openExternal(event.url);
