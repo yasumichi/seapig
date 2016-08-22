@@ -92,7 +92,21 @@ ipcRenderer.on('preview', function(event, data, baseURI) {
   }
   base.setAttribute("target", "_blank");
   document.getElementById('body').innerHTML = marked(data, { renderer: renderer });
-  document.title = document.getElementsByTagName("h1")[0].innerHTML;
+  let h1List = document.getElementsByTagName("h1");
+  if (h1List.length > 0) {
+      let workTitle = h1List[0].innerHTML;
+      if (/^(<img [^>]*>)+$/.test(workTitle)) {
+          let images = h1List[0].getElementsByTagName("img");
+          for (let idx=0; idx < images.length; idx++) {
+              if (images[idx].hasAttribute("alt")) {
+                  document.title = images[idx].getAttribute("alt");
+                  break;
+              }
+          }
+      } else {
+          document.title = workTitle.replace(/<[^>]*>/i, "");
+      }
+  }
 });
 
 // request export HTML
