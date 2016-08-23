@@ -104,7 +104,7 @@ ipcRenderer.on('preview', function(event, data, baseURI) {
               }
           }
       } else {
-          document.title = workTitle.replace(/<[^>]*>/i, "");
+          document.title = workTitle.replace(/<[^>]*>/g, "");
       }
   }
 });
