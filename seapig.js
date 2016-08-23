@@ -10,8 +10,6 @@ const fs = require('fs');
 const path = require('path');
 
 // Parse command line arguments
-var program = getArguments();
-
 function getArguments() {
   let argv = [];
   let tmp_args = [];
@@ -32,6 +30,8 @@ function getArguments() {
 
   return  { opts: tmp_opts, args: tmp_args };
 }
+
+var program = getArguments();
 
 // Create window
 function createWindow() {
