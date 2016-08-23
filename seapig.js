@@ -140,7 +140,7 @@ ipc.on('open-file-dialog', function (event, currentFile, isNewWindow) {
   let options = {
     title: 'Open Markdown File',
     properties: ['openFile'],
-    defaultPath: getDefaultPath(currentFile),
+    defaultPath: path.dirname(currentFile),
     filters: [
       {
         name: 'Markdown',
