@@ -99,12 +99,12 @@ ipcRenderer.on('preview', function(event, data, baseURI) {
           let images = h1List[0].getElementsByTagName("img");
           for (let idx=0; idx < images.length; idx++) {
               if (images[idx].hasAttribute("alt")) {
-                  document.title = images[idx].getAttribute("alt");
+                  document.title = images[idx].getAttribute("alt").trim();
                   break;
               }
           }
       } else {
-          document.title = workTitle.replace(/<[^>]*>/g, "");
+          document.title = workTitle.replace(/<[^>]*>/g, "").trim();
       }
   }
 });
