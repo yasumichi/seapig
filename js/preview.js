@@ -1,88 +1,36 @@
+/*
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016 Yasumichi Akahoshi
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+(function() {
+  "use strict";
+
 const {ipcRenderer} = require('electron');
-const marked = require('marked');
-const renderer = new marked.Renderer();
-const hljs = require('highlight.js');
 const fs = require('fs');
 const path = require('path');
-const Viz = require("viz.js");
-const uiflow = require("uiflow");
+const Md2Html = require('./md2html.js');
 
-marked.setOptions({
-  renderer: renderer,
-  gfm: true,
-  breaks: false
-});
-
-// escape HTML special characters
-// from: http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3#comment-3e30a57522c7d6833a7f
-var escapeHtml = (function (String) {
-  var escapeMap = {
-    '&': '&amp;',
-    '\x27': '&#39;',
-    '"': '&quot;',
-    '<': '&lt;',
-    '>': '&gt;'
-  };
-
-  function callbackfn (char) {
-    if (!escapeMap.hasOwnProperty(char)) {
-      throw new Error;
-    }
-
-    return escapeMap[char];
-  }
-
-  return function escapeHtml (string) {
-    return String(string).replace(/[&"'<>]/g, callbackfn);
-  };
-}(String));
-
-// redering code
-renderer.code = function (code, language) {
-  const CONV_ERR_HEAD = "\n******************* Convert Error *******************\n";
-  const CONV_ERR_TAIL = "*****************************************************\n";
-  if (language == "graphviz") {
-    let result;
-    try {
-      result = Viz(code);
-      return result;
-    } catch (error) {
-      return '<pre><code>' + hljs.highlightAuto(code).value + CONV_ERR_HEAD + error + CONV_ERR_TAIL +'</code></pre>';
-    }
-  } else if(language == "uiflow") {
-    try {
-      let dot = uiflow.compile(code);
-      return Viz(dot);
-    } catch (error) {
-      console.log(error);
-      return '<pre><code>' + escapeHtml(code) + CONV_ERR_HEAD + error + '\n' + CONV_ERR_TAIL +'</code></pre>';
-    }
-  } else {
-    return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
-  }
-}
-
-// rendering list
-renderer.listitem = function (text) {
-  if (text.startsWith("[x]")) {
-    return '<li class="task-list-item"><input type="checkbox" checked="true" disabled="true">' + text.slice(3) + '</li>';
-  } else if (text.startsWith("[ ]")) {
-    return '<li class="task-list-item"><input type="checkbox" disabled="true">' + text.slice(3) + '</li>';
-  } else {
-    return '<li>' + text + '</li>';
-  }
-}
-
-// rendering html (sanitize script)
-renderer.html = function (html) {
-  if (html.match(/<[^>]*script[^>]*>/g) !== null) {
-    return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
-  } else if (html.match(/<[^>]* on[^=>]*=/) !== null) {
-    return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
-  } else {
-    return html;
-  }
-}
+var md2html = new Md2Html();
 
 // request preview
 ipcRenderer.on('preview', function(event, data, baseURI) {
@@ -91,7 +39,7 @@ ipcRenderer.on('preview', function(event, data, baseURI) {
     base.setAttribute("href", baseURI);
   }
   base.setAttribute("target", "_blank");
-  document.getElementById('body').innerHTML = marked(data, { renderer: renderer });
+  document.getElementById('body').innerHTML = md2html.convert(data);
   let h1List = document.getElementsByTagName("h1");
   if (h1List.length > 0) {
       let workTitle = h1List[0].innerHTML;
@@ -129,3 +77,4 @@ ipcRenderer.on('export-HTML', function(event, filename) {
   base.setAttribute("target", "_blank");
 });
 
+})();
