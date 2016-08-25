@@ -7,6 +7,7 @@
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint js",
+    "clean": "rimraf releases *.log",
     "package-darwin": "electron-packager --platform=darwin --arch=all --prune --asar=true --out=releases --icon=seapig.icns .",
     "package-win32": "electron-packager --platform=win32 --arch=all --prune --asar=true --out=releases --icon=seapig.ico .",
     "package-linux": "electron-packager --platform=linux --arch=all --prune --asar=true --out=releases ."
@@ -25,7 +26,8 @@
     "electron-packager": "^7.3.0",
     "electron-prebuilt": "^1.2.7",
     "electron-rebuild": "^1.1.5",
-    "eslint": "^3.3.0"
+    "eslint": "^3.3.0",
+    "rimraf": "^2.5.4"
   },
   "repository": {
     "type": "git",
