@@ -77,4 +77,4 @@ ipcRenderer.on('export-HTML', function(event, filename) {
   base.setAttribute("target", "_blank");
 });
 
-})();
+}());
