@@ -50,7 +50,7 @@ function createWindow() {
   );
 
 	// Destroy when window is closed
-	mainWindow.on('closed', function() {
+	mainWindow.on('closed', () => {
 		mainWindow = null;
 	})
   if (process.env.DEBUG) {
@@ -61,7 +61,7 @@ function createWindow() {
 }
 
 // Show window when app is ready.
-app.on('ready', function() {
+app.on('ready', () => {
   let winList = [];
   let ignoreList = [];
   let isFile = false;
@@ -110,7 +110,7 @@ app.on('ready', function() {
 })
 
 // Exit application when all window is closed.
-app.on('window-all-closed', function() {
+app.on('window-all-closed', () => {
 	if (process.platform !== 'darwin') {
 		app.quit();
 	}
@@ -138,7 +138,7 @@ ipc.on('new-file', (event) => {
 });
 
 // request open file dialog
-ipc.on('open-file-dialog', function (event, currentFile, isNewWindow) {
+ipc.on('open-file-dialog', (event, currentFile, isNewWindow) => {
   let options = {
     title: 'Open Markdown File',
     properties: ['openFile'],
@@ -152,7 +152,7 @@ ipc.on('open-file-dialog', function (event, currentFile, isNewWindow) {
   };
   dialog.showOpenDialog(
       options,
-      function (filenames) {
+      (filenames) => {
         if (filenames) {
           if (isNewWindow === true) {
             let newWindow = createWindow();
@@ -168,7 +168,7 @@ ipc.on('open-file-dialog', function (event, currentFile, isNewWindow) {
 });
 
 // request save new file
-ipc.on('save-new-file', function (event) {
+ipc.on('save-new-file', (event) => {
   let options = {
     title: 'Save Markdown File',
     properties: ['openFile'],
@@ -182,14 +182,14 @@ ipc.on('save-new-file', function (event) {
   };
   dialog.showSaveDialog(
       options,
-      function (filenames) {
+      (filenames) => {
         if (filenames) event.sender.send ('selected-save-file', filenames);
       }
       );
 });
 
 // request export HTML
-ipc.on('export-HTML', function (event, currentFile) {
+ipc.on('export-HTML', (event, currentFile) => {
   let options = {
     title: 'Export HTML file',
     properties: ['openFile'],
@@ -200,14 +200,14 @@ ipc.on('export-HTML', function (event, currentFile) {
   };
   dialog.showSaveDialog(
       options,
-      function (filename) {
+      (filename) => {
         if (filename) event.sender.send ('selected-HTML-file', filename);
       }
       );
 });
 
 // request export pfd
-ipc.on('export-pdf-file', function (event, currentFile) {
+ipc.on('export-pdf-file', (event, currentFile) => {
   let options = {
     title: 'Export PDF file',
     properties: ['openFile'],
@@ -218,14 +218,14 @@ ipc.on('export-pdf-file', function (event, currentFile) {
   };
   dialog.showSaveDialog(
       options,
-      function (filenames) {
+      (filenames) => {
         if (filenames) event.sender.send ('selected-pdf-file', filenames);
       }
       );
 });
 
 // request error message
-ipc.on('error-message', function (event, error_msg) {
+ipc.on('error-message', (event, error_msg) => {
   dialog.showMessageBox({
     title: "Error",
     type: "error",

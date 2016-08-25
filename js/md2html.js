@@ -49,7 +49,7 @@
        * @param {string} code - contents of code block
        * @param {string} language - program language of code block
        */
-      this.renderer.code = function (code, language) {
+      this.renderer.code = (code, language) => {
         const CONV_ERR_HEAD = "\n******************* Convert Error *******************\n";
         const CONV_ERR_TAIL = "*****************************************************\n";
         if (language == "graphviz") {
@@ -77,7 +77,7 @@
        * customize to render list item
        * @param {string} text - contents of list item
        */
-      this.renderer.listitem =  function (text) {
+      this.renderer.listitem =  (text) => {
         if (text.startsWith("[x]")) {
           return '<li class="task-list-item"><input type="checkbox" checked="true" disabled="true">' + text.slice(3) + '</li>';
         } else if (text.startsWith("[ ]")) {
@@ -91,7 +91,7 @@
        * customize to render HTML (sanitize script)
        * @param {string} html - contents of html code block
        */
-      this.renderer.html = function (html) {
+      this.renderer.html = (html) => {
         if (html.match(/<[^>]*script[^>]*>/g) !== null) {
           return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
         } else if (html.match(/<[^>]* on[^=>]*=/) !== null) {

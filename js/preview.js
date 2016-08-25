@@ -33,7 +33,7 @@ const Md2Html = require('./md2html.js');
 var md2html = new Md2Html();
 
 // request preview
-ipcRenderer.on('preview', function(event, data, baseURI) {
+ipcRenderer.on('preview', (event, data, baseURI) => {
   let base = document.getElementsByTagName("base")[0];
   if (baseURI != "") {
     base.setAttribute("href", baseURI);
@@ -58,13 +58,13 @@ ipcRenderer.on('preview', function(event, data, baseURI) {
 });
 
 // request export HTML
-ipcRenderer.on('export-HTML', function(event, filename) {
+ipcRenderer.on('export-HTML', (event, filename) => {
   let base = document.getElementsByTagName("base")[0];
   base.removeAttribute("href");
   base.removeAttribute("target");
 
   // http://blog.mudatobunka.org/entry/2015/12/23/211425#postscript
-  fs.writeFile (filename, new XMLSerializer().serializeToString(document), function (error) {
+  fs.writeFile (filename, new XMLSerializer().serializeToString(document), (error) => {
     if (error != null) {
       alert ('error: ' + error + '\n' + filename);
       return;
