@@ -1,3 +1,4 @@
+const {remote} = require('electron');
 const {dialog} = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
@@ -33,7 +34,7 @@ editor.on("change", (e) => {
 // before unload
 window.addEventListener("beforeunload", (event) => {
   if (modified === true) {
-    let win = require('electron').remote.getCurrentWindow();
+    let win = remote.getCurrentWindow();
     let message = `The document has not yet been saved.
       Are you sure you want to quit?`;
     let result = dialog.showMessageBox(

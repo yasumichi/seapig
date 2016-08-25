@@ -22,14 +22,14 @@
  * SOFTWARE.
  */
 
+const marked = require('marked');
+const hljs = require('highlight.js');
+const Viz = require("viz.js");
+const uiflow = require("uiflow");
+const escapeHtml = require('./utils.js');
+
 (function() {
   "use strict";
-
-  const marked = require('marked');
-  const hljs = require('highlight.js');
-  const Viz = require("viz.js");
-  const uiflow = require("uiflow");
-  const escapeHtml = require('./utils.js');
 
   /**
    * This class is a wrapper of marked.
