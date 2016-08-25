@@ -15,7 +15,7 @@ npm install --global-style >> ${LOGFILE} 2>&1
 for PLATFORM in darwin win32 linux
 do
 	echo -e "\e[32m[package]\e[m ${PLATFORM}"
-	npm run-script package-${PLATFORM} >> ${LOGFILE} 2>&1
+	npm run-script package:${PLATFORM} >> ${LOGFILE} 2>&1
 done
 
 # archive packages
