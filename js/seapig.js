@@ -41,11 +41,13 @@ function createWindow() {
 	mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    icon: path.join(__dirname, 'seapig.png')
+    icon: path.join(__dirname, '../seapig.png')
   });
 
 	// Load mainwindow.html
-	mainWindow.loadURL(path.join('file://', __dirname ,'/mainwindow.html'));
+	mainWindow.loadURL(
+    'file://' + path.resolve(__dirname ,'../mainwindow.html')
+  );
 
 	// Destroy when window is closed
 	mainWindow.on('closed', function() {
