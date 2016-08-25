@@ -29,7 +29,6 @@ const uiflow = require("uiflow");
 const escapeHtml = require('./utils.js');
 
 (function() {
-  "use strict";
 
   /**
    * This class is a wrapper of marked.

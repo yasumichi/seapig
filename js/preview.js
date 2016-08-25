@@ -28,7 +28,6 @@ const path = require('path');
 const Md2Html = require('./md2html.js');
 
 (function() {
-  "use strict";
 
 var md2html = new Md2Html();
 
