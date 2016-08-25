@@ -6,6 +6,7 @@
   "scripts": {
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint js",
     "package-darwin": "electron-packager --platform=darwin --arch=all --prune --asar=true --out=releases --icon=seapig.icns .",
     "package-win32": "electron-packager --platform=win32 --arch=all --prune --asar=true --out=releases --icon=seapig.ico .",
     "package-linux": "electron-packager --platform=linux --arch=all --prune --asar=true --out=releases ."
