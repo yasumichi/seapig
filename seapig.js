@@ -70,7 +70,7 @@ app.on('ready', function() {
       if (path.isAbsolute(element)) {
         fullpath = element;
       } else {
-        fullpath = path.resolve(__dirname, element);
+        fullpath = path.resolve(process.cwd(), element);
       }
       try {
         isFile = fs.statSync(fullpath).isFile();
