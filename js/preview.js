@@ -26,6 +26,7 @@ const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const path = require('path');
 const Md2Html = require('./md2html.js');
+const FIRST_IDX = 0;
 
 (function() {
 
@@ -33,18 +34,18 @@ var md2html = new Md2Html();
 
 // request preview
 ipcRenderer.on('preview', (event, data, baseURI) => {
-  let base = document.getElementsByTagName("base")[0];
+  let base = document.getElementsByTagName("base")[FIRST_IDX];
   if (baseURI != "") {
     base.setAttribute("href", baseURI);
   }
   base.setAttribute("target", "_blank");
   document.getElementById('body').innerHTML = md2html.convert(data);
   let h1List = document.getElementsByTagName("h1");
-  if (h1List.length > 0) {
-      let workTitle = h1List[0].innerHTML;
+  if (h1List.length) {
+      let workTitle = h1List[FIRST_IDX].innerHTML;
       if (/^(<img [^>]*>)+$/.test(workTitle)) {
-          let images = h1List[0].getElementsByTagName("img");
-          for (let idx=0; idx < images.length; idx++) {
+          let images = h1List[FIRST_IDX].getElementsByTagName("img");
+          for (let idx=FIRST_IDX; idx < images.length; idx++) {
               if (images[idx].hasAttribute("alt")) {
                   document.title = images[idx].getAttribute("alt").trim();
                   break;
@@ -58,7 +59,7 @@ ipcRenderer.on('preview', (event, data, baseURI) => {
 
 // request export HTML
 ipcRenderer.on('export-HTML', (event, filename) => {
-  let base = document.getElementsByTagName("base")[0];
+  let base = document.getElementsByTagName("base")[FIRST_IDX];
   base.removeAttribute("href");
   base.removeAttribute("target");
 
