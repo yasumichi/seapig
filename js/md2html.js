@@ -23,10 +23,7 @@
  */
 
 const marked = require('marked');
-const hljs = require('highlight.js');
-const Viz = require("viz.js");
-const uiflow = require("uiflow");
-const escapeHtml = require('./utils.js');
+const {rendererCode, rendererListitem, rendererHtml} = require('./utils.js');
 
 (function() {
 
@@ -43,62 +40,9 @@ const escapeHtml = require('./utils.js');
       this.marked = marked;
       this.renderer = new marked.Renderer();
 
-      /**
-       * customize to render code
-       * @param {string} code - contents of code block
-       * @param {string} language - program language of code block
-       */
-      this.renderer.code = (code, language) => {
-        const CONV_ERR_HEAD = "\n******************* Convert Error *******************\n";
-        const CONV_ERR_TAIL = "*****************************************************\n";
-        if (language == "graphviz") {
-          let result;
-          try {
-            result = Viz(code);
-            return result;
-          } catch (error) {
-            return '<pre><code>' + hljs.highlightAuto(code).value + CONV_ERR_HEAD + error + CONV_ERR_TAIL +'</code></pre>';
-          }
-        } else if(language == "uiflow") {
-          try {
-            let dot = uiflow.compile(code);
-            return Viz(dot);
-          } catch (error) {
-            console.log(error);
-            return '<pre><code>' + escapeHtml(code) + CONV_ERR_HEAD + error + '\n' + CONV_ERR_TAIL +'</code></pre>';
-          }
-        } else {
-          return '<pre><code>' + hljs.highlightAuto(code).value + '</code></pre>';
-        }
-      }
-
-      /**
-       * customize to render list item
-       * @param {string} text - contents of list item
-       */
-      this.renderer.listitem =  (text) => {
-        if (text.startsWith("[x]")) {
-          return '<li class="task-list-item"><input type="checkbox" checked="true" disabled="true">' + text.slice(3) + '</li>';
-        } else if (text.startsWith("[ ]")) {
-          return '<li class="task-list-item"><input type="checkbox" disabled="true">' + text.slice(3) + '</li>';
-        } else {
-          return '<li>' + text + '</li>';
-        }
-      }
-
-      /**
-       * customize to render HTML (sanitize script)
-       * @param {string} html - contents of html code block
-       */
-      this.renderer.html = (html) => {
-        if (html.match(/<[^>]*script[^>]*>/g) !== null) {
-          return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
-        } else if (html.match(/<[^>]* on[^=>]*=/) !== null) {
-          return '<pre><code>' + escapeHtml(html).trim() + '</code></pre>';
-        } else {
-          return html;
-        }
-      }
+      this.renderer.code = rendererCode;
+      this.renderer.listitem = rendererListitem;
+      this.renderer.html = rendererHtml;
 
       marked.setOptions({
         renderer: this.renderer,

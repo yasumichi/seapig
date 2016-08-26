@@ -1,14 +1,18 @@
+const hljs = require('highlight.js');
+const viz = require("viz.js");
+const uiflow = require("uiflow");
+
 (function() {
 
   /**
    * @function
    * @name escapeHtml
+   * @param {string} html - String includes HTML special characters.
+   * @returns {string} String was escaped HTML special characters.
    * @description escape HTML special characters, from
-   * {@link http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3#comment-3e30a57522c7d6833a7f}
-   * @parm {string} String - String includes HTML special characters.
-   * @returns {string} String - String was escaped HTML special characters.
+   * {@link http://qiita.com/noriaki/items/4bfef8d7cf85dc1035b3}
    */
-  var escapeHtml = (function (String) {
+  function escapeHtml(html) {
     var escapeMap = {
       '&': '&amp;',
       '\x27': '&#39;',
@@ -17,19 +21,94 @@
       '>': '&gt;'
     };
 
-    function callbackfn (char) {
-      if (!escapeMap.hasOwnProperty(char)) {
-        throw new Error;
-      }
+    return html.replace(/[&"'<>]/g, (char) => {
+      let retChar = escapeMap[char];
 
-      return escapeMap[char];
+      return retChar;
+    });
+  }
+
+  const codeConverters = {
+    "graphviz": (code) => {
+      let svg = viz(code);
+
+      return  svg;
+    },
+    "uiflow": (code) => {
+      let dot = uiflow.compile(code);
+      let svg = viz(dot);
+
+      return svg;
+    }
+  };
+
+  /**
+   * customize to render code
+   * @param {string} code - contents of code block
+   * @param {string} language - program language of code block
+   * @returns {string} converted code block
+   */
+  module.exports.rendererCode = (code, language) => {
+    const ERR_HEAD =
+      "\n******************* Convert Error *******************\n";
+    const ERR_TAIL =
+      "\n*****************************************************\n";
+    let hljsCode = hljs.highlightAuto(code).value;
+
+    if (codeConverters[language]) {
+      try {
+        return  codeConverters[language](code);
+      } catch (error) {
+        let errMsg = String(error).trim();
+        let retCode =
+          `<pre><code>${hljsCode}${ERR_HEAD}${errMsg}${ERR_TAIL}</code></pre>`;
+
+        return retCode;
+      }
     }
 
-    return function escapeHtml (string) {
-      return String(string).replace(/[&"'<>]/g, callbackfn);
-    };
-  }(String));
+    return `<pre><code>${hljsCode}</code></pre>`;
+  }
 
-  module.exports = escapeHtml;
+  /**
+   * customize to render list item
+   * @param {string} text - contents of list item
+   * @returns {string} converted list item
+   */
+  module.exports.rendererListitem =  (text) => {
+    const TASK_START = '<li class="task-list-item">';
+    const COMPLETE = '<input type="checkbox" checked="true" disabled="true">';
+    const UNCOMPLETE = '<input type="checkbox" disabled="true">';
+    let task = '';
+
+    if (text.startsWith("[x]")) {
+      task = text.slice("[x]".length);
+
+      return  `${TASK_START}${COMPLETE}${task}</li>`;
+    } else if (text.startsWith("[ ]")) {
+      task = text.slice("[ ]".length);
+
+      return  `${TASK_START}${UNCOMPLETE}${task}</li>`;
+    }
+
+    return `<li>${text}</li>`;
+  }
+
+  /**
+   * customize to render HTML (sanitize script)
+   * @param {string} html - contents of html code block
+   * @returns {string} escaped html code block
+   */
+  module.exports.rendererHtml = (html) => {
+    if (/(<[^>]*script[^>]*>|<[^>]* on[^=>]*=)/.test(html)) {
+      let hljsCode = hljs.highlightAuto(html).value.trim();
+
+      return `<pre><code>${hljsCode}</code></pre>`;
+    }
+
+    return html;
+  }
+
+  module.exports.escapeHtml = escapeHtml;
 
 }());
