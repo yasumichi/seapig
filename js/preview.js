@@ -81,7 +81,7 @@ ipcRenderer.on('export-HTML', (event, filename) => {
   // http://blog.mudatobunka.org/entry/2015/12/23/211425#postscript
   fs.writeFile (filename, new XMLSerializer().serializeToString(document),
     (error) => {
-      if (error != null) {
+      if (error !== null) {
         alert ('error: ' + error + '\n' + filename);
         return;
     }
