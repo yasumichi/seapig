@@ -82,11 +82,11 @@ const uiflow = require("uiflow");
     let task = '';
 
     if (text.startsWith("[x]")) {
-      task = text.slice("[x]".length);
+      task = text.slice("[x]".length).trim();
 
       return  `${TASK_START}${COMPLETE}${task}</li>`;
     } else if (text.startsWith("[ ]")) {
-      task = text.slice("[ ]".length);
+      task = text.slice("[ ]".length).trim();
 
       return  `${TASK_START}${UNCOMPLETE}${task}</li>`;
     }
