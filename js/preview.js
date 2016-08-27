@@ -38,6 +38,44 @@ const FIRST_IDX = 0;
 
 var md2html = new Md2Html();
 
+  /**
+   * Get contents of first h1
+   * @returns {string} contents of first h1
+   */
+  function getContentsOfFirstH1 () {
+    let h1List = document.getElementsByTagName("h1");
+    if (h1List.length) {
+      return  h1List[FIRST_IDX].innerHTML
+                .replace(/<a [^>]*>/g, '')
+                .replace(/<\/a>/g, '')
+                .replace(/\n/g, '');
+    }
+
+    return  '';
+  }
+
+  /**
+   * Set document title
+   * @returns {title} setted title
+   */
+  function setDocumentTitle () {
+    let workTitle = getContentsOfFirstH1();
+    if (/^(<img [^>]*>\s*)+$/.test(workTitle)) {
+      let alts = workTitle.match(/ alt="[^"]*"/gi);
+      if (alts) {
+        document.title =
+          alts[FIRST_IDX].trim()
+            .replace(/alt=/i, '')
+            .replace(/"/g, '');
+      }
+    } else {
+      document.title = workTitle.replace(/<[^>]*>/g, "").trim();
+    }
+
+    return  document.title;
+  }
+
+
 /**
  * Refresh preview
  * @param {object} event
@@ -52,21 +90,7 @@ ipcRenderer.on('preview', (event, data, baseURI) => {
   }
   base.setAttribute("target", "_blank");
   document.getElementById('body').innerHTML = md2html.convert(data);
-  let h1List = document.getElementsByTagName("h1");
-  if (h1List.length) {
-      let workTitle = h1List[FIRST_IDX].innerHTML;
-      if (/^(<img [^>]*>)+$/.test(workTitle)) {
-          let images = h1List[FIRST_IDX].getElementsByTagName("img");
-          for (let idx = FIRST_IDX; idx < images.length; idx++) {
-              if (images[idx].hasAttribute("alt")) {
-                  document.title = images[idx].getAttribute("alt").trim();
-                  break;
-              }
-          }
-      } else {
-          document.title = workTitle.replace(/<[^>]*>/g, "").trim();
-      }
-  }
+  setDocumentTitle();
 });
 
 /**
