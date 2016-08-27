@@ -159,12 +159,30 @@ ipc.on('open-file', (event, fullpath) => {
   });
 });
 
+/**
+ * Show error message dialog
+ * @param {string} message - error message
+ * @returns {void}
+ */
+function showErrorMessage(message) {
+  dialog.showMessageBox(
+    remote.getCurrentWindow(),
+    {
+      type: "error",
+      title: "SeaPig",
+      message: String(message),
+      buttons: ["OK"]
+    }
+  );
+}
+
 function openFile(fullpath) {
   currentFile = fullpath;
   document.title = `SeaPig - [${fullpath}]`;
   fs.readFile(fullpath, (error, text) => {
     if (error != null) {
-      alert (error);
+      showErrorMessage(error);
+
       return;
     }
     editor.setValue(text.toString(), DOCUMENT_START);
@@ -193,7 +211,7 @@ ipc.on('selected-save-file', (event, filename) => {
 function saveFile(filename) {
   fs.writeFile (filename, editor.getValue(), (error) => {
     if (error != null) {
-      alert (error);
+      showErrorMessage(error);
       return;
     }
     currentFile = filename;
