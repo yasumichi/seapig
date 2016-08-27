@@ -93,6 +93,7 @@ ipcRenderer.on('export-HTML', (event, filename) => {
             buttons: ["OK"]
           }
         );
+
         return;
     }
     let src_css = path.join(__dirname, '../templates/github.css');
