@@ -133,9 +133,7 @@ app.on('ready', () => {
       message: 'Ignore bellow arguments.',
       detail: ignoreList.join('\n'),
       buttons: ['OK']
-    }, () => {
-    }
-    );
+    });
   }
 })
 
