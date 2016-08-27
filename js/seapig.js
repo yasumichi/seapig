@@ -61,8 +61,6 @@ function getArguments() {
   return  { opts: tmp_opts, args: tmp_args };
 }
 
-var program = getArguments();
-
 // Create window
 function createWindow() {
   let mainWindow = null;
@@ -95,6 +93,8 @@ app.on('ready', () => {
   let winList = [];
   let ignoreList = [];
   let isFile = false;
+  let program = getArguments();
+
 
   if (program.args.length) {
     program.args.forEach((element) => {
