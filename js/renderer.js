@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-"use strict";
-
 const {remote} = require('electron');
 const {dialog} = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
