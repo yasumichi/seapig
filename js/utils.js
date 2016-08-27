@@ -111,8 +111,8 @@ const uiflow = require("uiflow");
 
   /**
    * customize to render heading
-   * @param {string} text
-   * @param {number} level
+   * @param {string} text - contents of heading
+   * @param {number} level - level of heading
    * @returns {string} HTML heading element
    */
   module.exports.rendererHeading = (text, level) => {
