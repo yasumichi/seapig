@@ -39,16 +39,7 @@ var currentFile = "";
 var modified = false;
 
 // Initialize ace editor
-require('ace-min-noconflict');
-require('ace-min-noconflict/theme-twilight');
-require('ace-min-noconflict/mode-markdown');
-require('ace-min-noconflict/keybinding-emacs');
-require('ace-min-noconflict/keybinding-vim');
-const editor = ace.edit("aceEditor");
-editor.setTheme("ace/theme/twilight");
-editor.getSession().setMode("ace/mode/markdown");
-editor.getSession().setUseWrapMode(true);
-editor.focus();
+const editor = require('./js/editor.js');
 // Emitted whenever the document is changed
 editor.on("change", (e) => {
   modified = true;
