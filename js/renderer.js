@@ -164,7 +164,7 @@ function openFile(fullpath) {
   document.title = `SeaPig - [${fullpath}]`;
   fs.readFile(fullpath, (error, text) => {
     if (error != null) {
-      alert ('error: ' + error);
+      alert (error);
       return;
     }
     editor.setValue(text.toString(), DOCUMENT_START);
@@ -193,7 +193,7 @@ ipc.on('selected-save-file', (event, filename) => {
 function saveFile(filename) {
   fs.writeFile (filename, editor.getValue(), (error) => {
     if (error != null) {
-      alert ('error: ' + error + '\n' + filename);
+      alert (error);
       return;
     }
     currentFile = filename;
@@ -280,7 +280,7 @@ refreshBtn.addEventListener("click", (event) => {
 function refreshPreview () {
   let baseURI = "";
   if (currentFile != "") {
-    baseURI = 'file://' + path.dirname(currentFile) + '/';
+    baseURI = `file://${path.dirname(currentFile)}/`;
   }
   webview.send('preview', editor.getValue(), baseURI);
 }

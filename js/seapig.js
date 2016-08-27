@@ -76,7 +76,7 @@ function createWindow() {
 
 	// Load mainwindow.html
 	mainWindow.loadURL(
-    'file://' + path.resolve(__dirname ,'../mainwindow.html')
+    `file://${path.resolve(__dirname ,'../mainwindow.html')}`
   );
 
 	// Destroy when window is closed
@@ -202,7 +202,7 @@ ipc.on('save-new-file', (event) => {
   let options = {
     title: 'Save Markdown File',
     properties: ['openFile'],
-    defaultPath: getDefaultPath('') + '.md',
+    defaultPath: `${getDefaultPath('')}.md`,
     filters: [
       {
         name: 'Markdown',
@@ -223,7 +223,7 @@ ipc.on('export-HTML', (event, currentFile) => {
   let options = {
     title: 'Export HTML file',
     properties: ['openFile'],
-    defaultPath: getDefaultPath(currentFile) + '.html',
+    defaultPath: `${getDefaultPath(currentFile)}.html`,
     filters: [
       { name: 'HTML', extensions: [ 'html' ] }
     ]
@@ -241,7 +241,7 @@ ipc.on('export-pdf-file', (event, currentFile) => {
   let options = {
     title: 'Export PDF file',
     properties: ['openFile'],
-    defaultPath: getDefaultPath(currentFile) + '.pdf',
+    defaultPath: `${getDefaultPath(currentFile)}.pdf`,
     filters: [
       { name: 'PDF', extensions: [ 'pdf' ] }
     ]
