@@ -163,7 +163,7 @@ function getDefaultPath(currentFile) {
 }
 
 // request new file
-ipc.on('new-file', (event) => {
+ipc.on('new-file', () => {
   createWindow();
 });
 

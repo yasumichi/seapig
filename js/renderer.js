@@ -132,13 +132,13 @@ storage.get('key_bindings', (error, data) => {
 
 // new file
 const newBtn = document.getElementById("newBtn");
-newBtn.addEventListener("click", (event) => {
+newBtn.addEventListener("click", () => {
   ipc.send('new-file');
 });
                     
 // open file
 const openBtn = document.getElementById("openBtn");
-openBtn.addEventListener("click", (event) => {
+openBtn.addEventListener("click", () => {
   let isNewWindow = false;
   if (currentFile !== "") {
     isNewWindow = true;
@@ -196,7 +196,7 @@ function openFile(fullpath) {
 
 // save file
 const saveBtn = document.getElementById("saveBtn");
-saveBtn.addEventListener("click", (event) => {
+saveBtn.addEventListener("click", () => {
   refreshPreview();
   if (currentFile == "") {
     ipc.send('save-new-file');
@@ -224,7 +224,7 @@ function saveFile(filename) {
 
 // export html
 const exportHTMLBtn = document.getElementById("exportHTMLBtn");
-exportHTMLBtn.addEventListener("click", (event) => {
+exportHTMLBtn.addEventListener("click", () => {
   refreshPreview();
   ipc.send('export-HTML', currentFile);
 });
@@ -236,7 +236,7 @@ ipc.on('selected-HTML-file', (event, filename) => {
 
 // export pdf
 const exportPdfBtn = document.getElementById("exportPdfBtn");
-exportPdfBtn.addEventListener("click", (event) => {
+exportPdfBtn.addEventListener("click", () => {
   refreshPreview();
   ipc.send('export-pdf-file', currentFile);
 });
@@ -260,7 +260,7 @@ const previewer = document.getElementById("previewer");
 
 // hide editor
 const hideEditorBtn = document.getElementById("hideEditorBtn");;
-hideEditorBtn.addEventListener("click", (event) => {
+hideEditorBtn.addEventListener("click", () => {
   if (aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == false) {
     aceEditor.setAttribute("style", "display:none");
@@ -276,7 +276,7 @@ hideEditorBtn.addEventListener("click", (event) => {
 
 // hide preview
 const HidePreviewBtn = document.getElementById("HidePreviewBtn");;
-HidePreviewBtn.addEventListener("click", (event) => {
+HidePreviewBtn.addEventListener("click", () => {
   if (aceEditor.hasAttribute("style") == true &&
       previewer.hasAttribute("style") == false) {
     aceEditor.removeAttribute("style");
@@ -292,7 +292,7 @@ HidePreviewBtn.addEventListener("click", (event) => {
 
 // Refresh preview
 const refreshBtn = document.getElementById("refreshBtn");
-refreshBtn.addEventListener("click", (event) => {
+refreshBtn.addEventListener("click", () => {
   refreshPreview();
   editor.focus();
 });
