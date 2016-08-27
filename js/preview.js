@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+const {remote} = require('electron');
+const {dialog} = require('electron').remote;
 const {ipcRenderer} = require('electron');
 const fs = require('fs');
 const path = require('path');
@@ -82,7 +84,15 @@ ipcRenderer.on('export-HTML', (event, filename) => {
   fs.writeFile (filename, new XMLSerializer().serializeToString(document),
     (error) => {
       if (error !== null) {
-        alert ('error: ' + error + '\n' + filename);
+        dialog.showMessageBox(
+          remote.getCurrentWindow(),
+          {
+            type: "error",
+            title: "SeaPig",
+            message: `${error}`,
+            buttons: ["OK"]
+          }
+        );
         return;
     }
     let src_css = path.join(__dirname, '../templates/github.css');
