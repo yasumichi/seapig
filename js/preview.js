@@ -55,7 +55,7 @@ ipcRenderer.on('preview', (event, data, baseURI) => {
       let workTitle = h1List[FIRST_IDX].innerHTML;
       if (/^(<img [^>]*>)+$/.test(workTitle)) {
           let images = h1List[FIRST_IDX].getElementsByTagName("img");
-          for (let idx=FIRST_IDX; idx < images.length; idx++) {
+          for (let idx = FIRST_IDX; idx < images.length; idx++) {
               if (images[idx].hasAttribute("alt")) {
                   document.title = images[idx].getAttribute("alt").trim();
                   break;
