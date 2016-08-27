@@ -33,16 +33,22 @@ const dialog = require('electron').dialog;
 const fs = require('fs');
 const path = require('path');
 
+// Constants
+const FIRST_ARG = 0;
+const SECOND_ARG = 1;
+const THIRD_ARG = 2;
+const IDX_OFFSET = 1;
+
 // Parse command line arguments
 function getArguments() {
   let argv = [];
   let tmp_args = [];
   let tmp_opts = [];
 
-  if (/^electron/.test(path.basename(process.argv[0]))) {
-    argv =  process.argv.slice(2);
+  if (/^electron/.test(path.basename(process.argv[FIRST_ARG]))) {
+    argv =  process.argv.slice(THIRD_ARG);
   } else {
-    argv =  process.argv.slice(1);
+    argv =  process.argv.slice(SECOND_ARG);
   }
   argv.forEach( (element) => {
     if (/^-/.test(element) === true) {
@@ -90,7 +96,7 @@ app.on('ready', () => {
   let ignoreList = [];
   let isFile = false;
 
-  if (program.args.length > 0) {
+  if (program.args.length) {
     program.args.forEach((element) => {
       let fullpath;
       if (path.isAbsolute(element)) {
@@ -105,7 +111,7 @@ app.on('ready', () => {
       }
       if (isFile == true) {
         if (/\.(md|mdwn|mkdn|mark.*|txt)$/.test(fullpath) == true) {
-          let winIndex = winList.push(createWindow()) - 1;
+          let winIndex = winList.push(createWindow()) - IDX_OFFSET;
           winList[winIndex].webContents.on('dom-ready', () => {
             winList[winIndex].webContents.send('open-file', fullpath);
           });
@@ -117,10 +123,10 @@ app.on('ready', () => {
       }
     });
   }
-  if (winList.length === 0) {
+  if (!winList.length) {
     createWindow();
   }
-  if (ignoreList.length > 0) {
+  if (ignoreList.length) {
     dialog.showMessageBox({
       title: "Warning",
       type: "warning",
@@ -181,7 +187,7 @@ ipc.on('open-file-dialog', (event, currentFile, isNewWindow) => {
           if (isNewWindow === true) {
             let newWindow = createWindow();
             newWindow.webContents.on('dom-ready', () => {
-              newWindow.webContents.send('open-file', filenames[0]);
+              newWindow.webContents.send('open-file', filenames[FIRST_ARG]);
             });
           } else {
             event.sender.send ('selected-file', filenames);

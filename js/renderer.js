@@ -31,6 +31,8 @@ const fs = require('fs');
 const path = require('path');
 const storage = require('electron-json-storage');
 const FIRST_ITEM = 0;
+const CANCEL = 1;
+const DOCUMENT_START = -1;
 
 // Status of document
 var currentFile = "";
@@ -70,7 +72,7 @@ window.addEventListener("beforeunload", (event) => {
           buttons: ["OK", "Cancel"]
         }
     );
-    if (result === 1) {
+    if (result === CANCEL) {
       event.returnValue = false;
     }
   }
@@ -118,10 +120,10 @@ keybindings.addEventListener("change", changeKeyBindings);
 storage.get('key_bindings', (error, data) => {
   if (error) throw error;
 
-  if (Object.keys(data).length === 0) {
-    keybindings.selectedIndex = FIRST_ITEM;
-  } else {
+  if (Object.keys(data).length) {
     keybindings.selectedIndex = data.key_bindings;
+  } else {
+    keybindings.selectedIndex = FIRST_ITEM;
   }
   changeKeyBindings();
 });
@@ -139,7 +141,7 @@ openBtn.addEventListener("click", (event) => {
   if (currentFile !== "") {
     isNewWindow = true;
   } else {
-    if (modified === true || editor.getValue().length > 0) {
+    if (modified === true || editor.getValue().length) {
       isNewWindow = true;
     }
   }
@@ -147,7 +149,7 @@ openBtn.addEventListener("click", (event) => {
 });
 
 ipc.on('selected-file', (event, fullpath) => {
-  openFile(fullpath[0]);
+  openFile(fullpath[FIRST_ITEM]);
 });
 
 ipc.on('open-file', (event, fullpath) => {
@@ -165,7 +167,7 @@ function openFile(fullpath) {
       alert ('error: ' + error);
       return;
     }
-    editor.setValue(text.toString(), -1);
+    editor.setValue(text.toString(), DOCUMENT_START);
     modified = false;
     refreshPreview();
   });
