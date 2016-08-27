@@ -30,9 +30,19 @@ const FIRST_IDX = 0;
 
 (function() {
 
+/**
+ * @module js/preview.js
+ */
+
 var md2html = new Md2Html();
 
-// request preview
+/**
+ * Refresh preview
+ * @param {object} event
+ * @param {string} data - markdown text
+ * @param {string} baseURI
+ * @listens preview
+ */
 ipcRenderer.on('preview', (event, data, baseURI) => {
   let base = document.getElementsByTagName("base")[FIRST_IDX];
   if (baseURI != "") {
@@ -57,7 +67,12 @@ ipcRenderer.on('preview', (event, data, baseURI) => {
   }
 });
 
-// request export HTML
+/**
+ * Export HTML
+ * @param {object} event
+ * @param {string} filename - exported HTML file name
+ * @listen export-HTML
+ */
 ipcRenderer.on('export-HTML', (event, filename) => {
   let base = document.getElementsByTagName("base")[FIRST_IDX];
   base.removeAttribute("href");
