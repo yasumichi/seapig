@@ -23,7 +23,8 @@
  */
 
 const marked = require('marked');
-const {rendererCode, rendererListitem, rendererHtml} = require('./utils.js');
+const {rendererCode, rendererListitem, rendererHtml, rendererHeading} =
+  require('./utils.js');
 
 (function() {
 
@@ -43,6 +44,7 @@ const {rendererCode, rendererListitem, rendererHtml} = require('./utils.js');
       this.renderer.code = rendererCode;
       this.renderer.listitem = rendererListitem;
       this.renderer.html = rendererHtml;
+      this.renderer.heading = rendererHeading;
 
       marked.setOptions({
         renderer: this.renderer,

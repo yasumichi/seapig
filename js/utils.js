@@ -109,6 +109,18 @@ const uiflow = require("uiflow");
     return html;
   }
 
+  /**
+   * customize to render heading
+   * @param {string} text
+   * @param {number} level
+   * @returns {string} HTML heading element
+   */
+  module.exports.rendererHeading = (text, level) => {
+    let id = encodeURI(text).replace(/%/g, "");
+
+    return  `<h${level} id="${id}">${text}</h${level}>\n`;
+  }
+
   module.exports.escapeHtml = escapeHtml;
 
 }());
