@@ -155,7 +155,7 @@ module.exports = {
         "no-shadow": "error",
         "no-shadow-restricted-names": "error",
         "no-spaced-func": "off",
-        "no-sync": "error",
+        "no-sync": "warn",
         "no-tabs": "off",
         "no-template-curly-in-string": "error",
         "no-ternary": "error",
