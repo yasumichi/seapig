@@ -73,6 +73,7 @@ window.addEventListener("beforeunload", (event) => {
 // disable drag and drop to document
 document.ondragover = document.ondrop = (event) => {
   event.preventDefault();
+
   return false;
 };
 
