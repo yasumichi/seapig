@@ -29,6 +29,7 @@ const fs = require('fs');
 const path = require('path');
 const Md2Html = require('./md2html.js');
 const FIRST_IDX = 0;
+const NO_SCROLL = 0;
 
 (function() {
 
@@ -127,5 +128,16 @@ ipcRenderer.on('export-HTML', (event, filename) => {
 
   base.setAttribute("target", "_blank");
 });
+
+  /**
+   * Scroll
+   * @param {object} event
+   * @param {number} scrollRatio
+   * @returns {void}
+   */
+  ipcRenderer.on('scroll', (event, scrollRatio) => {
+    let scrollTop = document.body.clientHeight * scrollRatio;
+    window.scrollTo(NO_SCROLL, scrollTop);
+  });
 
 }());

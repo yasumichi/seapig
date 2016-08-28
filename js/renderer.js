@@ -51,6 +51,16 @@ editor.on("change", (event) => {
   }
 });
 
+// Emmited whenever editor is scrolled
+editor.getSession().on("changeScrollTop", (scrollTop) => {
+  let height = editor.renderer.scrollBarV.inner.clientHeight;
+  if (height) {
+    let scrollRatio = scrollTop / height;
+
+    webview.send('scroll', scrollRatio);
+  }
+});
+
 // before unload
 window.addEventListener("beforeunload", (event) => {
   if (docStatus.modified === true) {

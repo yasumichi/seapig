@@ -91,7 +91,7 @@ $ ./build.sh
 - [x] add viz.js support
 - [x] add [uiflow](https://github.com/hirokidaichi/uiflow) support.
 - [ ] add mermaid support
-- [ ] add simultaneous scroll
+- [x] add simultaneous scroll
 - [ ] add original menu
 - [x] add new document
 - [ ] add alternative stylesheet
