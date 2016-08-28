@@ -129,7 +129,7 @@ newBtn.addEventListener("click", () => {
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", () => {
   let isNewWindow = false;
-  if (docStatus.filename !== "") {
+  if (docStatus.filename) {
     isNewWindow = true;
   } else {
     if (docStatus.modified === true || editor.getValue().length) {
