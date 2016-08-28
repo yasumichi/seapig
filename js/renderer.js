@@ -98,9 +98,7 @@ function changeKeyBindings() {
   } else {
     editor.setKeyboardHandler(keybindings.value);
   }
-  let json = {
-    key_bindings: keybindings.selectedIndex
-  };
+  let json = { key_bindings: keybindings.selectedIndex };
   storage.set('key_bindings', json, (error) => {
     if (error) throw error;
   });
