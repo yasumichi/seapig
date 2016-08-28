@@ -29,6 +29,7 @@ const shell = require('electron').shell;
 const fs = require('fs');
 const storage = require('electron-json-storage');
 const {refreshPreview} = require('./js/renderer_funcs.js');
+const {showErrorMessage} = require('./js/renderer_funcs.js');
 const {openFile, saveFile} = require('./js/renderer_funcs.js');
 
 const webview = document.getElementById('previewer');
@@ -184,11 +185,18 @@ exportPdfBtn.addEventListener("click", () => {
 
 ipc.on('selected-pdf-file', (event, filename) => {
   webview.printToPDF({}, (error, data) => {
-    if (error) throw error
-      fs.writeFile(filename, data, (error) => {
-        if (error) throw error
-          console.log('Write PDF successfully.')
-      })
+    if (error) {
+      showErrorMessage(error);
+
+      return;
+    }
+    fs.writeFile(filename, data, (write_error) => {
+      if (write_error) {
+        showErrorMessage(write_error);
+
+        return;
+      }
+    })
   });
   editor.focus();
 });
