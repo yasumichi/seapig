@@ -26,66 +26,37 @@ const {remote} = require('electron');
 const {dialog} = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
-const webview = document.getElementById('previewer');
 const fs = require('fs');
-const path = require('path');
 const storage = require('electron-json-storage');
+const {refreshPreview} = require('./js/renderer_funcs.js');
+const {openFile, saveFile} = require('./js/renderer_funcs.js');
+
+const webview = document.getElementById('previewer');
 const FIRST_ITEM = 0;
 const CANCEL = 1;
-const DOCUMENT_START = -1;
 
 // Status of document
-var currentFile = "";
-var modified = false;
+var   {docStatus} = require('./js/renderer_funcs.js');
 
 // Initialize ace editor
-const editor = require('./js/editor.js');
+const {editor} = require('./js/renderer_funcs.js');
 
-/**
- * Show error message dialog
- * @param {string} message - error message
- * @returns {void}
- */
-function showErrorMessage(message) {
-  dialog.showMessageBox(
-    remote.getCurrentWindow(),
-    {
-      type: "error",
-      title: "SeaPig",
-      message: String(message),
-      buttons: ["OK"]
-    }
-  );
-}
-
-/**
- * Refresh preview pane
- * @returns {void}
- */
-function refreshPreview () {
-  let baseURI = "";
-  if (currentFile != "") {
-    baseURI = `file://${path.dirname(currentFile)}/`;
-  }
-  webview.send('preview', editor.getValue(), baseURI);
-}
 
 // Emitted whenever the document is changed
 editor.on("change", (event) => {
-  modified = true;
+  docStatus.modified = true;
   if (event.data.range.start.row != event.data.range.end.row) {
-    refreshPreview();
+    refreshPreview(docStatus.filename);
   }
 });
 
 // before unload
 window.addEventListener("beforeunload", (event) => {
-  if (modified === true) {
-    let win = remote.getCurrentWindow();
+  if (docStatus.modified === true) {
     let message = `The document has not yet been saved.
       Are you sure you want to quit?`;
     let result = dialog.showMessageBox(
-        win,
+        remote.getCurrentWindow(),
         {
           type: "info",
           title: "SeaPig",
@@ -156,39 +127,17 @@ newBtn.addEventListener("click", () => {
 });
                     
 // open file
-
-/**
- * Open file to set editor
- * @param {string} fullpath - full path
- * @returns {void}
- */
-function openFile(fullpath) {
-  currentFile = fullpath;
-  document.title = `SeaPig - [${fullpath}]`;
-  fs.readFile(fullpath, (error, text) => {
-    if (error != null) {
-      showErrorMessage(error);
-
-      return;
-    }
-    editor.setValue(text.toString(), DOCUMENT_START);
-    modified = false;
-    refreshPreview();
-  });
-  editor.focus();
-}
-
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", () => {
   let isNewWindow = false;
-  if (currentFile !== "") {
+  if (docStatus.filename !== "") {
     isNewWindow = true;
   } else {
-    if (modified === true || editor.getValue().length) {
+    if (docStatus.modified === true || editor.getValue().length) {
       isNewWindow = true;
     }
   }
-  ipc.send('open-file-dialog', currentFile, isNewWindow);
+  ipc.send('open-file-dialog', docStatus.filename, isNewWindow);
 });
 
 ipc.on('selected-file', (event, fullpath) => {
@@ -198,49 +147,30 @@ ipc.on('selected-file', (event, fullpath) => {
 ipc.on('open-file', (event, fullpath) => {
   openFile(fullpath);
   webview.addEventListener('dom-ready', () => {
-    refreshPreview();
+    refreshPreview(docStatus.filename);
   });
 });
 
 // save file
-
-/**
- * Save file from editor
- * @param {string} filename - full path
- * @returns {void}
- */
-function saveFile(filename) {
-  fs.writeFile (filename, editor.getValue(), (error) => {
-    if (error != null) {
-      showErrorMessage(error);
-      return;
-    }
-    currentFile = filename;
-    modified = false;
-    document.title = `SeaPig - [${filename}]`;
-  });
-}
-
 const saveBtn = document.getElementById("saveBtn");
 saveBtn.addEventListener("click", () => {
-  refreshPreview();
-  if (currentFile == "") {
+  refreshPreview(docStatus.filename);
+  if (docStatus.filename == "") {
     ipc.send('save-new-file');
   } else {
-    saveFile(currentFile);
+    saveFile(docStatus.filename);
   }
 });
 
 ipc.on('selected-save-file', (event, filename) => {
   saveFile(filename);
-  editor.focus();
 });
 
 // export html
 const exportHTMLBtn = document.getElementById("exportHTMLBtn");
 exportHTMLBtn.addEventListener("click", () => {
-  refreshPreview();
-  ipc.send('export-HTML', currentFile);
+  refreshPreview(docStatus.filename);
+  ipc.send('export-HTML', docStatus.filename);
 });
 
 ipc.on('selected-HTML-file', (event, filename) => {
@@ -251,8 +181,8 @@ ipc.on('selected-HTML-file', (event, filename) => {
 // export pdf
 const exportPdfBtn = document.getElementById("exportPdfBtn");
 exportPdfBtn.addEventListener("click", () => {
-  refreshPreview();
-  ipc.send('export-pdf-file', currentFile);
+  refreshPreview(docStatus.filename);
+  ipc.send('export-pdf-file', docStatus.filename);
 });
 
 ipc.on('selected-pdf-file', (event, filename) => {
@@ -278,13 +208,13 @@ hideEditorBtn.addEventListener("click", () => {
   if (aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == false) {
     aceEditor.setAttribute("style", "display:none");
-    refreshPreview ();
+    refreshPreview(docStatus.filename);
   } else if (
       aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == true) {
     previewer.removeAttribute("style");
     editor.resize(true);
-    refreshPreview ();
+    refreshPreview(docStatus.filename);
   }
 });
 
@@ -295,7 +225,7 @@ HidePreviewBtn.addEventListener("click", () => {
       previewer.hasAttribute("style") == false) {
     aceEditor.removeAttribute("style");
     editor.resize (true);
-    refreshPreview ();
+    refreshPreview(docStatus.filename);
   } else if (
       aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == false) {
@@ -307,7 +237,7 @@ HidePreviewBtn.addEventListener("click", () => {
 // Refresh preview
 const refreshBtn = document.getElementById("refreshBtn");
 refreshBtn.addEventListener("click", () => {
-  refreshPreview();
+  refreshPreview(docStatus.filename);
   editor.focus();
 });
 
