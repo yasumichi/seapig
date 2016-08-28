@@ -41,9 +41,9 @@ var modified = false;
 // Initialize ace editor
 const editor = require('./js/editor.js');
 // Emitted whenever the document is changed
-editor.on("change", (e) => {
+editor.on("change", (event) => {
   modified = true;
-  if (e.data.range.start.row != e.data.range.end.row) {
+  if (event.data.range.start.row != event.data.range.end.row) {
     refreshPreview();
   }
 });
