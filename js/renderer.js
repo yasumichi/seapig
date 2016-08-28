@@ -53,14 +53,14 @@ editor.on("change", (event) => {
 // before unload
 window.addEventListener("beforeunload", (event) => {
   if (docStatus.modified === true) {
-    let message = `The document has not yet been saved.
+    let msg = `The document has not yet been saved.
       Are you sure you want to quit?`;
     let result = dialog.showMessageBox(
         remote.getCurrentWindow(),
         {
           type: "info",
           title: "SeaPig",
-          message: message,
+          message: msg,
           buttons: ["OK", "Cancel"]
         }
     );
