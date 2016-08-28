@@ -50,7 +50,7 @@ function getArguments() {
   } else {
     argv =  process.argv.slice(SECOND_ARG);
   }
-  argv.forEach( (element) => {
+  argv.forEach((element) => {
     if (/^-/.test(element) === true) {
       tmp_opts.push(element);
     } else {
