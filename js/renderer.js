@@ -124,7 +124,7 @@ const newBtn = document.getElementById("newBtn");
 newBtn.addEventListener("click", () => {
   ipc.send('new-file');
 });
-                    
+
 // open file
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", () => {
