@@ -208,7 +208,7 @@ const aceEditor = document.getElementById("aceEditor");
 const previewer = document.getElementById("previewer");
 
 // hide editor
-const hideEditorBtn = document.getElementById("hideEditorBtn");;
+const hideEditorBtn = document.getElementById("hideEditorBtn");
 hideEditorBtn.addEventListener("click", () => {
   if (aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == false) {
@@ -224,7 +224,7 @@ hideEditorBtn.addEventListener("click", () => {
 });
 
 // hide preview
-const HidePreviewBtn = document.getElementById("HidePreviewBtn");;
+const HidePreviewBtn = document.getElementById("HidePreviewBtn");
 HidePreviewBtn.addEventListener("click", () => {
   if (aceEditor.hasAttribute("style") == true &&
       previewer.hasAttribute("style") == false) {
