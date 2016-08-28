@@ -140,7 +140,7 @@ module.exports = {
             "allowForLoopAfterthoughts": true
           }
         ],
-        "no-process-env": "error",
+        "no-process-env": "off",
         "no-process-exit": "error",
         "no-proto": "error",
         "no-prototype-builtins": "error",
