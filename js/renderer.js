@@ -131,10 +131,8 @@ openBtn.addEventListener("click", () => {
   let isNewWindow = false;
   if (docStatus.filename) {
     isNewWindow = true;
-  } else {
-    if (docStatus.modified === true || editor.getValue().length) {
-      isNewWindow = true;
-    }
+  } else if (docStatus.modified === true || editor.getValue().length) {
+    isNewWindow = true;
   }
   ipc.send('open-file-dialog', docStatus.filename, isNewWindow);
 });
