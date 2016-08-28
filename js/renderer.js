@@ -40,6 +40,36 @@ var modified = false;
 
 // Initialize ace editor
 const editor = require('./js/editor.js');
+
+/**
+ * Show error message dialog
+ * @param {string} message - error message
+ * @returns {void}
+ */
+function showErrorMessage(message) {
+  dialog.showMessageBox(
+    remote.getCurrentWindow(),
+    {
+      type: "error",
+      title: "SeaPig",
+      message: String(message),
+      buttons: ["OK"]
+    }
+  );
+}
+
+/**
+ * Refresh preview pane
+ * @returns {void}
+ */
+function refreshPreview () {
+  let baseURI = "";
+  if (currentFile != "") {
+    baseURI = `file://${path.dirname(currentFile)}/`;
+  }
+  webview.send('preview', editor.getValue(), baseURI);
+}
+
 // Emitted whenever the document is changed
 editor.on("change", (event) => {
   modified = true;
@@ -126,6 +156,28 @@ newBtn.addEventListener("click", () => {
 });
                     
 // open file
+
+/**
+ * Open file to set editor
+ * @param {string} fullpath - full path
+ * @returns {void}
+ */
+function openFile(fullpath) {
+  currentFile = fullpath;
+  document.title = `SeaPig - [${fullpath}]`;
+  fs.readFile(fullpath, (error, text) => {
+    if (error != null) {
+      showErrorMessage(error);
+
+      return;
+    }
+    editor.setValue(text.toString(), DOCUMENT_START);
+    modified = false;
+    refreshPreview();
+  });
+  editor.focus();
+}
+
 const openBtn = document.getElementById("openBtn");
 openBtn.addEventListener("click", () => {
   let isNewWindow = false;
@@ -150,40 +202,25 @@ ipc.on('open-file', (event, fullpath) => {
   });
 });
 
+// save file
+
 /**
- * Show error message dialog
- * @param {string} message - error message
+ * Save file from editor
+ * @param {string} filename - full path
  * @returns {void}
  */
-function showErrorMessage(message) {
-  dialog.showMessageBox(
-    remote.getCurrentWindow(),
-    {
-      type: "error",
-      title: "SeaPig",
-      message: String(message),
-      buttons: ["OK"]
-    }
-  );
-}
-
-function openFile(fullpath) {
-  currentFile = fullpath;
-  document.title = `SeaPig - [${fullpath}]`;
-  fs.readFile(fullpath, (error, text) => {
+function saveFile(filename) {
+  fs.writeFile (filename, editor.getValue(), (error) => {
     if (error != null) {
       showErrorMessage(error);
-
       return;
     }
-    editor.setValue(text.toString(), DOCUMENT_START);
+    currentFile = filename;
     modified = false;
-    refreshPreview();
+    document.title = `SeaPig - [${filename}]`;
   });
-  editor.focus();
 }
 
-// save file
 const saveBtn = document.getElementById("saveBtn");
 saveBtn.addEventListener("click", () => {
   refreshPreview();
@@ -198,18 +235,6 @@ ipc.on('selected-save-file', (event, filename) => {
   saveFile(filename);
   editor.focus();
 });
-
-function saveFile(filename) {
-  fs.writeFile (filename, editor.getValue(), (error) => {
-    if (error != null) {
-      showErrorMessage(error);
-      return;
-    }
-    currentFile = filename;
-    modified = false;
-    document.title = `SeaPig - [${filename}]`;
-  });
-}
 
 // export html
 const exportHTMLBtn = document.getElementById("exportHTMLBtn");
@@ -285,12 +310,4 @@ refreshBtn.addEventListener("click", () => {
   refreshPreview();
   editor.focus();
 });
-
-function refreshPreview () {
-  let baseURI = "";
-  if (currentFile != "") {
-    baseURI = `file://${path.dirname(currentFile)}/`;
-  }
-  webview.send('preview', editor.getValue(), baseURI);
-}
 
