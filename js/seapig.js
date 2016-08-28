@@ -38,6 +38,7 @@ const FIRST_ARG = 0;
 const SECOND_ARG = 1;
 const THIRD_ARG = 2;
 const IDX_OFFSET = 1;
+const markdownExt = /\.(md|mdwn|mkdn|mark.*|txt)$/
 
 // Parse command line arguments
 function getArguments() {
@@ -95,13 +96,10 @@ app.on('ready', () => {
   let isFile = false;
   let program = getArguments();
 
-
   if (program.args.length) {
     program.args.forEach((element) => {
-      let fullpath;
-      if (path.isAbsolute(element)) {
-        fullpath = element;
-      } else {
+      let fullpath = element;
+      if (!path.isAbsolute(element)) {
         fullpath = path.resolve(process.cwd(), element);
       }
       try {
@@ -109,15 +107,11 @@ app.on('ready', () => {
       } catch (error) {
         isFile = false;
       }
-      if (isFile == true) {
-        if (/\.(md|mdwn|mkdn|mark.*|txt)$/.test(fullpath) == true) {
-          let winIndex = winList.push(createWindow()) - IDX_OFFSET;
-          winList[winIndex].webContents.on('dom-ready', () => {
-            winList[winIndex].webContents.send('open-file', fullpath);
-          });
-        } else {
-          ignoreList.push(`${fullpath} isn't markdown.`);
-        }
+      if (isFile && markdownExt.test(fullpath)) {
+        let winIndex = winList.push(createWindow()) - IDX_OFFSET;
+        winList[winIndex].webContents.on('dom-ready', () => {
+          winList[winIndex].webContents.send('open-file', fullpath);
+        });
       } else {
         ignoreList.push(`${fullpath} isn't  file.`);
       }
