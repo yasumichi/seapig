@@ -1,8 +1,18 @@
 const hljs = require('highlight.js');
 const viz = require("viz.js");
 const uiflow = require("uiflow");
+const mermaidAPI = require('../external/mermaidAPI.min.js');
+const FIRST_ITEM = 1;
+const COUNT_UP = 1;
 
 (function() {
+
+  var mermaidCount = FIRST_ITEM;
+
+  mermaidAPI.initialize({
+    startOnLoad: false,
+    cloneCssStyles: false
+  });
 
   /**
    * @function
@@ -33,6 +43,12 @@ const uiflow = require("uiflow");
       let svg = viz(code);
 
       return  svg;
+    },
+    "mermaid": (code) => {
+      let svg = mermaidAPI.render(`mermaid${mermaidCount}`, code);
+      mermaidCount += COUNT_UP;
+
+      return  `<div class="mermaid">\n${svg}</div>\n`;
     },
     "uiflow": (code) => {
       let dot = uiflow.compile(code);
@@ -97,7 +113,7 @@ const uiflow = require("uiflow");
   /**
    * customize to render HTML (sanitize script)
    * @param {string} html - contents of html code block
-   * @returns {string} escaped html code block
+   * @returns {string} html or html code block
    */
   module.exports.rendererHtml = (html) => {
     if (/(<[^>]*script[^>]*>|<[^>]* on[^=>]*=)/.test(html)) {

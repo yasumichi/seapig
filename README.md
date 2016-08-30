@@ -90,7 +90,7 @@ $ ./build.sh
 - [x] support task list item.
 - [x] add viz.js support
 - [x] add [uiflow](https://github.com/hirokidaichi/uiflow) support.
-- [ ] add mermaid support
+- [x] add mermaid support
 - [x] add simultaneous scroll
 - [ ] add original menu
 - [x] add new document
