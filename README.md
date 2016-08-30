@@ -64,21 +64,47 @@ to
 
 ![](images/uiflow.png)
 
+### mermaid support
 
-## How to build
+When You write code block as `mermaid` language and write mermaid language, rendering graph image at svg as below.
+
+<pre>
+```mermaid
+sequenceDiagram
+    participant main
+    participant renderer
+    participant previewer
+    main->>renderer: Open file
+    renderer->>previewer: Refresh preview
+```
+</pre>
+
+to
+
+![](images/mermaid.png)
+
+## For developers
+
+### How to build
 
 ```
 $ npm install --global-style
 ...
 ```
 
-## How to lunch
+### How to lunch
 
 ```
 $ npm start
 ```
 
-## How to package (on Linux)
+### How to package
+
+```
+$ npm run package:win32
+```
+
+### How to package all (on Linux)
 
 ```
 $ ./build.sh
@@ -106,6 +132,7 @@ $ ./build.sh
 - [Github Markdown CSS - for Markdown Editor Preview](https://gist.github.com/andyferra/2554919)
 - [highlight.js](https://highlightjs.org/)
 - [marked](https://github.com/chjj/marked)
+- [mermaid](https://knsv.github.io/mermaid/)(external/mermaidAPI.min.js)
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
 - [viz.js](https://github.com/mdaines/viz.js)
