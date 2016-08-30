@@ -39,6 +39,13 @@ const SECOND_ARG = 1;
 const THIRD_ARG = 2;
 const IDX_OFFSET = 1;
 const markdownExt = /\.(md|mdwn|mkdn|mark.*|txt)$/
+const W_WIDTH = 800;
+const W_HEIGHT = 600;
+const SHIFT = 20;
+
+var winList = [];
+var screenWidth = null;
+var screenHeight = null;
 
 // Parse command line arguments
 function getArguments() {
@@ -68,8 +75,10 @@ function createWindow() {
 
 	// Create a instance of BrowserWindow
 	mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: W_WIDTH,
+    height: W_HEIGHT,
+    x: winList.length * SHIFT % (screenWidth - W_WIDTH),
+    y: winList.length * SHIFT % (screenHeight - W_HEIGHT),
     icon: path.join(__dirname, '../seapig.png')
   });
 
@@ -89,13 +98,18 @@ function createWindow() {
   return mainWindow;
 }
 
+function getScreenSize() {
+  screenWidth = electron.screen.getPrimaryDisplay().workAreaSize.width;
+  screenHeight = electron.screen.getPrimaryDisplay().workAreaSize.height;
+}
+
 // Show window when app is ready.
 app.on('ready', () => {
-  let winList = [];
   let ignoreList = [];
   let isFile = false;
   let program = getArguments();
 
+  getScreenSize();
   if (program.args.length) {
     program.args.forEach((element) => {
       let fullpath = element;
@@ -118,7 +132,7 @@ app.on('ready', () => {
     });
   }
   if (!winList.length) {
-    createWindow();
+    winList.push(createWindow());
   }
   if (ignoreList.length) {
     dialog.showMessageBox({
@@ -156,7 +170,7 @@ function getDefaultPath(currentFile) {
 
 // request new file
 ipc.on('new-file', () => {
-  createWindow();
+  winList.push(createWindow());
 });
 
 // request open file dialog
@@ -178,6 +192,7 @@ ipc.on('open-file-dialog', (event, currentFile, isNewWindow) => {
         if (filenames) {
           if (isNewWindow === true) {
             let newWindow = createWindow();
+            winList.push(newWindow);
             newWindow.webContents.on('dom-ready', () => {
               newWindow.webContents.send('open-file', filenames[FIRST_ARG]);
             });

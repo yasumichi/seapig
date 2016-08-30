@@ -57,7 +57,7 @@ module.exports = {
         "guard-for-in": "error",
         "handle-callback-err": "error",
         "id-blacklist": "error",
-        "id-length": "error",
+        "id-length": "warn",
         "id-match": "error",
         "indent": "off",
         "init-declarations": "error",
