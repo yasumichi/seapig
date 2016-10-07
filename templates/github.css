@@ -636,10 +636,10 @@ text.actor {
   font-size: 18px;
   fill: black;
 }
+
 /*
-
-
-*/
+ * Settings for mermaid
+ */
 .mermaid .node text {
   font-family: 'trebuchet ms', verdana, arial;
   font-size: 14px;
