@@ -657,3 +657,13 @@ div.mermaidTooltip {
   pointer-events: none;
   z-index: 100;
 }
+
+/*
+ * Settings for PDF
+ */
+@media print {
+  hr {
+    visibility: hidden;
+    page-break-after: always;
+  }
+}
