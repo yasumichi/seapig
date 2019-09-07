@@ -1,4 +1,10 @@
-import assert  from 'assert';
+/* for mermaid */
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+global.SVGElement = window.SVGElement;
+
+var assert = require('assert');
 const marked = require('marked');
 const Md2Html = require('../js/md2html.js');
 var md2html = new Md2Html();

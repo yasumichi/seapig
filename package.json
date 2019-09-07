@@ -5,7 +5,7 @@
   "main": "js/seapig.js",
   "scripts": {
     "start": "electron .",
-    "test": "mocha --compilers js:babel-register test/**/*.test.js",
+    "test": "mocha",
     "lint": "eslint",
     "lint-all": "eslint js",
     "clean": "rimraf releases *.log",
@@ -17,24 +17,27 @@
   "license": "MIT",
   "dependencies": {
     "ace-min-noconflict": "^1.1.9",
-    "electron-json-storage": "^2.0.0",
-    "highlight.js": "^9.6.0",
-    "marked": "^0.3.5",
+    "electron-json-storage": "^4.1.7",
+    "highlight.js": "^9.15.10",
+    "marked": "^0.7.0",
+    "mermaid": "^8.2.6",
     "uiflow": "git+https://github.com/tkrkt/uiflow.git#fix-argument-in-compile",
-    "viz.js": "^1.3.0"
+    "viz.js": "^2.1.2"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.14.0",
-    "babel-preset-power-assert": "^1.0.0",
-    "babel-register": "^6.14.0",
-    "electron-packager": "^7.3.0",
-    "electron-prebuilt": "^1.2.7",
-    "electron-rebuild": "^1.1.5",
-    "eslint": "^3.3.0",
-    "jsdoc": "^3.4.0",
-    "mocha": "^3.0.2",
-    "power-assert": "^1.4.1",
-    "rimraf": "^2.5.4"
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.0",
+    "electron": "^6.0.7",
+    "electron-packager": "^14.0.5",
+    "electron-rebuild": "^1.8.6",
+    "eslint": "^6.3.0",
+    "jsdoc": "^3.6.3",
+    "jsdom": "^15.1.1",
+    "mocha": "^6.2.0",
+    "power-assert": "^1.6.1",
+    "rimraf": "^3.0.0"
   },
   "repository": {
     "type": "git",

@@ -74,12 +74,16 @@ function createWindow() {
   let mainWindow = null;
 
 	// Create a instance of BrowserWindow
-	mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: W_WIDTH,
     height: W_HEIGHT,
     x: winList.length * SHIFT % (screenWidth - W_WIDTH),
     y: winList.length * SHIFT % (screenHeight - W_HEIGHT),
-    icon: path.join(__dirname, '../seapig.png')
+    icon: path.join(__dirname, '../seapig.png'),
+    webPreferences: {
+        nodeIntegration: true,
+        webviewTag: true
+    }
   });
 
 	// Load mainwindow.html
