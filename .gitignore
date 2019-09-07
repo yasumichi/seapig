@@ -39,4 +39,6 @@ jspm_packages
 
 # Project only
 releases
+package-lock.json
+*.swp
 
