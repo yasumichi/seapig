@@ -46,7 +46,7 @@ const {editor} = require('./js/renderer_funcs.js');
 // Emitted whenever the document is changed
 editor.on("change", (event) => {
   docStatus.modified = true;
-  if (event.data.range.start.row != event.data.range.end.row) {
+  if (event.start.row != event.end.row) {
     refreshPreview(docStatus.filename);
   }
 });

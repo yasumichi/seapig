@@ -8,7 +8,8 @@
     "test": "mocha",
     "lint": "eslint",
     "lint-all": "eslint js",
-    "clean": "rimraf releases *.log",
+    "clean": "rimraf releases *.log ace",
+    "build-dep": "node scripts/build-dep.js",
     "package:darwin": "electron-packager --platform=darwin --arch=all --prune --asar=true --out=releases --icon=seapig.icns .",
     "package:win32": "electron-packager --platform=win32 --arch=all --prune --asar=true --out=releases --icon=seapig.ico .",
     "package:linux": "electron-packager --platform=linux --arch=all --prune --asar=true --out=releases ."
@@ -16,7 +17,6 @@
   "author": "Yasumichi Akahoshi <yasumichi@vinelinux.org>",
   "license": "MIT",
   "dependencies": {
-    "ace-min-noconflict": "^1.1.9",
     "electron-json-storage": "^4.1.7",
     "highlight.js": "^9.15.10",
     "marked": "^0.7.0",

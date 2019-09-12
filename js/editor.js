@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-require('ace-min-noconflict');
-require('ace-min-noconflict/theme-twilight');
-require('ace-min-noconflict/mode-markdown');
-require('ace-min-noconflict/keybinding-emacs');
-require('ace-min-noconflict/keybinding-vim');
+var ace = require('../ace/ace.js');
+ace.config.set('basePath', 'ace');
+ace.require('theme-twilight');
+ace.require('mode-markdown');
+ace.require('keybinding-emacs');
+ace.require('keybinding-vim');
 
 (function() {
 
