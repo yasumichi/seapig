@@ -24,6 +24,7 @@
 
 const {remote} = require('electron');
 const {dialog} = require('electron').remote;
+const ipc = require('electron').ipcRenderer;
 const fs = require('fs');
 const path = require('path');
 const webview = document.getElementById('previewer');
@@ -92,6 +93,7 @@ const editor = require('./editor.js');
       editor.setValue(text.toString(), DOCUMENT_START);
       docStatus.filename = fullpath;
       docStatus.modified = false;
+      ipc.send('doc-modified', docStatus.modified);
       refreshPreview(fullpath);
     });
     editor.focus();
@@ -111,6 +113,7 @@ const editor = require('./editor.js');
       }
       document.title = `SeaPig - [${filename}]`;
       docStatus.modified = false;
+      ipc.send('doc-modified', docStatus.modified);
       docStatus.filename = filename;
       docStatus.modified = false;
       editor.focus();

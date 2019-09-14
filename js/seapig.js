@@ -46,6 +46,7 @@ const SHIFT = 20;
 var winList = [];
 var screenWidth = null;
 var screenHeight = null;
+var docModified = false;
 
 // Parse command line arguments
 function getArguments() {
@@ -90,6 +91,34 @@ function createWindow() {
   mainWindow.loadURL(
     `file://${path.resolve(__dirname ,'../mainwindow.html')}`
   );
+
+  // Process close request
+  mainWindow.on('close', (e) => {
+    var closeable = true;
+
+    e.preventDefault();
+
+    if (docModified === true) {
+      let msg = `The document has not yet been saved.
+	Are you sure you want to quit?`;
+      let result = dialog.showMessageBoxSync(
+	mainWindow,
+	{
+	  type: "info",
+	  title: "SeaPig",
+	  message: msg,
+	  buttons: ["OK", "Cancel"]
+	}
+      );
+      if (result === 1) {
+	closeable = false;
+      }
+    }
+
+    if (closeable === true) {
+      mainWindow.destroy();
+    }
+  });
 
   // Destroy when window is closed
   mainWindow.on('closed', () => {
@@ -274,4 +303,9 @@ ipc.on('error-message', (event, error_msg) => {
     message: error_msg,
     buttons: ['OK']
   });
+});
+
+// recieve document status
+ipc.on('doc-modified', (event, modified) => {
+  docModified = modified;
 });

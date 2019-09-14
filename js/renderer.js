@@ -34,7 +34,6 @@ const {openFile, saveFile} = require('./js/renderer_funcs.js');
 
 const webview = document.getElementById('previewer');
 const FIRST_ITEM = 0;
-const CANCEL = 1;
 
 // Status of document
 var   {docStatus} = require('./js/renderer_funcs.js');
@@ -46,6 +45,7 @@ const {editor} = require('./js/renderer_funcs.js');
 // Emitted whenever the document is changed
 editor.on("change", (event) => {
   docStatus.modified = true;
+  ipc.send('doc-modified', docStatus.modified);
   if (event.start.row != event.end.row) {
     refreshPreview(docStatus.filename);
   }
@@ -58,26 +58,6 @@ editor.getSession().on("changeScrollTop", (scrollTop) => {
     let scrollRatio = scrollTop / height;
 
     webview.send('scroll', scrollRatio);
-  }
-});
-
-// before unload
-window.addEventListener("beforeunload", (event) => {
-  if (docStatus.modified === true) {
-    let msg = `The document has not yet been saved.
-      Are you sure you want to quit?`;
-    let result = dialog.showMessageBox(
-        remote.getCurrentWindow(),
-        {
-          type: "info",
-          title: "SeaPig",
-          message: msg,
-          buttons: ["OK", "Cancel"]
-        }
-    );
-    if (result === CANCEL) {
-      event.returnValue = false;
-    }
   }
 });
 
