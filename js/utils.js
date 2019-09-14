@@ -1,7 +1,7 @@
 const hljs = require('highlight.js');
 const viz = require("viz.js");
 const uiflow = require("uiflow");
-const mermaidAPI = require('../external/mermaidAPI.min.js');
+const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
 const FIRST_ITEM = 1;
 const COUNT_UP = 1;
 

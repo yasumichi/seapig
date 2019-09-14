@@ -8,7 +8,7 @@
     "test": "mocha",
     "lint": "eslint",
     "lint-all": "eslint js",
-    "clean": "rimraf releases *.log external/ace",
+    "clean": "rimraf releases *.log external",
     "build-dep": "node scripts/build-dep.js",
     "package:darwin": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=darwin --arch=all --prune --asar=true --out=releases --icon=seapig.icns .",
     "package:win32": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=win32 --arch=all --prune --asar=true --out=releases --icon=seapig.ico .",
