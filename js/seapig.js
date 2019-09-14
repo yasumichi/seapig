@@ -82,7 +82,7 @@ function createWindow() {
     y: winList.length * SHIFT % (screenHeight - W_HEIGHT),
     icon: path.join(__dirname, '../seapig.png'),
     webPreferences: {
-      nodeIntegration: true,
+      preload: path.join(app.getAppPath(), 'js', 'renderer.js'),
       webviewTag: true
     }
   });

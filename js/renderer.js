@@ -22,24 +22,27 @@
  * SOFTWARE.
  */
 
+window.onload = (e) => {
 const {remote} = require('electron');
-const {dialog} = require('electron').remote;
+const {app, dialog} = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
 const shell = require('electron').shell;
 const fs = require('fs');
+const path = require('path');
 const storage = require('electron-json-storage');
-const {refreshPreview} = require('./js/renderer_funcs.js');
-const {showErrorMessage} = require('./js/renderer_funcs.js');
-const {openFile, saveFile} = require('./js/renderer_funcs.js');
+const funcs_path = path.join(app.getAppPath(), 'js', 'renderer_funcs.js');
+const {refreshPreview} = require(funcs_path);
+const {showErrorMessage} = require(funcs_path);
+const {openFile, saveFile} = require(funcs_path);
 
 const webview = document.getElementById('previewer');
 const FIRST_ITEM = 0;
 
 // Status of document
-var   {docStatus} = require('./js/renderer_funcs.js');
+var   {docStatus} = require(funcs_path);
 
 // Initialize ace editor
-const {editor} = require('./js/renderer_funcs.js');
+const {editor} = require(funcs_path);
 
 
 // Emitted whenever the document is changed
@@ -235,4 +238,4 @@ refreshBtn.addEventListener("click", () => {
   refreshPreview(docStatus.filename);
   editor.focus();
 });
-
+};
