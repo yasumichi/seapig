@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const destdir = "ace";
+const extdir = "external";
+const acedest = path.join(extdir, "ace");
 const srcfiles = [
     'ace-builds/src-min-noconflict/ace.js',
     'ace-builds/src-min-noconflict/theme-twilight.js',
@@ -10,10 +11,10 @@ const srcfiles = [
     'ace-builds/src-min-noconflict/keybinding-vim.js',
 ];
 
-if ( fs.existsSync(destdir) == false ) {
-    fs.mkdirSync(destdir);
+if ( fs.existsSync(acedest) == false ) {
+    fs.mkdirSync(acedest, {recursive: true});
     srcfiles.forEach((value) => {
-        var destfile = path.join(destdir, path.basename(value));
+        var destfile = path.join(acedest, path.basename(value));
         fs.copyFileSync(value, destfile);
     });
 }

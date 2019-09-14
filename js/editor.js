@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-var ace = require('../ace/ace.js');
-ace.config.set('basePath', 'ace');
+var ace = require('../external/ace/ace.js');
+ace.config.set('basePath', 'external/ace');
 ace.require('theme-twilight');
 ace.require('mode-markdown');
 ace.require('keybinding-emacs');

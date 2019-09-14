@@ -8,7 +8,7 @@
     "test": "mocha",
     "lint": "eslint",
     "lint-all": "eslint js",
-    "clean": "rimraf releases *.log ace",
+    "clean": "rimraf releases *.log external/ace",
     "build-dep": "node scripts/build-dep.js",
     "package:darwin": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=darwin --arch=all --prune --asar=true --out=releases --icon=seapig.icns .",
     "package:win32": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=win32 --arch=all --prune --asar=true --out=releases --icon=seapig.ico .",
@@ -20,7 +20,6 @@
     "electron-json-storage": "^4.1.7",
     "highlight.js": "^9.15.10",
     "marked": "^0.7.0",
-    "mermaid": "^8.2.6",
     "uiflow": "git+https://github.com/tkrkt/uiflow.git#fix-argument-in-compile",
     "viz.js": "^2.1.2"
   },
@@ -35,6 +34,7 @@
     "eslint": "^6.3.0",
     "jsdoc": "^3.6.3",
     "jsdom": "^15.1.1",
+    "mermaid": "^8.2.6",
     "mocha": "^6.2.0",
     "power-assert": "^1.6.1",
     "rimraf": "^3.0.0"
