@@ -73,7 +73,7 @@ function getArguments() {
 function createWindow() {
   let mainWindow = null;
 
-	// Create a instance of BrowserWindow
+  // Create a instance of BrowserWindow
   mainWindow = new BrowserWindow({
     width: W_WIDTH,
     height: W_HEIGHT,
@@ -81,20 +81,21 @@ function createWindow() {
     y: winList.length * SHIFT % (screenHeight - W_HEIGHT),
     icon: path.join(__dirname, '../seapig.png'),
     webPreferences: {
-        nodeIntegration: true,
-        webviewTag: true
+      nodeIntegration: true,
+      webviewTag: true
     }
   });
 
-	// Load mainwindow.html
-	mainWindow.loadURL(
+  // Load mainwindow.html
+  mainWindow.loadURL(
     `file://${path.resolve(__dirname ,'../mainwindow.html')}`
   );
 
-	// Destroy when window is closed
-	mainWindow.on('closed', () => {
-		mainWindow = null;
-	})
+  // Destroy when window is closed
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
+
   if (process.env.DEBUG) {
     mainWindow.toggleDevTools();
   }
