@@ -30,6 +30,7 @@
     const {ipcRenderer} = require('electron');
     const fs = require('fs');
     const path = require('path');
+    const m = require("mithril");
     const Md2Html = require('./md2html.js');
     const FIRST_IDX = 0;
     const NO_SCROLL = 0;
@@ -91,7 +92,9 @@
         base.setAttribute("href", baseURI);
       }
       base.setAttribute("target", "_blank");
-      document.getElementById('body').innerHTML = md2html.convert(data);
+
+      // render body
+      m.render(document.body, m.trust(md2html.convert(data)));
 
       // process task list items
       var listitems = document.getElementsByTagName("li");

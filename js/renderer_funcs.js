@@ -84,6 +84,7 @@ const editor = require('./editor.js');
    */
   module.exports.openFile = (fullpath) => {
     document.title = `SeaPig - [${fullpath}]`;
+    refreshPreview(fullpath);
     fs.readFile(fullpath, (error, text) => {
       if (error !== null) {
         showErrorMessage(error);
