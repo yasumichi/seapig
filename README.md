@@ -9,7 +9,9 @@ SeaPig
 
 SeaPig has two panes. Left pane is editor. Right pane is HTML previewer.
 
-When you input new line, SeaPig refresh HTML preview.
+When you input markdown, SeaPig refresh HTML preview.
+
+You can use [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
 SeaPig has tool bar contains one drop down list and eight buttons.
 
