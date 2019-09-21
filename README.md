@@ -88,7 +88,7 @@ to
 ### How to build
 
 ```
-$ npm install --global-style
+$ npm install
 ...
 ```
 
