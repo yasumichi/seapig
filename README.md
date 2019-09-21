@@ -144,7 +144,7 @@ $ ./build.sh
 
 MIT (excludes photon, node_modules and icons)
 
-Copyright &copy; 2016 Yasumichi Akahoshi
+Copyright &copy; 2016-2019 Yasumichi Akahoshi
 
 # Icons copyright
 
