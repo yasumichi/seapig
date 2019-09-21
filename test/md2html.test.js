@@ -27,16 +27,4 @@ describe('convert markdown', () => {
 
     assert(md2html.convert(header) === expect);
   });
-
-  it('convert complete task', () => {
-    assert(md2html.convert("- [x] Complete task") ===
-      '<ul>\n<li class="task-list-item"><input type="checkbox" checked="true" disabled="true">Complete task</li></ul>\n'
-    );
-  });
-
-  it('convert uncomplete task', () => {
-    assert(md2html.convert("- [ ] Uncomplete task") ===
-      '<ul>\n<li class="task-list-item"><input type="checkbox" disabled="true">Uncomplete task</li></ul>\n'
-    );
-  });
 });

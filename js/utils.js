@@ -87,30 +87,6 @@ const COUNT_UP = 1;
   }
 
   /**
-   * customize to render list item
-   * @param {string} text - contents of list item
-   * @returns {string} converted list item
-   */
-  module.exports.rendererListitem =  (text) => {
-    const TASK_START = '<li class="task-list-item">';
-    const COMPLETE = '<input type="checkbox" checked="true" disabled="true">';
-    const UNCOMPLETE = '<input type="checkbox" disabled="true">';
-    let task = '';
-
-    if (text.startsWith("[x]")) {
-      task = text.slice("[x]".length).trim();
-
-      return  `${TASK_START}${COMPLETE}${task}</li>`;
-    } else if (text.startsWith("[ ]")) {
-      task = text.slice("[ ]".length).trim();
-
-      return  `${TASK_START}${UNCOMPLETE}${task}</li>`;
-    }
-
-    return `<li>${text}</li>`;
-  }
-
-  /**
    * customize to render HTML (sanitize script)
    * @param {string} html - contents of html code block
    * @returns {string} html or html code block

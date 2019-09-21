@@ -23,7 +23,7 @@
  */
 
 const marked = require('marked');
-const {rendererCode, rendererListitem, rendererHtml, rendererHeading} =
+const {rendererCode, rendererHtml, rendererHeading} =
   require('./utils.js');
 
 (function() {
@@ -42,7 +42,6 @@ const {rendererCode, rendererListitem, rendererHtml, rendererHeading} =
       this.renderer = new marked.Renderer();
 
       this.renderer.code = rendererCode;
-      this.renderer.listitem = rendererListitem;
       this.renderer.html = rendererHtml;
       this.renderer.heading = rendererHeading;
 
