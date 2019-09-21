@@ -96,9 +96,9 @@
       // process task list items
       var listitems = document.getElementsByTagName("li");
       for(var i=0; i<listitems.length; i++) {
-        var item = listitems[i];
-        if (item.getElementsByTagName("input").length > 0) {
-          item.classList.add("task-list-item");
+        var fchild = listitems[i].firstElementChild;
+        if(fchild != null && fchild.nodeName === "INPUT" && fchild.type === "checkbox") {
+          listitems[i].classList.add("task-list-item");
         }
       }
 
