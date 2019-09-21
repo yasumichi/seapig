@@ -123,6 +123,7 @@ $ ./build.sh
 - [ ] add alternative stylesheet
 - [x] control display editor and previewer
 - [ ] add batch mode
+- [ ] introduce virtual dom framework (mithril.js)
 
 ## Special Thanks
 
