@@ -49,9 +49,7 @@ window.onload = (e) => {
   editor.on("change", (event) => {
     docStatus.modified = true;
     ipc.send('doc-modified', docStatus.modified);
-    if (event.start.row != event.end.row) {
-      refreshPreview(docStatus.filename);
-    }
+    refreshPreview(docStatus.filename);
   });
 
   // Emmited whenever editor is scrolled
