@@ -91,6 +91,7 @@ to
 
 ```
 $ npm install
+$ npm build-dep
 ...
 ```
 
