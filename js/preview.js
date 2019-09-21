@@ -30,7 +30,7 @@
     const {ipcRenderer} = require('electron');
     const fs = require('fs');
     const path = require('path');
-    const m = require("mithril");
+    const m = require("../external/mithril/mithril.min.js");
     const Md2Html = require('./md2html.js');
     const FIRST_IDX = 0;
     const NO_SCROLL = 0;

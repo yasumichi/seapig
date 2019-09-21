@@ -23,6 +23,14 @@ const copyplan = [
       'node_modules/mermaid/LICENSE',
       'node_modules/mermaid/dist/mermaid.min.js',
     ]
+  },
+  // for mithril
+  {
+    destdir: path.join(extdir, "mithril"),
+    srcfiles: [
+      'node_modules/mithril/LICENSE',
+      'node_modules/mithril/mithril.min.js',
+    ]
   }
 ];
 

@@ -20,7 +20,6 @@
     "electron-json-storage": "^4.1.7",
     "highlight.js": "^9.15.10",
     "marked": "^0.7.0",
-    "mithril": "^2.0.4",
     "uiflow": "git+https://github.com/tkrkt/uiflow.git#fix-argument-in-compile",
     "viz.js": "^1.8.2"
   },
@@ -35,6 +34,7 @@
     "jsdoc": "^3.6.3",
     "jsdom": "^15.1.1",
     "mermaid": "^8.2.6",
+    "mithril": "^2.0.4",
     "mocha": "^6.2.0",
     "power-assert": "^1.6.1",
     "rimraf": "^3.0.0"
