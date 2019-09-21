@@ -92,6 +92,16 @@
       }
       base.setAttribute("target", "_blank");
       document.getElementById('body').innerHTML = md2html.convert(data);
+
+      // process task list items
+      var listitems = document.getElementsByTagName("li");
+      for(var i=0; i<listitems.length; i++) {
+	var item = listitems[i];
+	if (item.getElementsByTagName("input").length > 0) {
+	  item.classList.add("task-list-item");
+	}
+      }
+
       setDocumentTitle();
     });
 
