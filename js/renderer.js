@@ -135,7 +135,7 @@ window.onload = (e) => {
 
   ipc.on('open-file', (event, fullpath) => {
     openFile(fullpath);
-    webview.addEventListener('dom-ready', () => {
+    webview.addEventListener('did-finish-load', () => {
       refreshPreview(docStatus.filename);
     });
   });
