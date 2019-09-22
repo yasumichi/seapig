@@ -2,12 +2,8 @@ const hljs = require('highlight.js');
 const viz = require("viz.js");
 const uiflow = require("uiflow");
 const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
-const FIRST_ITEM = 1;
-const COUNT_UP = 1;
 
 (function() {
-
-  var mermaidCount = FIRST_ITEM;
 
   mermaidAPI.initialize({
     startOnLoad: false,
@@ -45,8 +41,11 @@ const COUNT_UP = 1;
       return  svg;
     },
     "mermaid": (code) => {
-      let svg = mermaidAPI.render(`mermaid${mermaidCount}`, code);
-      mermaidCount += COUNT_UP;
+      let date = new Date();
+      let svgId = "m" + date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2)
+        + ('0' + date.getDate()).slice(-2) + ('0' + date.getHours()).slice(-2)
+        + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
+      let svg = mermaidAPI.render(svgId, code);
 
       return  `<div class="mermaid">\n${svg}</div>\n`;
     },
