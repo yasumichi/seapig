@@ -157,7 +157,7 @@ app.on('ready', () => {
       }
       if (isFile && markdownExt.test(fullpath)) {
         let winIndex = winList.push(createWindow()) - IDX_OFFSET;
-        winList[winIndex].webContents.on('dom-ready', () => {
+        winList[winIndex].webContents.on('did-finish-load', () => {
           winList[winIndex].webContents.send('open-file', fullpath);
         });
       } else {
@@ -227,7 +227,7 @@ ipc.on('open-file-dialog', (event, currentFile, isNewWindow) => {
           if (isNewWindow === true) {
             let newWindow = createWindow();
             winList.push(newWindow);
-            newWindow.webContents.on('dom-ready', () => {
+            newWindow.webContents.on('did-finish-load', () => {
               newWindow.webContents.send('open-file', filenames[FIRST_ARG]);
             });
           } else {
