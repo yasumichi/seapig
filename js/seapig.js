@@ -221,21 +221,24 @@ ipc.on('open-file-dialog', (event, currentFile, isNewWindow) => {
     ]
   };
   dialog.showOpenDialog(
-      options,
-      (filenames) => {
-        if (filenames) {
-          if (isNewWindow === true) {
-            let newWindow = createWindow();
-            winList.push(newWindow);
-            newWindow.webContents.on('did-finish-load', () => {
-              newWindow.webContents.send('open-file', filenames[FIRST_ARG]);
-            });
-          } else {
-            event.sender.send ('selected-file', filenames);
-          }
+    options
+  ).then(result => {
+      if (result.canceled === false) {
+        let filenames = result.filePaths;
+        console.log(filenames);
+        if (isNewWindow === true) {
+          let newWindow = createWindow();
+          winList.push(newWindow);
+          newWindow.webContents.on('did-finish-load', () => {
+            newWindow.webContents.send('open-file', filenames[FIRST_ARG]);
+          });
+        } else {
+          event.sender.send ('selected-file', filenames);
         }
       }
-      );
+  }).catch(err => {
+    console.log(err);
+  });
 });
 
 // request save new file
