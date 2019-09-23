@@ -17,7 +17,7 @@ SeaPig has tool bar contains one drop down list and eight buttons.
 
 ![](images/seapig-toolbar.png)
 
-You can select key bindings from drop down list. (default/emacs/vim)
+You can select key bindings from drop down list. (default/emacs/vim/sublime)
 
 Eight buttons has feature below.
 
