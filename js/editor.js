@@ -28,6 +28,7 @@ ace.require('theme-twilight');
 ace.require('mode-markdown');
 ace.require('keybinding-emacs');
 ace.require('keybinding-vim');
+ace.require('keybinding-sublime');
 
 (function() {
 

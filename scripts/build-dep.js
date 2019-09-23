@@ -11,6 +11,7 @@ const copyplan = [
       'ace-builds/LICENSE',
       'ace-builds/src-min-noconflict/ace.js',
       'ace-builds/src-min-noconflict/keybinding-emacs.js',
+      'ace-builds/src-min-noconflict/keybinding-sublime.js',
       'ace-builds/src-min-noconflict/keybinding-vim.js',
       'ace-builds/src-min-noconflict/mode-markdown.js',
       'ace-builds/src-min-noconflict/theme-twilight.js',
