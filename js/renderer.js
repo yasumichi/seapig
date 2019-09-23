@@ -119,7 +119,7 @@ window.onload = (e) => {
 
   // open file
   const openBtn = document.getElementById("openBtn");
-  openBtn.addEventListener("click", () => {
+  const callOpenDialog = () => {
     let isNewWindow = false;
     if (docStatus.filename) {
       isNewWindow = true;
@@ -127,7 +127,11 @@ window.onload = (e) => {
       isNewWindow = true;
     }
     ipc.send('open-file-dialog', docStatus.filename, isNewWindow);
-  });
+  };
+
+  openBtn.addEventListener("click", callOpenDialog);
+
+  ipc.on('open-menu-click', callOpenDialog);
 
   ipc.on('selected-file', (event, fullpath) => {
     openFile(fullpath[FIRST_ITEM]);
@@ -142,14 +146,23 @@ window.onload = (e) => {
 
   // save file
   const saveBtn = document.getElementById("saveBtn");
-  saveBtn.addEventListener("click", () => {
+  const callSaveFile = () => {
     refreshPreview(docStatus.filename);
     if (docStatus.filename == "") {
       ipc.send('save-new-file');
     } else {
       saveFile(docStatus.filename);
     }
-  });
+  };
+  const callSaveAsFile = () => {
+    ipc.send('save-new-file');
+  };
+
+  saveBtn.addEventListener("click", callSaveFile);
+
+  ipc.on('save-menu-click', callSaveFile);
+
+  ipc.on('saveas-menu-click', callSaveAsFile);
 
   ipc.on('selected-save-file', (event, filename) => {
     saveFile(filename);
@@ -157,10 +170,14 @@ window.onload = (e) => {
 
   // export html
   const exportHTMLBtn = document.getElementById("exportHTMLBtn");
-  exportHTMLBtn.addEventListener("click", () => {
+  const callExportHTML = () => {
     refreshPreview(docStatus.filename);
     ipc.send('export-HTML', docStatus.filename);
-  });
+  };
+
+  exportHTMLBtn.addEventListener("click", callExportHTML);
+
+  ipc.on('export-html-click', callExportHTML);
 
   ipc.on('selected-HTML-file', (event, filename) => {
     webview.send('export-HTML', filename);
@@ -169,10 +186,14 @@ window.onload = (e) => {
 
   // export pdf
   const exportPdfBtn = document.getElementById("exportPdfBtn");
-  exportPdfBtn.addEventListener("click", () => {
+  const callPrintToPDF = () => {
     refreshPreview(docStatus.filename);
     ipc.send('export-pdf-file', docStatus.filename);
-  });
+  };
+
+  exportPdfBtn.addEventListener("click", callPrintToPDF);
+
+  ipc.on('print-pdf-click', callPrintToPDF);
 
   ipc.on('selected-pdf-file', (event, filename) => {
     webview.printToPDF({}, (error, data) => {

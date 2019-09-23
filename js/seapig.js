@@ -26,8 +26,11 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const globalShortcut = electron.globalShortcut;
+const Menu = electron.Menu;
 const ipc = require('electron').ipcMain;
 const dialog = require('electron').dialog;
+const shell = electron.shell;
 
 // Load node native module
 const fs = require('fs');
@@ -70,6 +73,150 @@ function getArguments() {
   return  { opts: tmp_opts, args: tmp_args };
 }
 
+/**
+ *  Create new window when File-New menu is clicked or CommandOrControl+N is
+ * pressed.
+ */
+function createNewFile() {
+  winList.push(createWindow());
+}
+
+/**
+ *   Inform renderer process to click File-Open menu or press
+ *  CommandOrControl+O.
+ */
+function callOpenFile() {
+  let win = BrowserWindow.getFocusedWindow();
+  win.webContents.send('open-menu-click');
+}
+
+/**
+ *   Inform renderer process to click File-Save menu or press
+ *  CommandOrControl+O.
+ */
+function callSaveFile() {
+  let win = BrowserWindow.getFocusedWindow();
+  win.webContents.send('save-menu-click');
+}
+
+/**
+ *   Inform renderer process to click File-SaveAs menu.
+ */
+function callSaveAsFile() {
+  let win = BrowserWindow.getFocusedWindow();
+  win.webContents.send('saveas-menu-click');
+}
+
+/**
+ *   Inform renderer process to click File-ExportAsHTML menu.
+ */
+function callExportAsHTML() {
+  let win = BrowserWindow.getFocusedWindow();
+  win.webContents.send('export-html-click');
+}
+
+/**
+ *   Inform renderer process to click File-PrintToPDF menu.
+ */
+function callPrintToPDF() {
+  let win = BrowserWindow.getFocusedWindow();
+  win.webContents.send('print-pdf-click');
+}
+
+// Define menu templates
+// { role: 'fileMenu'}
+const fileMenu = {
+  label: '&File',
+  submenu: [
+    {
+      label: '&New',
+      accelerator: 'CommandOrControl+N',
+      click: createNewFile
+    },
+    {
+      label: '&Open',
+      accelerator: 'CommandOrControl+O',
+      click: callOpenFile
+    },
+    { type: 'separator' },
+    {
+      label: '&Save',
+      accelerator: 'CommandOrControl+S',
+      click: callSaveFile
+    },
+    {
+      label: 'Save&As',
+      click: callSaveAsFile
+    },
+    { type: 'separator' },
+    {
+      label: 'Export as &HTML',
+      click: callExportAsHTML
+    },
+    {
+      label: '&Print to PDF',
+      accelerator: 'CommandOrControl+P',
+      click: callPrintToPDF
+    },
+    { type: 'separator' },
+    // isMac ? { role: 'close' } : { role: 'quit' }
+    { role: 'quit' }
+  ]
+};
+
+// { role: 'viewMenu'}
+const viewMenu = {
+  label: '&View',
+  submenu: [
+    { role: 'toggleDevTools' },
+    { type: 'separator' },
+    { role: 'togglefullscreen' }
+  ]
+};
+
+// { role: 'helpMenu'}
+const helpMenu = {
+  label: '&Help',
+  submenu: [
+    {
+      label: '&README',
+      click: async () => {
+        await shell.openExternal('https://github.com/yasumichi/seapig/blob/master/README.md');
+      }
+    },
+    {
+      label: 'Search &Issues',
+      click: async () => {
+        await shell.openExternal('https://github.com/yasumichi/seapig/issues');
+      }
+    }
+  ]
+};
+
+/**
+ *  Create menu
+ */
+function createMenu() {
+  const template = [
+    fileMenu,
+    viewMenu,
+    helpMenu
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
+/**
+ *  Regist global shortcuts
+ */
+function registGlobalShortcuts() {
+  globalShortcut.register('CommandOrControl+N', createNewFile);
+  globalShortcut.register('CommandOrControl+O', callOpenFile);
+  globalShortcut.register('CommandOrControl+P', callPrintToPDF);
+  globalShortcut.register('CommandOrControl+S', callSaveFile);
+}
+
 // Create window
 function createWindow() {
   let mainWindow = null;
@@ -86,6 +233,8 @@ function createWindow() {
       webviewTag: true
     }
   });
+
+  createMenu();
 
   // Load mainwindow.html
   mainWindow.loadURL(
@@ -144,6 +293,7 @@ app.on('ready', () => {
   let program = getArguments();
 
   getScreenSize();
+  registGlobalShortcuts();
   if (program.args.length) {
     program.args.forEach((element) => {
       let fullpath = element;
@@ -225,7 +375,6 @@ ipc.on('open-file-dialog', (event, currentFile, isNewWindow) => {
   ).then(result => {
       if (result.canceled === false) {
         let filenames = result.filePaths;
-        console.log(filenames);
         if (isNewWindow === true) {
           let newWindow = createWindow();
           winList.push(newWindow);
