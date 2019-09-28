@@ -140,6 +140,7 @@ $ ./build.sh
 - [mithril](https://mithril.js.org/)
 - [Node.js](https://nodejs.org/en/)
 - [Photon](http://photonkit.com/)
+- [sanitize-html](https://github.com/apostrophecms/sanitize-html)
 - [viz.js](https://github.com/mdaines/viz.js)
 - [uiflow](https://github.com/hirokidaichi/uiflow)(use [forked version](https://github.com/tkrkt/uiflow#fix-argument-in-compile))
 - [いらすとや](http://www.irasutoya.com/)(application icon)
