@@ -2,6 +2,7 @@ const hljs = require('highlight.js');
 const viz = require("viz.js");
 const uiflow = require("uiflow");
 const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
+const {sanitizeHtmlCustom} = require('./sanitize.js');
 
 (function() {
 
@@ -59,6 +60,17 @@ const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
   };
 
   /**
+   * customize to render list item
+   * @param {string} text - contents of list item
+   * @param {boolean} task - is listitem task?
+   * @param {boolean} checked - is listitem checked?
+   * @returns {string} converted list item
+   */
+  module.exports.rendererListitem =  (text, task, checked) => {
+    return `<li>${sanitizeHtmlCustom(text)}</li>`;
+  }
+
+  /**
    * customize to render code
    * @param {string} code - contents of code block
    * @param {string} language - program language of code block
@@ -87,18 +99,21 @@ const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
   }
 
   /**
+   * customize to render blockquote
+   * @param {string} quote - contents of blockquote
+   * @returns {string} converted blockquote block
+   */
+  module.exports.rendererBlockquote = (quote) => {
+    return `<blockquote>${sanitizeHtmlCustom(quote)}</blockquote>\n`;
+  }
+
+  /**
    * customize to render HTML (sanitize script)
    * @param {string} html - contents of html code block
    * @returns {string} html or html code block
    */
   module.exports.rendererHtml = (html) => {
-    if (/(<[^>]*script[^>]*>|<[^>]* on[^=>]*=)/.test(html)) {
-      let hljsCode = hljs.highlightAuto(html).value.trim();
-
-      return `<pre><code>${hljsCode}</code></pre>`;
-    }
-
-    return html;
+    return sanitizeHtmlCustom(html);
   }
 
   /**
@@ -107,10 +122,32 @@ const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
    * @param {number} level - level of heading
    * @returns {string} HTML heading element
    */
-  module.exports.rendererHeading = (text, level) => {
-    let id = encodeURI(text).replace(/%/g, "");
+  module.exports.rendererHeading = (text, level, raw, slugger) => {
+    let id = slugger.slug(encodeURI(text));
 
-    return  `<h${level} id="${id}">${text}</h${level}>\n`;
+    return  `<h${level} id="${id}">${sanitizeHtmlCustom(text)}</h${level}>\n`;
+  }
+
+  /**
+   * customize to render paragraph
+   * @param {string} text - contents of paragraph
+   * @returns {string} HTML paragraph element
+   */
+  module.exports.rendererParagraph = (text) => {
+    return sanitizeHtmlCustom(text);
+  }
+
+  /**
+   * customize to render tablecell
+   * @param {string} content - contents of cell 
+   * @param {object} flags - contents of cell 
+   * @returns {string} HTML tablecell element
+   */
+  module.exports.rendererTablecell = (content, flags) => {
+    var tag = flags.header ? 'th' : 'td';
+    var align = flags.align ? ` align="${flags.align}"` : '';
+
+    return `<${tag}${align}>${sanitizeHtmlCustom(content)}</${tag}>`;
   }
 
   module.exports.escapeHtml = escapeHtml;

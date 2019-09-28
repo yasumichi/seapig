@@ -23,8 +23,10 @@
  */
 
 const marked = require('marked');
-const {rendererCode, rendererHtml, rendererHeading} =
-  require('./utils.js');
+const {
+  rendererCode, rendererBlockquote, rendererListitem, rendererHtml,
+  rendererHeading, rendererParagraph, rendererTablecell
+} = require('./utils.js');
 
 (function() {
 
@@ -42,8 +44,12 @@ const {rendererCode, rendererHtml, rendererHeading} =
       this.renderer = new marked.Renderer();
 
       this.renderer.code = rendererCode;
+      this.renderer.blockquote = rendererBlockquote;
+      this.renderer.listitem = rendererListitem;
       this.renderer.html = rendererHtml;
       this.renderer.heading = rendererHeading;
+      this.renderer.paragraph = rendererParagraph;
+      this.renderer.tablecell = rendererTablecell;
 
       marked.setOptions({
         renderer: this.renderer,
