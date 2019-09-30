@@ -90,6 +90,9 @@ to
 ### How to build
 
 ```
+$ git clone https://github.com/yasumichi/seapig.git
+$ cd seapig
+$ git submodule update -i
 $ npm install
 $ npm build-dep
 ...
