@@ -23,8 +23,15 @@ describe('convert markdown', () => {
 
   it('convert multi byte heading', () => {
     const header = "# 漢字の題名";
-    const expect = '<h1 id="E6BCA2E5AD97E381AEE9A18CE5908D">漢字の題名</h1>\n';
+    const expect = '<h1 id="e6bca2e5ad97e381aee9a18ce5908d">漢字の題名</h1>\n';
 
     assert(md2html.convert(header) === expect);
+  });
+
+  it('convert paragraph', () => {
+    const markdown = "This is paragraph.";
+    const expect = "<p>This is paragraph.</p>\n";
+
+    assert(md2html.convert(markdown) === expect);
   });
 });
