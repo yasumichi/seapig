@@ -34,4 +34,11 @@ describe('convert markdown', () => {
 
     assert(md2html.convert(markdown) === expect);
   });
+
+  it('convert paragraph contains webview tag(test sanitize)', () => {
+    const markdown = 'This is paragraph.<webview preload="evil.js"></webview>This is contains webview.';
+    const expect = "<p>This is paragraph.This is contains webview.</p>\n";
+
+    assert(md2html.convert(markdown) === expect);
+  });
 });
