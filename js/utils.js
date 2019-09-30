@@ -134,7 +134,7 @@ const {sanitizeHtmlCustom} = require('./sanitize.js');
    * @returns {string} HTML paragraph element
    */
   module.exports.rendererParagraph = (text) => {
-    return sanitizeHtmlCustom(text);
+    return `<p>${sanitizeHtmlCustom(text)}</p>`;
   }
 
   /**
