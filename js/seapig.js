@@ -26,7 +26,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
-const globalShortcut = electron.globalShortcut;
+const localShortcut = require("electron-localshortcut");
 const Menu = electron.Menu;
 const ipc = require('electron').ipcMain;
 const dialog = require('electron').dialog;
@@ -210,11 +210,11 @@ function createMenu() {
 /**
  *  Regist global shortcuts
  */
-function registGlobalShortcuts() {
-  globalShortcut.register('CommandOrControl+N', createNewFile);
-  globalShortcut.register('CommandOrControl+O', callOpenFile);
-  globalShortcut.register('CommandOrControl+P', callPrintToPDF);
-  globalShortcut.register('CommandOrControl+S', callSaveFile);
+function registLocalShortcuts(win) {
+  localShortcut.register(win, 'CommandOrControl+N', createNewFile);
+  localShortcut.register(win, 'CommandOrControl+O', callOpenFile);
+  localShortcut.register(win, 'CommandOrControl+P', callPrintToPDF);
+  localShortcut.register(win, 'CommandOrControl+S', callSaveFile);
 }
 
 // Create window
@@ -293,7 +293,6 @@ app.on('ready', () => {
   let program = getArguments();
 
   getScreenSize();
-  registGlobalShortcuts();
   if (program.args.length) {
     program.args.forEach((element) => {
       let fullpath = element;
@@ -308,6 +307,7 @@ app.on('ready', () => {
       if (isFile && markdownExt.test(fullpath)) {
         let winIndex = winList.push(createWindow()) - IDX_OFFSET;
         winList[winIndex].webContents.on('did-finish-load', () => {
+          registLocalShortcuts(winList[winIndex]);
           winList[winIndex].webContents.send('open-file', fullpath);
         });
       } else {
@@ -316,7 +316,10 @@ app.on('ready', () => {
     });
   }
   if (!winList.length) {
-    winList.push(createWindow());
+    let winIndex = winList.push(createWindow()) - IDX_OFFSET;
+    winList[winIndex].webContents.on('did-finish-load', () => {
+      registLocalShortcuts(winList[winIndex]);
+    });
   }
   if (ignoreList.length) {
     dialog.showMessageBox({
