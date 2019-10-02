@@ -5,6 +5,7 @@ const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
 const {sanitizeHtmlCustom} = require('./sanitize.js');
 
 (function() {
+  const mermaidWorkArea = document.getElementById("mermaidWorkArea");
 
   mermaidAPI.initialize({
     startOnLoad: false,
@@ -47,7 +48,7 @@ const {sanitizeHtmlCustom} = require('./sanitize.js');
         + ('0' + date.getDate()).slice(-2) + ('0' + date.getHours()).slice(-2)
         + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2)
         + ('00' + date.getMilliseconds()).slice(-3);
-      let svg = mermaidAPI.render(svgId, code);
+      let svg = mermaidAPI.render(svgId, code, undefined, mermaidWorkArea);
 
       return  `<div class="mermaid">\n${svg}</div>\n`;
     },
