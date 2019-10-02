@@ -26,14 +26,17 @@
 
   window.onload = function () {
     const {remote} = require('electron');
+    const {app} = require('electron').remote;
     const {dialog} = require('electron').remote;
     const {ipcRenderer} = require('electron');
     const fs = require('fs');
     const path = require('path');
     const m = require("../external/mithril/mithril.min.js");
     const Md2Html = require('./md2html.js');
+    const mithrilRoot = document.getElementById("mithrilRoot");
     const FIRST_IDX = 0;
     const NO_SCROLL = 0;
+    const baseTag = document.getElementsByTagName("base")[FIRST_IDX];
 
     /**
      * @module js/preview.js
@@ -87,14 +90,13 @@
      * @listens preview
      */
     ipcRenderer.on('preview', (event, data, baseURI) => {
-      let base = document.getElementsByTagName("base")[FIRST_IDX];
       if (baseURI != "") {
-        base.setAttribute("href", baseURI);
+        baseTag.setAttribute("href", baseURI);
       }
-      base.setAttribute("target", "_blank");
+      baseTag.setAttribute("target", "_blank");
 
       // render body
-      m.render(document.body, m.trust(md2html.convert(data)));
+      m.render(mithrilRoot, m.trust(md2html.convert(data)));
 
       // process task list items
       var listitems = document.getElementsByTagName("li");
@@ -109,18 +111,39 @@
     });
 
     /**
+     * Serialize export HTML
+     * @returns {string} serialized HTML
+     */
+    const serializeExportHTML = () => {
+      let html =
+          '<!DOCTYPE html>\n'
+        + `<html lang="${app.getLocale()}">\n`
+        + '<head>\n'
+        + '  <meta charset="UTF-8">\n'
+        + '  <meta name="viewport" content="width=device-width,initial-scale=1">\n'
+        + '  <link rel="stylesheet" href="github.css">\n'
+        + `  <title>${document.title}</title>\n`
+        + '</head>\n'
+        + '<body>\n'
+        + mithrilRoot.innerHTML
+        + '</body>\n'
+        + '</html>';
+
+      return html;
+    }
+
+    /**
      * Export HTML
      * @param {object} event
      * @param {string} filename - exported HTML file name
      * @listen export-HTML
      */
     ipcRenderer.on('export-HTML', (event, filename) => {
-      let base = document.getElementsByTagName("base")[FIRST_IDX];
-      base.removeAttribute("href");
-      base.removeAttribute("target");
+      baseTag.removeAttribute("href");
+      baseTag.removeAttribute("target");
 
       // http://blog.mudatobunka.org/entry/2015/12/23/211425#postscript
-      fs.writeFile (filename, new XMLSerializer().serializeToString(document),
+      fs.writeFile (filename, serializeExportHTML(),
         (error) => {
           if (error !== null) {
             dialog.showMessageBox(
@@ -140,7 +163,7 @@
           fs.createReadStream(src_css).pipe(fs.createWriteStream(dest_css));
         });
 
-      base.setAttribute("target", "_blank");
+      baseTag.setAttribute("target", "_blank");
     });
 
     /**
