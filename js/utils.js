@@ -9,7 +9,7 @@ const {sanitizeHtmlCustom} = require('./sanitize.js');
 
   mermaidAPI.initialize({
     startOnLoad: false,
-    cloneCssStyles: false
+    theme: null
   });
 
   /**
@@ -50,7 +50,7 @@ const {sanitizeHtmlCustom} = require('./sanitize.js');
         + ('00' + date.getMilliseconds()).slice(-3);
       let svg = mermaidAPI.render(svgId, code, undefined, mermaidWorkArea);
 
-      return  `<div class="mermaid">\n${svg}</div>\n`;
+      return  `<div class="mermaid">\n${svg.replace("<style></style>", "")}</div>\n`;
     },
     "uiflow": (code) => {
       let dot = uiflow.compile(code);
