@@ -47,7 +47,7 @@ window.onload = (e) => {
     let link = document.getElementsByTagName("link")[0];
     link.href = css;
 
-    document.body.innerHTML = contents;
+    document.body.insertAdjacentHTML('afterbegin' ,contents);
 
     setTimeout(waitImagesComplete);
   });
