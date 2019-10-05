@@ -23,11 +23,11 @@
  */
 
 const {remote} = require('electron');
-const {dialog} = require('electron').remote;
+const {app, dialog} = require('electron').remote;
 const ipc = require('electron').ipcRenderer;
 const fs = require('fs');
 const path = require('path');
-const webview = document.getElementById('previewer');
+const {preview} = require(path.join(app.getAppPath(), 'js', 'preview.js'));
 const DOCUMENT_START = -1;
 
 // Initialize ace editor
@@ -72,7 +72,7 @@ const editor = require('./editor.js');
     if (currentFile != "") {
       baseURI = `file://${path.dirname(currentFile)}/`;
     }
-    webview.send('preview', editor.getValue(), baseURI);
+    preview(editor.getValue(), baseURI);
   }
 
   module.exports.refreshPreview = refreshPreview;

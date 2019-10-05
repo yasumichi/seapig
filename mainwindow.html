@@ -2,8 +2,11 @@
 <html>
   <head>
     <meta charset="UTF-8">
+    <base>
     <link rel="stylesheet" href="photon/css/photon.min.css">
     <link rel="stylesheet" href="css/tooltip.css">
+    <link rel="stylesheet" href="templates/github.css">
+    <link rel="stylesheet" href="css/seapig.css">
     <title>SeaPig</title>
   </head>
   <body>
@@ -58,7 +61,10 @@
       <div class="window-content">
         <div class="pane-group">
           <div id="aceEditor" class="pane"></div>
-          <webview id="previewer" class="pane" src="templates/template.html" preload="js/preview.js"></webview>
+          <div id="previewer" class="pane">
+            <div id="mermaidWorkArea" style="display:none;"></div>
+            <div id="mithrilRoot"></div>
+          </div>
         </div>
       </div>
     </div>

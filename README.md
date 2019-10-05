@@ -148,6 +148,7 @@ $ ./build.sh
 - [viz.js](https://github.com/mdaines/viz.js)
 - [uiflow](https://github.com/hirokidaichi/uiflow)(use [forked version](https://github.com/tkrkt/uiflow#fix-argument-in-compile))
 - [いらすとや](http://www.irasutoya.com/)(application icon)
+- [jpzukin/electron-sample-print-to-pdf](https://github.com/jpzukin/electron-sample-print-to-pdf)
 
 # License
 

@@ -34,8 +34,12 @@ window.onload = (e) => {
   const {refreshPreview} = require(funcs_path);
   const {showErrorMessage} = require(funcs_path);
   const {openFile, saveFile} = require(funcs_path);
+  const {
+    exportHTML,
+    scrollPreviewer
+  } = require(path.join(app.getAppPath(), 'js', 'preview.js'));
 
-  const webview = document.getElementById('previewer');
+  const mithrilRoot = document.getElementById("mithrilRoot");
   const FIRST_ITEM = 0;
 
   // Status of document
@@ -43,7 +47,6 @@ window.onload = (e) => {
 
   // Initialize ace editor
   const {editor} = require(funcs_path);
-
 
   // Emitted whenever the document is changed
   editor.on("change", (event) => {
@@ -58,7 +61,7 @@ window.onload = (e) => {
     if (height) {
       let scrollRatio = scrollTop / height;
 
-      webview.send('scroll', scrollRatio);
+      scrollPreviewer(scrollRatio);
     }
   });
 
@@ -68,18 +71,6 @@ window.onload = (e) => {
 
     return false;
   };
-
-  // webview event hook
-  webview.addEventListener('dom-ready', () => {
-    if (process.env.GUEST_DEBUG) {
-      webview.openDevTools();
-    }
-  });
-
-  webview.addEventListener('new-window', (event) => {
-    webview.stop();
-    shell.openExternal(event.url);
-  });
 
   // change keybindings
   const keybindings = document.getElementById("keybindings");
@@ -139,15 +130,11 @@ window.onload = (e) => {
 
   ipc.on('open-file', (event, fullpath) => {
     openFile(fullpath);
-    webview.addEventListener('did-finish-load', () => {
-      refreshPreview(docStatus.filename);
-    });
   });
 
   // save file
   const saveBtn = document.getElementById("saveBtn");
   const callSaveFile = () => {
-    refreshPreview(docStatus.filename);
     if (docStatus.filename == "") {
       ipc.send('save-new-file');
     } else {
@@ -171,7 +158,6 @@ window.onload = (e) => {
   // export html
   const exportHTMLBtn = document.getElementById("exportHTMLBtn");
   const callExportHTML = () => {
-    refreshPreview(docStatus.filename);
     ipc.send('export-HTML', docStatus.filename);
   };
 
@@ -180,38 +166,20 @@ window.onload = (e) => {
   ipc.on('export-html-click', callExportHTML);
 
   ipc.on('selected-HTML-file', (event, filename) => {
-    webview.send('export-HTML', filename);
+    exportHTML(filename);
     editor.focus();
   });
 
   // export pdf
   const exportPdfBtn = document.getElementById("exportPdfBtn");
   const callPrintToPDF = () => {
-    refreshPreview(docStatus.filename);
-    ipc.send('export-pdf-file', docStatus.filename);
+    ipc.send('export-pdf-file', docStatus.filename, mithrilRoot.innerHTML);
+    editor.fucus();
   };
 
   exportPdfBtn.addEventListener("click", callPrintToPDF);
 
   ipc.on('print-pdf-click', callPrintToPDF);
-
-  ipc.on('selected-pdf-file', (event, filename) => {
-    webview.printToPDF({}, (error, data) => {
-      if (error) {
-	showErrorMessage(error);
-
-	return;
-      }
-      fs.writeFile(filename, data, (write_error) => {
-	if (write_error) {
-	  showErrorMessage(write_error);
-
-	  return;
-	}
-      })
-    });
-    editor.focus();
-  });
 
   /*
    * controle display panes
@@ -225,13 +193,11 @@ window.onload = (e) => {
     if (aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == false) {
       aceEditor.setAttribute("style", "display:none");
-      refreshPreview(docStatus.filename);
     } else if (
       aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == true) {
       previewer.removeAttribute("style");
       editor.resize(true);
-      refreshPreview(docStatus.filename);
     }
   });
 
@@ -242,7 +208,6 @@ window.onload = (e) => {
       previewer.hasAttribute("style") == false) {
       aceEditor.removeAttribute("style");
       editor.resize (true);
-      refreshPreview(docStatus.filename);
     } else if (
       aceEditor.hasAttribute("style") == false &&
       previewer.hasAttribute("style") == false) {

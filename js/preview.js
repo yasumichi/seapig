@@ -23,8 +23,6 @@
  */
 
 (function() {
-
-  window.onload = function () {
     const {remote} = require('electron');
     const {app} = require('electron').remote;
     const {dialog} = require('electron').remote;
@@ -37,6 +35,7 @@
     const FIRST_IDX = 0;
     const NO_SCROLL = 0;
     const baseTag = document.getElementsByTagName("base")[FIRST_IDX];
+    const previewer = document.getElementById("previewer");
 
     /**
      * @module js/preview.js
@@ -64,32 +63,31 @@
      * Set document title
      * @returns {title} setted title
      */
-    function setDocumentTitle () {
+    function getDocumentTitle () {
       let workTitle = getContentsOfFirstH1();
+      let title;
       if (/^(<img [^>]*>\s*)+$/.test(workTitle)) {
         let alts = workTitle.match(/ alt="[^"]*"/gi);
         if (alts) {
-          document.title =
+          title =
             alts[FIRST_IDX].trim()
             .replace(/alt=/i, '')
             .replace(/"/g, '');
         }
       } else {
-        document.title = workTitle.replace(/<[^>]*>/g, "").trim();
+        title = workTitle.replace(/<[^>]*>/g, "").trim();
       }
 
-      return  document.title;
+      return  title;
     }
 
 
     /**
      * Refresh preview
-     * @param {object} event
      * @param {string} data - markdown text
      * @param {string} baseURI
-     * @listens preview
      */
-    ipcRenderer.on('preview', (event, data, baseURI) => {
+    module.exports.preview = (data, baseURI) => {
       if (baseURI != "") {
         baseTag.setAttribute("href", baseURI);
       }
@@ -106,9 +104,7 @@
           listitems[i].classList.add("task-list-item");
         }
       }
-
-      setDocumentTitle();
-    });
+    }
 
     /**
      * Serialize export HTML
@@ -122,7 +118,7 @@
         + '  <meta charset="UTF-8">\n'
         + '  <meta name="viewport" content="width=device-width,initial-scale=1">\n'
         + '  <link rel="stylesheet" href="github.css">\n'
-        + `  <title>${document.title}</title>\n`
+        + `  <title>${getDocumentTitle()}</title>\n`
         + '</head>\n'
         + '<body>\n'
         + mithrilRoot.innerHTML
@@ -138,10 +134,7 @@
      * @param {string} filename - exported HTML file name
      * @listen export-HTML
      */
-    ipcRenderer.on('export-HTML', (event, filename) => {
-      baseTag.removeAttribute("href");
-      baseTag.removeAttribute("target");
-
+    module.exports.exportHTML = (filename) => {
       // http://blog.mudatobunka.org/entry/2015/12/23/211425#postscript
       fs.writeFile (filename, serializeExportHTML(),
         (error) => {
@@ -162,9 +155,7 @@
           let dest_css = path.join(path.dirname(filename), "github.css");
           fs.createReadStream(src_css).pipe(fs.createWriteStream(dest_css));
         });
-
-      baseTag.setAttribute("target", "_blank");
-    });
+    }
 
     /**
      * Scroll
@@ -172,10 +163,9 @@
      * @param {number} scrollRatio
      * @returns {void}
      */
-    ipcRenderer.on('scroll', (event, scrollRatio) => {
-      let scrollTop = document.body.clientHeight * scrollRatio;
-      window.scrollTo(NO_SCROLL, scrollTop);
-    });
-  }
+    module.exports.scrollPreviewer = (scrollRatio) => {
+      let scrollTop = mithrilRoot.clientHeight * scrollRatio;
+      previewer.scrollTo(NO_SCROLL, scrollTop);
+    }
 
 }());

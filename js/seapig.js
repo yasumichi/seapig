@@ -50,6 +50,7 @@ var winList = [];
 var screenWidth = null;
 var screenHeight = null;
 var docModified = false;
+var pdfWorkerWindow = null;
 
 // Parse command line arguments
 function getArguments() {
@@ -433,7 +434,7 @@ ipc.on('export-HTML', (event, currentFile) => {
 });
 
 // request export pfd
-ipc.on('export-pdf-file', (event, currentFile) => {
+ipc.on('export-pdf-file', (event, currentFile, contents) => {
   let options = {
     title: 'Export PDF file',
     properties: ['openFile'],
@@ -445,9 +446,50 @@ ipc.on('export-pdf-file', (event, currentFile) => {
   dialog.showSaveDialog(
       options,
       (filenames) => {
-        if (filenames) event.sender.send ('selected-pdf-file', filenames);
+        if (filenames) {
+          if(pdfWorkerWindow !== null) {
+            pdfWorkerWindow.close();
+          }
+
+          pdfWorkerWindow = new BrowserWindow(
+            {
+              show: false,
+              webPreferences: {
+                preload: path.join(app.getAppPath(), 'js', 'pdfWorker.js')
+              }
+            }
+          );
+          pdfWorkerWindow.on("closed", () => {
+            pdfWorkerWindow = null;
+          });
+
+          let template = path.join(app.getAppPath(), 'templates', 'template.html');
+          pdfWorkerWindow.loadURL(`file://${template}`);
+          pdfWorkerWindow.webContents.on("did-finish-load", () => {
+            let css = `file://${path.join(app.getAppPath(), 'templates', 'github.css')}`;
+            let baseHref = `file://${getDefaultPath(currentFile)}`
+            pdfWorkerWindow.send("print-to-pdf", contents, baseHref, css, filenames);
+          });
+        }
       }
-      );
+    );
+});
+
+ipc.on('ready-print-to-pdf', (event, pdfPath) => {
+  const options = { printBackground: true };
+
+  pdfWorkerWindow.webContents.printToPDF(options, (error, data) => {
+    if (error) {
+      throw error;
+    }
+    fs.writeFile(pdfPath, data, (error) => {
+      if (error) {
+        throw error;
+      }
+      shell.openItem(pdfPath);
+      pdfWorkerWindow.close(); 
+    });
+  });
 });
 
 // request error message
