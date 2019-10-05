@@ -230,8 +230,7 @@ function createWindow() {
     y: winList.length * SHIFT % (screenHeight - W_HEIGHT),
     icon: path.join(__dirname, '../seapig.png'),
     webPreferences: {
-      preload: path.join(app.getAppPath(), 'js', 'renderer.js'),
-      webviewTag: true
+      preload: path.join(app.getAppPath(), 'js', 'renderer.js')
     }
   });
 
