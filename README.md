@@ -66,7 +66,7 @@ to
 
 ![](images/uiflow.png)
 
-### mermaid support (flowchart, sequence, gantt)
+### mermaid support
 
 When You write code block as `mermaid` language and write mermaid language, rendering graph image at svg as below.
 
