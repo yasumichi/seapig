@@ -9,7 +9,16 @@ const {sanitizeHtmlCustom} = require('./sanitize.js');
 
   mermaidAPI.initialize({
     startOnLoad: false,
-    theme: null
+    theme: "default",
+    flowchart: {
+      htmlLabels: false
+    },
+    gantt: {
+      useWidth: 800
+    },
+    class: {
+      useWidth: 800
+    }
   });
 
   /**
