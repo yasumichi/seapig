@@ -1,3 +1,9 @@
+#mermaidWorkArea {
+  width: 800px;
+  height: 600px;
+  display: none;
+}
+
 #mithrilRoot {
   padding-top: 10px;
   padding-bottom: 10px;
