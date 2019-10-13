@@ -3,6 +3,7 @@ const viz = require("viz.js");
 const uiflow = require("uiflow");
 const mermaidAPI = require('../external/mermaid/mermaid.min.js').mermaidAPI;
 const {sanitizeHtmlCustom} = require('./sanitize.js');
+const {tex2svg} = require('./tex2svg.js');
 
 (function() {
   const mermaidWorkArea = document.getElementById("mermaidWorkArea");
@@ -51,6 +52,7 @@ const {sanitizeHtmlCustom} = require('./sanitize.js');
 
       return  svg;
     },
+    "mathjax": tex2svg,
     "mermaid": (code) => {
       let date = new Date();
       let svgId = "m" + date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2)

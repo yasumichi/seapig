@@ -17,6 +17,14 @@ const copyplan = [
       'ace-builds/src-min-noconflict/theme-twilight.js',
     ]
   },
+  // for mathjax
+  {
+    destdir: path.join(extdir, "mathjax"),
+    srcfiles: [
+      'node_modules/mathjax/LICENSE',
+      'node_modules/mathjax/es5/tex-svg-full.js'
+    ]
+  },
   // for mermaid
   {
     destdir: path.join(extdir, "mermaid"),

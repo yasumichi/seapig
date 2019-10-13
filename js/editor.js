@@ -22,8 +22,11 @@
  * SOFTWARE.
  */
 
-var ace = require('../external/ace/ace.js');
-ace.config.set('basePath', 'external/ace');
+const {app} = require('electron').remote;
+const path = require('path');
+const acePath = path.join(app.getAppPath(), 'external/ace');
+const ace = require(path.join(acePath, 'ace.js'));
+ace.config.set('basePath', acePath);
 ace.require('theme-twilight');
 ace.require('mode-markdown');
 ace.require('keybinding-emacs');
