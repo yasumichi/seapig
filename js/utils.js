@@ -13,12 +13,6 @@ const {tex2svg} = require('./tex2svg.js');
     theme: "default",
     flowchart: {
       htmlLabels: false
-    },
-    gantt: {
-      useWidth: 800
-    },
-    class: {
-      useWidth: 800
     }
   });
 

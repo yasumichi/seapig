@@ -1,7 +1,20 @@
+.toolbar {
+  position: relative;
+  z-index: 3;
+}
+
+.window-content {
+  position: relative;
+  z-index: 2;
+}
+
 #mermaidWorkArea {
-  width: 800px;
-  height: 600px;
-  display: none;
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 1200px;
+  height: 800px;
+  z-index: 1;
 }
 
 #mithrilRoot {
