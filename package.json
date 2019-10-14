@@ -10,9 +10,9 @@
     "lint-all": "eslint js",
     "clean": "rimraf releases *.log external",
     "build-dep": "node scripts/build-dep.js",
-    "package:darwin": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=darwin --arch=all --prune --asar --out=releases --icon=seapig.icns .",
-    "package:win32": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=win32 --arch=all --prune --asar --out=releases --icon=seapig.ico .",
-    "package:linux": "electron-packager --ignore='^/ace-builds' --ignore='^/scripts' --platform=linux --arch=all --prune --asar --out=releases ."
+    "package:darwin": "electron-packager --ignore='^/ace-builds' --ignore='^/docs' --ignore='^/scripts' --platform=darwin --arch=all --prune --asar --out=releases --icon=seapig.icns .",
+    "package:win32": "electron-packager --ignore='^/ace-builds' --ignore='^/docs' --ignore='^/scripts' --platform=win32 --arch=all --prune --asar --out=releases --icon=seapig.ico .",
+    "package:linux": "electron-packager --ignore='^/ace-builds' --ignore='^/docs' --ignore='^/scripts' --platform=linux --arch=all --prune --asar --out=releases ."
   },
   "author": "Yasumichi Akahoshi <yasumichi@vinelinux.org>",
   "license": "MIT",
