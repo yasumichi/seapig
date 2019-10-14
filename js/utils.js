@@ -53,6 +53,7 @@ const {tex2svg} = require('./tex2svg.js');
       return  svg;
     },
     "mathjax": tex2svg,
+    "math": tex2svg,
     "mermaid": (code) => {
       let date = new Date();
       let svgId = "m" + date.getFullYear() + ('0' + (date.getMonth() + 1)).slice(-2)
