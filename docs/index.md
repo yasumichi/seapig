@@ -78,7 +78,7 @@ to
 
 ![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/mathjax.png)
 
-More example, [mathjax](mathjax)
+More example, [test file for mathjax support](mathjax.html)
 
 ### mermaid support
 
