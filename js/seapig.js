@@ -335,8 +335,10 @@ app.on('ready', () => {
 // Cancel new window when link is clicked and open url by defualt browser.
 app.on('web-contents-created', (event, contents) => {
   contents.on('new-window', (event, url, frameName, disposition, options) => {
-    event.preventDefault();
-    shell.openExternal(url);
+    if ( ! /^devtools:/.test(url)) {
+      event.preventDefault();
+      shell.openExternal(url);
+    }
   })
 })
 
