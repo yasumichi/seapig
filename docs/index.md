@@ -1,9 +1,9 @@
 SeaPig
 =====
 
-![](seapig.png)SeaPig is converter from markdown to html with marked.js and highlight.js.
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/seapig.png)SeaPig is converter from markdown to html with marked.js and highlight.js.
 
-![](images/seapig.png)
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/seapig.png)
 
 ## Usage
 
@@ -15,7 +15,7 @@ You can use [GitHub Flavored Markdown](https://github.github.com/gfm/).
 
 SeaPig has tool bar contains one drop down list and eight buttons.
 
-![](images/seapig-toolbar.png)
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/seapig-toolbar.png)
 
 You can select key bindings from drop down list. (default/emacs/vim/sublime)
 
@@ -42,7 +42,7 @@ digraph g { a -> b; }
 
 to
 
-![](images/digraph.png)
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/digraph.png)
 
 ### uiflow support
 
@@ -64,7 +64,7 @@ favorite list
 
 to
 
-![](images/uiflow.png)
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/uiflow.png)
 
 ### MathJax support (code block only)
 
@@ -76,9 +76,9 @@ E=mc^2
 
 to
 
-![](images/mathjax.png)
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/mathjax.png)
 
-More example, [test/mathjax.md](test/mathjax.md)
+More example, [mathjax](mathjax)
 
 ### mermaid support
 
@@ -97,7 +97,7 @@ sequenceDiagram
 
 to
 
-![](images/mermaid.png)
+![](https://raw.githubusercontent.com/yasumichi/seapig/master/images/mermaid.png)
 
 ## For developers
 
