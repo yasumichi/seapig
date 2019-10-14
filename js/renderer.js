@@ -174,7 +174,7 @@ window.onload = (e) => {
   const exportPdfBtn = document.getElementById("exportPdfBtn");
   const callPrintToPDF = () => {
     ipc.send('export-pdf-file', docStatus.filename, mithrilRoot.innerHTML);
-    editor.fucus();
+    editor.focus();
   };
 
   exportPdfBtn.addEventListener("click", callPrintToPDF);
