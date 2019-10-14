@@ -66,6 +66,20 @@ to
 
 ![](images/uiflow.png)
 
+### MathJax support (code block only)
+
+<pre>
+```math
+E=mc^2
+```
+</pre>
+
+to
+
+![](images/mathjax.png)
+
+More example, [test/mathjax.md](test/mathjax.md)
+
 ### mermaid support
 
 When You write code block as `mermaid` language and write mermaid language, rendering graph image at svg as below.
@@ -140,6 +154,7 @@ $ ./build.sh
 - [Github Markdown CSS - for Markdown Editor Preview](https://gist.github.com/andyferra/2554919)
 - [highlight.js](https://highlightjs.org/)
 - [marked](https://github.com/chjj/marked)
+- [MathJax](https://www.mathjax.org/)
 - [mermaid](https://knsv.github.io/mermaid/)
 - [mithril](https://mithril.js.org/)
 - [Node.js](https://nodejs.org/en/)
