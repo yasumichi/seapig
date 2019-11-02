@@ -30,7 +30,7 @@
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "@babel/register": "^7.6.0",
-    "electron": "^6.0.10",
+    "electron": "^7.0.0",
     "electron-packager": "^14.0.5",
     "eslint": "^6.3.0",
     "jsdoc": "^3.6.3",

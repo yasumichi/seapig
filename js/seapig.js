@@ -416,12 +416,12 @@ ipc.on('save-new-file', (event) => {
       }
     ]
   };
-  dialog.showSaveDialog(
-      options,
-      (filenames) => {
-        if (filenames) event.sender.send ('selected-save-file', filenames);
-      }
-      );
+  let filenames = dialog.showSaveDialogSync(
+    options
+  );
+  if (filenames) {
+    if (filenames) event.sender.send ('selected-save-file', filenames);
+  }
 });
 
 // request export HTML
@@ -434,12 +434,12 @@ ipc.on('export-HTML', (event, currentFile) => {
       { name: 'HTML', extensions: [ 'html' ] }
     ]
   };
-  dialog.showSaveDialog(
-      options,
-      (filename) => {
-        if (filename) event.sender.send ('selected-HTML-file', filename);
-      }
-      );
+  let filenames = dialog.showSaveDialogSync(
+    options
+  );
+  if (filenames) {
+    event.sender.send ('selected-HTML-file', filenames);
+  }
 });
 
 // request export pfd
@@ -452,52 +452,52 @@ ipc.on('export-pdf-file', (event, currentFile, contents) => {
       { name: 'PDF', extensions: [ 'pdf' ] }
     ]
   };
-  dialog.showSaveDialog(
-      options,
-      (filenames) => {
-        if (filenames) {
-          if(pdfWorkerWindow !== null) {
-            pdfWorkerWindow.close();
-          }
+  let filenames = dialog.showSaveDialogSync(
+    options
+  );
+  if (filenames) {
+    console.log(filenames);
+    if(pdfWorkerWindow !== null) {
+      pdfWorkerWindow.close();
+    }
 
-          pdfWorkerWindow = new BrowserWindow(
-            {
-              show: false,
-              webPreferences: {
-                preload: path.join(app.getAppPath(), 'js', 'pdfWorker.js')
-              }
-            }
-          );
-          pdfWorkerWindow.on("closed", () => {
-            pdfWorkerWindow = null;
-          });
-
-          let template = path.join(app.getAppPath(), 'templates', 'template.html');
-          pdfWorkerWindow.loadURL(`file://${template}`);
-          pdfWorkerWindow.webContents.on("did-finish-load", () => {
-            let css = `file://${path.join(app.getAppPath(), 'templates', 'github.css')}`;
-            let baseHref = `file://${getDefaultPath(currentFile)}`
-            pdfWorkerWindow.send("print-to-pdf", contents, baseHref, css, filenames);
-          });
+    pdfWorkerWindow = new BrowserWindow(
+      {
+        show: false,
+        webPreferences: {
+          preload: path.join(app.getAppPath(), 'js', 'pdfWorker.js')
         }
       }
     );
+    pdfWorkerWindow.on("closed", () => {
+      pdfWorkerWindow = null;
+    });
+
+    let template = path.join(app.getAppPath(), 'templates', 'template.html');
+    pdfWorkerWindow.loadURL(`file://${template}`);
+    pdfWorkerWindow.webContents.on("did-finish-load", () => {
+      let css = `file://${path.join(app.getAppPath(), 'templates', 'github.css')}`;
+      let baseHref = `file://${getDefaultPath(currentFile)}`
+      pdfWorkerWindow.send("print-to-pdf", contents, baseHref, css, filenames);
+    });
+  }
 });
 
 ipc.on('ready-print-to-pdf', (event, pdfPath) => {
   const options = { printBackground: true };
 
-  pdfWorkerWindow.webContents.printToPDF(options, (error, data) => {
-    if (error) {
-      throw error;
-    }
-    fs.writeFile(pdfPath, data, (error) => {
+  pdfWorkerWindow.webContents.printToPDF(
+    options
+  ).then(result => {
+    fs.writeFile(pdfPath, result, (error) => {
       if (error) {
         throw error;
       }
       shell.openItem(pdfPath);
       pdfWorkerWindow.close(); 
     });
+  }).catch(error => {
+    throw error;
   });
 });
 
